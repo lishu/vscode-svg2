@@ -1,0 +1,69 @@
+{
+    "name": "svg",
+    "displayName": "SVG",
+    "description": "%description%",
+    "version": "1.0.0",
+    "publisher": "jock",
+    "engines": {
+        "vscode": "^1.22.0"
+    },
+    "icon": "images/svglogo.png",
+    "galleryBanner": {
+        "color": "#FFB13B",
+        "theme": "light"
+    },
+    "keywords": [
+        "svg",
+        "previewer",
+        "format"
+    ],
+    "categories": [
+        "Programming Languages",
+        "Linters",
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:_svg.showSvg",
+        "onLanguage:svg",
+        "onLanguage:xml"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "svg",
+                "aliases": ["SVG", "svg"],
+                "mimetypes": [
+                    "image/svg+xml"
+                ],
+                "configuration": "./svg.language-configuration.json",
+                "extensions": [
+                    ".svg"
+                ]
+            }
+        ],
+        "grammars": [
+            {
+                "language": "svg",
+                "scopeName": "source.svg",
+                "path": "./syntaxes/svg.json"
+            }
+        ]
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lishu/vscode-svg2.git"
+    },
+    "scripts": {
+        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
+        "compile": "tsc -b",
+        "watch": "tsc -b -w",
+        "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
+    },
+    "devDependencies": {
+        "@types/mocha": "^5.2.0",
+        "@types/node": "^8.0.0",
+        "tslint": "^5.16.0",
+        "typescript": "^3.5.1"
+    }
+}

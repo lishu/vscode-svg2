@@ -1,0 +1,18 @@
+{
+	"name": "svg-server",
+	"description": "svg vscode extensions lsp server",
+	"version": "1.0.0",
+	"author": "jock",
+	"license": "MIT",
+	"engines": {
+		"node": "*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/lishu/vscode-svg2.git"
+	},
+	"dependencies": {
+		"vscode-languageserver": "^5.2.1"
+	},
+	"scripts": {}
+}

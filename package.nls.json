@@ -1,0 +1,22 @@
+{
+    "description": "SVG Language Support",
+    "svg.minifySvg.title": "Minify SVG",
+    "svg.prettySvg.title": "Pretty SVG",
+    "svg.showSvg.title": "Preview SVG",
+    "configuration.completion.showAdvanced.title": "Show advanced items in completion list.",
+    "configuration.completion.showAdvanced.description": "Specifies whether advanced items that are not commonly used are displayed in the AutoComplete list.",
+    "configuration.completion.showDeprecated.title": "Show deprecated items in completion list.",
+    "configuration.completion.showDeprecated.description": "Specifies whether advanced items that are deprecated are displayed in the AutoComplete list.",
+    "configuration.completion.disableFormatOnSave.title": "[Experimental]Disable SVGO Format on save",
+    "configuration.completion.disableFormatOnSave.description": "Focus Disable SVGO Format On Save event if editor.formatOnSave is true",
+    "configuration.format.plugins.title": "SVGO plugins array.",
+    "configuration.format.plugins.description": "Each items corresponds to a plugin that should be enabled, the rest is disabled.",
+    "configuration.pretty.plugins.title": "SVGO plugins array.",
+    "configuration.pretty.plugins.description": "Each items corresponds to a plugin that should be enabled, the rest is disabled.",
+    "configuration.version.title": "SVG Version",
+    "configuration.version.description": "Specifies the SVG standard version that will be used for autocompletion and validation.",
+    "configuration.preview.background.title": "Svg Preview Background",
+    "configuration.preview.background.description": "Specifies the Svg Preview Background",
+    "configuration.preview.backgroundCustom.title": "Svg Preview Custom Background",
+    "configuration.preview.backgroundCustom.description": "Specifies the Svg Preview Custom Background"
+}
