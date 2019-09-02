@@ -19,7 +19,9 @@ import {
 	MarkupContent,
 	Location,
 	DocumentSymbol,
-	SymbolKind
+	SymbolKind,
+	WorkspaceEdit,
+	TextEdit
 } from "vscode-languageserver";
 
 import { ISvgJson, ISvgJsonElement, ISvgJsonAttribute, SvgEnum } from "./svgjson";
@@ -64,6 +66,9 @@ connection.onInitialize((params: InitializeParams) => {
 			definitionProvider: true,
 			referencesProvider: true,
 			documentSymbolProvider: true,
+			renameProvider: {
+				prepareProvider: true
+			}
 		}
 	};
 });
@@ -325,7 +330,7 @@ connection.onDefinition(e=>{
 		let token = buildActiveToken(connection, content, offset);
 		if(token && token.token && token.token.type == TokenType.String) {
 			let val = content.substring(token.token.startIndex, token.token.endIndex);
-			let urlMatch = val.match(/url\(#(.*?)\)/);
+			let urlMatch = val.match(/url\(#(.*?)\)/i);
 			if(urlMatch && urlMatch.length) {
 				let id = urlMatch[1];
 				let idAttrStartIndex = content.indexOf(`id="${id}"`);
@@ -351,7 +356,7 @@ connection.onReferences(e=>{
 				if(ownerAttr.toUpperCase() == "ID") {
 					let id = content.substring(token.token.startIndex + 1, token.token.endIndex - 1);
 					if(id) {
-						let refRegx = /url\(#(.*?)\)/g;
+						let refRegx = /url\(#(.*?)\)/ig;
 						let result : RegExpExecArray | null = null;
 						let locations = [];
 						while(result = refRegx.exec(content)) 
@@ -376,55 +381,86 @@ interface ASTNODE {
 	children: Array<ASTNODE>;
 }
 
+function buildAstTree(all: Array<Token>, content: string) {
+	let node : ASTNODE = { children: [], parent: null};
+	let root = node;
+	let rp = 0; // 1 - starttag 2 - name 3 - endtag  4 - startendtag 5 - name 6 - endtag
+	for(let t of all) {
+		switch(t.type) {
+			case TokenType.StartTag:
+				rp = 1;
+				node = {parent:node, children:[], start: t};
+				node.parent!.children.push(node);
+				break;
+			case TokenType.Name:
+				if(rp == 1) {
+					rp = 2;
+					node.name = content.substring(t.startIndex, t.endIndex)	;
+				} else if(rp == 4) {
+					let endname = content.substring(t.startIndex, t.endIndex);
+					if(endname == node.name) {
+						rp = 5;
+					}
+				}
+				break;
+			case TokenType.StartEndTag:
+				rp = 4;
+				break;
+			case TokenType.EndTag:
+				if(rp == 2) {
+					rp = 3;
+				}
+				else if(rp == 5) {
+					rp = 6;
+					node.end = t;
+					if(node.parent) {
+						node = node.parent;
+					}
+				}
+				break;
+			case TokenType.SimpleEndTag:
+				node.end = t;
+				if(node.parent) {
+					node = node.parent;
+				}
+				break;
+		}
+	}
+	return root;
+}
+
+function findAstNode(ast: ASTNODE, index: number) : ASTNODE | null {
+	if(ast.children && ast.children.length){
+		for(let child of ast.children) {
+			let childFindNode = findAstNode(child, index);
+			if(childFindNode) {
+				return childFindNode;
+			}
+		}
+	}
+	if(ast.start && ast.end) {
+		if(index >= ast.start.startIndex && index < ast.end.endIndex) {
+			return ast;
+		}
+	}
+	return null; 
+}
+
+function createRange(doc:TextDocument, token:Token, startOffset = 0, endOffset = 0) : Range
+{
+	return Range.create(doc.positionAt(token.startIndex + startOffset), doc.positionAt(token.endIndex + endOffset));
+}
+
+function getTokenText(content: string, token:Token) {
+	return content.substring(token.startIndex, token.endIndex);
+}
+
 connection.onDocumentSymbol(e=>{
 	let doc = documents.get(e.textDocument.uri);
 	if(doc) {
 		let content = doc.getText();
 		let token = buildActiveToken(connection, content, 0);
-		let node : ASTNODE = { children: [], parent: null};
-		let root = node;
-		let rp = 0; // 1 - starttag 2 - name 3 - endtag  4 - startendtag 5 - name 6 - endtag
-		for(let t of token.all) {
-			switch(t.type) {
-				case TokenType.StartTag:
-					rp = 1;
-					node = {parent:node, children:[], start: t};
-					node.parent!.children.push(node);
-					break;
-				case TokenType.Name:
-					if(rp == 1) {
-						rp = 2;
-						node.name = content.substring(t.startIndex, t.endIndex)	;
-					} else if(rp == 4) {
-						let endname = content.substring(t.startIndex, t.endIndex);
-						if(endname == node.name) {
-							rp = 5;
-						}
-					}
-					break;
-				case TokenType.StartEndTag:
-					rp = 4;
-					break;
-				case TokenType.EndTag:
-					if(rp == 2) {
-						rp = 3;
-					}
-					else if(rp == 5) {
-						rp = 6;
-						node.end = t;
-						if(node.parent) {
-							node = node.parent;
-						}
-					}
-					break;
-				case TokenType.SimpleEndTag:
-					node.end = t;
-					if(node.parent) {
-						node = node.parent;
-					}
-					break;
-			}
-		}
+		let root = buildAstTree(token.all, content);
 
 		let result : Array<DocumentSymbol> = [];
 
@@ -450,6 +486,106 @@ connection.onDocumentSymbol(e=>{
 		buildResult(result, root.children);
 	
 		return result;
+	}
+});
+
+function renameID(doc: TextDocument, content: string, oldId: string, newId: string) {
+	let changes:Array<TextEdit> = [];
+
+	let idRegex = /id="(.+?)"/gi;
+	let re : RegExpExecArray|null = null;
+	while(re = idRegex.exec(content)) {
+		if(re[1] == oldId) {
+			changes.push(TextEdit.replace(Range.create(doc.positionAt(re.index + 4), doc.positionAt(re.index + 4 + oldId.length)), newId));
+		}
+	}
+	idRegex = /url\(#(.+?)\)/gi;
+	while(re = idRegex.exec(content)) {
+		if(re[1] == oldId) {
+			changes.push(TextEdit.replace(Range.create(doc.positionAt(re.index + 5), doc.positionAt(re.index + 5 + oldId.length)), newId));
+		}
+	}
+
+	let result : WorkspaceEdit = {changes: {}};
+	result.changes![doc.uri] = changes;
+	return result;
+}
+
+connection.onRenameRequest(e=>{
+	let doc = documents.get(e.textDocument.uri);
+	if(doc) {
+		let content = doc.getText();
+		let offset = doc.offsetAt(e.position);
+		let token = buildActiveToken(connection, content, offset);
+		if(token && token.token && token.prevToken) {
+			if(token.token.type == TokenType.Name) {
+				let ast = buildAstTree(token.all, content);
+				let node = findAstNode(ast, token.token.startIndex);
+				if(node) {
+					let changes:Array<TextEdit> = [];
+					let startTagName = token.all[node.start!.index + 1];
+					changes.push(TextEdit.replace(createRange(doc, startTagName), e.newName));
+
+					if(node.end && node.end.type == TokenType.EndTag) {
+						let endTagName = token.all[node.end.index - 1];
+						if(endTagName.type == TokenType.Name) {
+							changes.push(TextEdit.replace(createRange(doc, endTagName), e.newName));
+						}
+					}
+
+					let result : WorkspaceEdit = {changes: {}};
+					result.changes![e.textDocument.uri] = changes;
+					return result;
+				}
+			}
+			if(token.token.type == TokenType.String && token.prevToken.type == TokenType.Equal) {
+				if(token.prevToken.index > 0) {
+					let attrVal = getTokenText(content, token.token);
+					let attNameToken = token.all[token.prevToken.index - 1];
+					if(getTokenText(content, attNameToken).toUpperCase() == "ID") {
+						return renameID(doc, content, attrVal.substr(1, attrVal.length - 2), e.newName);
+					}
+					let idUrlMatch = attrVal.match(/url\(#(.+?)\)/i);
+					if(idUrlMatch && idUrlMatch.length > 1) {
+						return renameID(doc, content, idUrlMatch[1], e.newName);
+					}
+				}
+			}
+		}
+	}
+	return null;
+});
+
+connection.onPrepareRename(e=>{
+	let doc = documents.get(e.textDocument.uri);
+	if(doc) {
+		let content = doc.getText();
+		let offset = doc.offsetAt(e.position);
+		let token = buildActiveToken(connection, content, offset);
+		if(token && token.token && token.prevToken) {
+			if(token.token.type == TokenType.Name) {
+				if(token.prevToken.type == TokenType.StartTag) {
+					return createRange(doc, token.token);
+				}
+				else if(token.prevToken.type == TokenType.StartEndTag) {
+					return createRange(doc, token.token);
+				}
+			}
+			if(token.token.type == TokenType.String && token.prevToken.type == TokenType.Equal) {
+				if(token.prevToken.index > 0) {
+					let attNameToken = token.all[token.prevToken.index - 1];
+					if(getTokenText(content, attNameToken).toUpperCase() == "ID") {
+						return createRange(doc, token.token, 1, -1);
+					}
+					let attrVal = getTokenText(content, token.token);
+					let idUrlMatch = attrVal.match(/url\(#(.+?)\)/i);
+					if(idUrlMatch && idUrlMatch.length > 1) {
+						let endIndex = token.token.startIndex + idUrlMatch.index! + idUrlMatch[0].length - 1;
+						return createRange(doc, token.token, idUrlMatch.index! + 5, endIndex - token.token.endIndex);
+					}
+				}
+			}
+		}
 	}
 });
 

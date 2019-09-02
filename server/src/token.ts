@@ -26,6 +26,8 @@ export interface Token {
     error?: string | {code:number, message:string};
 }
 
+const NO_OUTPUT_WHITE_TOKEN = true;
+
 let spaceRegex = /^[ \r\n\t\f]+/;
 let processingRegex = /^<\?.*?\?>/;
 let commentRegex = /^<!--.*?-->/;
@@ -57,6 +59,9 @@ function getTokens(connection: Connection, content:string) {
                 startIndex: startIndex,
                 endIndex : pos
             };
+            if(NO_OUTPUT_WHITE_TOKEN && tokenType == TokenType.Whitespace) {
+                return true;
+            }
             tokens.push(token);
             // connection.console.log("" + (tokens.length - 1) + ":" + tokenType + ":" + content.substring(token.startIndex, token.endIndex));
             return true;
