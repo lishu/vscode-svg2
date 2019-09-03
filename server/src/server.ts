@@ -21,7 +21,10 @@ import {
 	DocumentSymbol,
 	SymbolKind,
 	WorkspaceEdit,
-	TextEdit
+	TextEdit,
+	ColorPresentation,
+	Color,
+	ColorInformation
 } from "vscode-languageserver";
 
 import { ISvgJson, ISvgJsonElement, ISvgJsonAttribute, SvgEnum } from "./svgjson";
@@ -30,7 +33,151 @@ import { buildActiveToken, getParentTagName, getOwnerTagName, getAllAttributeNam
 
 let svg:ISvgJson = getSvgJson('');
 
-const colorNames = 'aliceblue,antiquewhite,aqua,aquamarine,azure,beige,bisque,black,blanchedalmond,blue,blueviolet,brown,burlywood,cadetblue,chartreuse,chocolate,coral,cornflowerblue,cornsilk,crimson,cyan,darkblue,darkcyan,darkgoldenrod,darkgray,darkgreen,darkgrey,darkkhaki,darkmagenta,darkolivegreen,darkorange,darkorchid,darkred,darksalmon,darkseagreen,darkslateblue,darkslategray,darkslategrey,darkturquoise,darkviolet,deeppink,deepskyblue,dimgray,dimgrey,dodgerblue,firebrick,floralwhite,forestgreen,fuchsia,gainsboro,ghostwhite,gold,goldenrod,gray,grey,green,greenyellow,honeydew,hotpink,indianred,indigo,ivory,khaki,lavender,lavenderblush,lawngreen,lemonchiffon,lightblue,lightcoral,lightcyan,lightgoldenrodyellow,lightgray,lightgreen,lightgrey,lightpink,lightsalmon,lightseagreen,lightskyblue,lightslategray,lightslategrey,lightsteelblue,lightyellow,lime,limegreen,linen,magenta,maroon,mediumaquamarine,mediumblue,mediumorchid,mediumpurple,mediumseagreen,mediumslateblue,mediumspringgreen,mediumturquoise,mediumvioletred,midnightblue,mintcream,mistyrose,moccasin,navajowhite,navy,oldlace,olive,olivedrab,orange,orangered,orchid,palegoldenrod,palegreen,paleturquoise,palevioletred,papayawhip,peachpuff,peru,pink,plum,powderblue,purple,red,rosybrown,royalblue,saddlebrown,salmon,sandybrown,seagreen,seashell,sienna,silver,skyblue,slateblue,slategray,slategrey,snow,springgreen,steelblue,tan,teal,thistle,tomato,turquoise,violet,wheat,white,whitesmoke,yellow,yellowgreen'.split(',');
+function rgb(r:number, g:number, b:number) {
+	return Color.create(r, g, b, 1);
+}
+
+const colors : {[name:string]:Color} = {
+	"lightsalmon" : rgb(255,160,122),
+	"salmon" : rgb(250,128,114),
+	"darksalmon" : rgb(233,150,122),
+	"lightcoral" : rgb(240,128,128),
+	"indianred" : rgb(205,92,92),
+	"crimson" : rgb(220,20,60),
+	"firebrick" : rgb(178,34,34),
+	"red" : rgb(255,0,0),
+	"darkred" : rgb(139,0,0),
+	"coral" : rgb(255,127,80),
+	"tomato" : rgb(255,99,71),
+	"orangered" : rgb(255,69,0),
+	"gold" : rgb(255,215,0),
+	"orange" : rgb(255,165,0),
+	"darkorange" : rgb(255,140,0),
+	"lightyellow" : rgb(255,255,224),
+	"lemonchiffon" : rgb(255,250,205),
+	"lightgoldenrodyellow" : rgb(250,250,210),
+	"papayawhip" : rgb(255,239,213),
+	"moccasin" : rgb(255,228,181),
+	"peachpuff" : rgb(255,218,185),
+	"palegoldenrod" : rgb(238,232,170),
+	"khaki" : rgb(240,230,140),
+	"darkkhaki" : rgb(189,183,107),
+	"yellow" : rgb(255,255,0),
+	"lawngreen" : rgb(124,252,0),
+	"chartreuse" : rgb(127,255,0),
+	"limegreen" : rgb(50,205,50),
+	"lime" : rgb(0, 255, 0),
+	"forestgreen" : rgb(34,139,34),
+	"green" : rgb(0,128,0),
+	"darkgreen" : rgb(0,100,0),
+	"greenyellow" : rgb(173,255,47),
+	"yellowgreen" : rgb(154,205,50),
+	"springgreen" : rgb(0,255,127),
+	"mediumspringgreen" : rgb(0,250,154),
+	"lightgreen" : rgb(144,238,144),
+	"palegreen" : rgb(152,251,152),
+	"darkseagreen" : rgb(143,188,143),
+	"mediumseagreen" : rgb(60,179,113),
+	"seagreen" : rgb(46,139,87),
+	"olive" : rgb(128,128,0),
+	"darkolivegreen" : rgb(85,107,47),
+	"olivedrab" : rgb(107,142,35),
+	"lightcyan" : rgb(224,255,255),
+	"cyan" : rgb(0,255,255),
+	"aqua" : rgb(0,255,255),
+	"aquamarine" : rgb(127,255,212),
+	"mediumaquamarine" : rgb(102,205,170),
+	"paleturquoise" : rgb(175,238,238),
+	"turquoise" : rgb(64,224,208),
+	"mediumturquoise" : rgb(72,209,204),
+	"darkturquoise" : rgb(0,206,209),
+	"lightseagreen" : rgb(32,178,170),
+	"cadetblue" : rgb(95,158,160),
+	"darkcyan" : rgb(0,139,139),
+	"teal" : rgb(0,128,128),
+	"powderblue" : rgb(176,224,230),
+	"lightblue" : rgb(173,216,230),
+	"lightskyblue" : rgb(135,206,250),
+	"skyblue" : rgb(135,206,235),
+	"deepskyblue" : rgb(0,191,255),
+	"lightsteelblue" : rgb(176,196,222),
+	"dodgerblue" : rgb(30,144,255),
+	"cornflowerblue" : rgb(100,149,237),
+	"steelblue" : rgb(70,130,180),
+	"royalblue" : rgb(65,105,225),
+	"blue" : rgb(0,0,255),
+	"mediumblue" : rgb(0,0,205),
+	"darkblue" : rgb(0,0,139),
+	"navy" : rgb(0,0,128),
+	"midnightblue" : rgb(25,25,112),
+	"mediumslateblue" : rgb(123,104,238),
+	"slateblue" : rgb(106,90,205),
+	"darkslateblue" : rgb(72,61,139),
+	"lavender" : rgb(230,230,250),
+	"thistle" : rgb(216,191,216),
+	"plum" : rgb(221,160,221),
+	"violet" : rgb(238,130,238),
+	"orchid" : rgb(218,112,214),
+	"fuchsia" : rgb(255,0,255),
+	"magenta" : rgb(255,0,255),
+	"mediumorchid" : rgb(186,85,211),
+	"mediumpurple" : rgb(147,112,219),
+	"blueviolet" : rgb(138,43,226),
+	"darkviolet" : rgb(148,0,211),
+	"darkorchid" : rgb(153,50,204),
+	"darkmagenta" : rgb(139,0,139),
+	"purple" : rgb(128,0,128),
+	"indigo" : rgb(75,0,130),
+	"pink" : rgb(255,192,203),
+	"lightpink" : rgb(255,182,193),
+	"hotpink" : rgb(255,105,180),
+	"deeppink" : rgb(255,20,147),
+	"palevioletred" : rgb(219,112,147),
+	"mediumvioletred" : rgb(199,21,133),
+	"white" : rgb(255,255,255),
+	"snow" : rgb(255,250,250),
+	"honeydew" : rgb(240,255,240),
+	"mintcream" : rgb(245,255,250),
+	"azure" : rgb(240,255,255),
+	"aliceblue" : rgb(240,248,255),
+	"ghostwhite" : rgb(248,248,255),
+	"whitesmoke" : rgb(245,245,245),
+	"seashell" : rgb(255,245,238),
+	"beige" : rgb(245,245,220),
+	"oldlace" : rgb(253,245,230),
+	"floralwhite" : rgb(255,250,240),
+	"ivory" : rgb(255,255,240),
+	"antiquewhite" : rgb(250,235,215),
+	"linen" : rgb(250,240,230),
+	"lavenderblush" : rgb(255,240,245),
+	"mistyrose" : rgb(255,228,225),
+	"gainsboro" : rgb(220,220,220),
+	"lightgray" : rgb(211,211,211),
+	"silver" : rgb(192,192,192),
+	"darkgray" : rgb(169,169,169),
+	"gray" : rgb(128,128,128),
+	"dimgray" : rgb(105,105,105),
+	"lightslategray" : rgb(119,136,153),
+	"slategray" : rgb(112,128,144),
+	"darkslategray" : rgb(47,79,79),
+	"black" : rgb(0,0,0),
+	"cornsilk" : rgb(255,248,220),
+	"blanchedalmond" : rgb(255,235,205),
+	"bisque" : rgb(255,228,196),
+	"navajowhite" : rgb(255,222,173),
+	"wheat" : rgb(245,222,179),
+	"burlywood" : rgb(222,184,135),
+	"tan" : rgb(210,180,140),
+	"rosybrown" : rgb(188,143,143),
+	"sandybrown" : rgb(244,164,96),
+	"goldenrod" : rgb(218,165,32),
+	"peru" : rgb(205,133,63),
+	"chocolate" : rgb(210,105,30),
+	"saddlebrown" : rgb(139,69,19),
+	"sienna" : rgb(160,82,45),
+	"brown" : rgb(165,42,42),
+	"maroon" : rgb(128,0,0)
+};
 
 let connection = createConnection(ProposedFeatures.all);
 
@@ -68,7 +215,8 @@ connection.onInitialize((params: InitializeParams) => {
 			documentSymbolProvider: true,
 			renameProvider: {
 				prepareProvider: true
-			}
+			},
+			colorProvider: true
 		}
 	};
 });
@@ -163,7 +311,7 @@ connection.onCompletion(e =>{
 					}
 					if(attr && attr.type && /^(color|fill|stroke|paint)$/.test(attr.type))
 					{
-						for(let color of colorNames) {
+						for(let color in colors) {
 							items.push({label: color, kind: CompletionItemKind.Color});
 						}
 					}
@@ -587,6 +735,131 @@ connection.onPrepareRename(e=>{
 			}
 		}
 	}
+});
+
+function tryConvertColor(str: string) : Color | null {
+	if(str.length <= 2) return null;
+	let match : RegExpExecArray|null = null;
+	if(/^#[0-9A-Fa-f]{3}$/.test(str)) {
+		let r = Number.parseInt(str.substr(1, 1), 16);
+		let g = Number.parseInt(str.substr(2, 1), 16);
+		let b = Number.parseInt(str.substr(3, 1), 16);
+		r = r * 17;
+		g = g * 17;
+		b = b * 17;
+		return Color.create(r/255, g/255, b/255, 1);
+	}
+	else if(/^#[0-9A-Fa-f]{6}$/.test(str)) {
+		let r = Number.parseInt(str.substr(1, 2), 16);
+		let g = Number.parseInt(str.substr(4, 2), 16);
+		let b = Number.parseInt(str.substr(5, 2), 16);
+		return Color.create(r/255, g/255, b/255, 1);
+	}
+	else if(match = /^rgb\(\s*(\d+),\s*(\d+),\s*(\d+)\)/.exec(str)) {
+		let r = Number.parseInt(match[1]);
+		let g = Number.parseInt(match[2]);
+		let b = Number.parseInt(match[3]);
+		return Color.create(r/255, g/255, b/255, 1);
+	}
+	else if(match = /^rgb\(\s*(\d+)%,\s*(\d+)%,\s*(\d+)%\)/.exec(str)) {
+		let r = Number.parseFloat(match[1]);
+		let g = Number.parseFloat(match[2]);
+		let b = Number.parseFloat(match[3]);
+		return Color.create(r/100, g/100, b/100, 1);
+	}
+	else if(match = /^rgba\(\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+(\.\d*)?)\)/.exec(str)) {
+		let r = Number.parseFloat(match[1]);
+		let g = Number.parseFloat(match[2]);
+		let b = Number.parseFloat(match[3]);
+		let a = Number.parseFloat(match[4]);
+		return Color.create(r/255, g/255, b/255, a);
+	}
+	else if(match = /^rgba\(\s*(\d+)%,\s*(\d+)%,\s*(\d+)%,\s*(\d+(\.\d*)?)\)/.exec(str)) {
+		let r = Number.parseFloat(match[1]);
+		let g = Number.parseFloat(match[2]);
+		let b = Number.parseFloat(match[3]);
+		let a = Number.parseFloat(match[4]);
+		return Color.create(r/100, g/100, b/100, a);
+	}
+	if(str in colors) {
+		return colors[str];
+	}
+	return null;
+}
+
+function toHex2(num: number | string) : string {
+	if(typeof num == 'string') {
+		num = parseInt(num);
+	}
+	let str = num.toString(16);
+	if(str.length == 1) {
+		str = '0' + str;
+	}
+	return str;
+}
+
+function toColorString(color:Color) : string {
+	if(color.alpha >= 1) {
+		return `#${toHex2(""+color.red*255)}${toHex2(""+color.green*255)}${toHex2(""+color.blue*255)}`;
+	}
+	else {
+		return `rgba(${parseInt(""+color.red*255)},${parseInt(""+color.green*255)},${parseInt(""+color.blue*255)},${color.alpha})`;
+	}
+}
+
+connection.onDocumentColor(e=>{
+	let doc = documents.get(e.textDocument.uri);
+	if(doc != null) {
+		let content = doc.getText();
+		let token = buildActiveToken(connection, content, 0);
+		let colors : Array<ColorInformation> = [];
+		let index = 3;
+		for(;index < token.all.length; index++) {
+			if(token.all[index].type == TokenType.String && token.all[index - 1].type == TokenType.Equal) {
+				let attrNameToken = getOwnerAttributeName(token.all, index);
+				if(attrNameToken) {
+					let attr = getTokenText(content, attrNameToken);
+					if(attr in svg.attributes) {
+						let svgAttr = svg.attributes[attr];
+						if(svgAttr && svgAttr.type && /^(color|fill|stroke|paint)$/.test(svgAttr.type))
+						{
+							let colorText = getTokenText(content, token.all[index]);
+							let color = tryConvertColor(colorText.substring(1, colorText.length - 1));
+							if(color) {
+								colors.push(ColorInformation.create(createRange(doc, token.all[index], 1, -1), color));
+							}
+						}
+					}
+				}
+			}
+		}
+		return colors;
+	}
+});
+
+function isSameColor(colorStr: string, color: Color) : boolean
+{
+	let colorCov = tryConvertColor(colorStr);
+	if(colorCov) {
+		return colorCov.alpha == color.alpha && colorCov.blue == color.blue && colorCov.green == color.green && colorCov.red == color.red;
+	} else {
+		return false;
+	}
+}
+
+connection.onColorPresentation(e=>{
+	let doc = documents.get(e.textDocument.uri);
+	if(doc != null) {
+		let content = doc.getText();
+		let currentStr = doc.getText(e.range);
+		if(e.color){
+			if(!isSameColor(currentStr, e.color)) {
+				let newString = toColorString(e.color);
+				return [ColorPresentation.create(newString, TextEdit.replace(e.range, newString))];
+			}
+		}
+	}
+	return null;
 });
 
 connection.onDidChangeConfiguration(change => {
