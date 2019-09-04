@@ -1,0 +1,54 @@
+{
+    "elements": {
+        "a": {
+            "documentation": "定义一个超链接。"
+        },
+        "circle": {
+            "documentation": "定义一个圆形。"
+        },
+        "clipPath": {
+            "documentation": "定义一个剪切路径。"
+        },
+        "defs": {
+            "documentation": "定义一些可重用资源。"
+        },
+        "desc": {
+            "documentation": "指定描述说明信息。"
+        },
+        "ellipse": {
+            "documentation": "定义一个椭圆。"
+        },
+        "filter": {
+            "documentation": "定义一组滤镜。"
+        },
+        "g": {
+            "documentation": "一个放置其它 SVG 元素的容器。"
+        },
+        "line": {
+            "documentation": "定义一个直线。"
+        },
+        "linearGradient": {
+            "documentation": "定义一个线性渐变。"
+        },
+        "path": {
+            "documentation": "定义一个路径。"
+        },
+        "polygon": {
+            "documentation": "定义一个多边线。"
+        },
+        "polyline": {
+            "documentation": "定义一个拆线。"
+        },
+        "radialGradient": {
+            "documentation": "定义一个径向渐变。"
+        },
+        "rect": {
+            "documentation": "定义一个矩形。"
+        }
+    },
+    "attributes": {
+        "href": {
+            "documentation": "定义链接的资源地址（URL）。"
+        }
+    }
+}

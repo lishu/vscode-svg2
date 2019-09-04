@@ -1,5 +1,6 @@
 {
     "description": "SVG 语言支持",
+    "configuration.title": "SVG 语言",
     "svg.minifySvg.title": "压缩 SVG",
     "svg.prettySvg.title": "优化 SVG",
     "svg.showSvg.title": "预览 SVG",

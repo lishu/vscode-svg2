@@ -29,6 +29,54 @@
     ],
     "main": "./client/out/extension.js",
     "contributes": {
+        "commands": [
+            {
+                "command": "_svg.showSvg",
+                "title": "%svg.showSvg.title%",
+                "icon": {
+                    "dark": "./images/Preview_inverse.svg",
+                    "light": "./images/Preview.svg"
+                }
+            }
+        ],
+        "menus": {
+            "editor/title": [
+                {
+                    "command": "_svg.showSvg",
+                    "when": "editorLangId == svg",
+                    "group": "navigation"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "_svg.showSvg",
+                    "when": "resourceLangId == svg",
+                    "group": "navigation"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "%configuration.title%",
+            "properties": {
+                "svg.completion.showAdvanced" : {
+                    "title": "%configuration.completion.showAdvanced.title%",
+                    "description": "%configuration.completion.showAdvanced.description%",
+                    "type": "boolean",
+                    "default": false
+                },
+                "svg.completion.showDeprecated" : {
+                    "title": "%configuration.completion.showDeprecated.title%",
+                    "description": "%configuration.completion.showDeprecated.description%",
+                    "type": "boolean",
+                    "default": false
+                }
+            }
+        },
+        "configurationDefaults": {
+            "[svg]": {
+                "editor.tabSize": 4
+            }
+        },
         "languages": [
             {
                 "id": "svg",

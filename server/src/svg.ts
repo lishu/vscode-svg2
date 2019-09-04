@@ -2557,7 +2557,7 @@ For the <radialgradient> element, this attribute defines the radius of the large
     }
 
     // 应用本地化语言
-    let languageSVGFile = path.resolve(__dirname, '../../../locale', 'svg.' + language + '.json');
+    let languageSVGFile = path.resolve(__dirname, '../../locale', 'svg.' + language + '.json');
     try{
         let languageSVG = <ISvgLanguageJson>JSON.parse(fs.readFileSync(languageSVGFile, "utf8"));
 

@@ -24,8 +24,12 @@ import {
 	TextEdit,
 	ColorPresentation,
 	Color,
-	ColorInformation
+	ColorInformation,
+	InsertTextFormat,
+	MarkupKind
 } from "vscode-languageserver";
+
+import "process";
 
 import { ISvgJson, ISvgJsonElement, ISvgJsonAttribute, SvgEnum } from "./svgjson";
 import { getSvgJson } from "./svg";
@@ -34,8 +38,13 @@ import { buildActiveToken, getParentTagName, getOwnerTagName, getAllAttributeNam
 let svg:ISvgJson = getSvgJson('');
 
 function rgb(r:number, g:number, b:number) {
-	return Color.create(r, g, b, 1);
+	return Color.create(r/255, g/255, b/255, 1);
 }
+
+const namespaces = {
+	'DEFAULT': 'http://www.w3.org/2000/svg',
+	'links': 'http://www.w3.org/1999/xlink'
+};
 
 const colors : {[name:string]:Color} = {
 	"lightsalmon" : rgb(255,160,122),
@@ -179,6 +188,24 @@ const colors : {[name:string]:Color} = {
 	"maroon" : rgb(128,0,0)
 };
 
+interface SVGSettings {
+	completion : {
+		showAdvanced : boolean;
+		showDeprecated: boolean;
+	};
+}
+
+const defaultSettings : SVGSettings = {
+	completion : {
+		showAdvanced : false,
+		showDeprecated: false
+	}
+};
+let langauge : string = '';
+let globalSettings : SVGSettings = defaultSettings;
+// Cache the settings of all open documents
+let documentSettings: Map<string, Thenable<SVGSettings>> = new Map();
+
 let connection = createConnection(ProposedFeatures.all);
 
 let documents: TextDocuments = new TextDocuments();
@@ -231,6 +258,40 @@ connection.onInitialized(() => {
 	}
 });
 
+connection.onNotification("_svg_init", p=>{
+	if(p && p.language){
+		langauge = p.language;
+		connection.console.log('当前语言为：' + p.language);
+		svg = getSvgJson(langauge.toLowerCase());
+	}
+});
+
+connection.onDidChangeConfiguration(change => {
+	if (hasConfigurationCapability) {
+		// Reset all cached document settings
+		documentSettings.clear();
+	} else {
+		globalSettings = <SVGSettings>(
+			(change.settings.svg || defaultSettings)
+		);
+	}
+});
+
+function getDocumentSettings(resource: string): Thenable<SVGSettings> {
+	if (!hasConfigurationCapability) {
+		return Promise.resolve(globalSettings);
+	}
+	let result = documentSettings.get(resource);
+	if (!result) {
+		result = connection.workspace.getConfiguration({
+			scopeUri: resource,
+			section: 'svg'
+		});
+		documentSettings.set(resource, result);
+	}
+	return result;
+}
+
 interface ICompletionData<T> {
 	item : T;
 	insertFullTag : boolean;
@@ -243,6 +304,7 @@ function createCompletionFromElement(uri: string, position: number, name: string
 	let item : CompletionItem = {
 		label : name,
 		kind : CompletionItemKind.Module,
+		commitCharacters: [' '],
 		data : {
 			item : element,
 			insertFullTag,
@@ -287,15 +349,16 @@ function createCompletionFromEnum(uri: string, position: number, svgEnum: SvgEnu
 	return item;
 }
 
-connection.onCompletion(e =>{
+connection.onCompletion(async e =>{
 	// connection.console.log("onCompletion " + e.textDocument.uri);
 	let uri = e.textDocument.uri;
 	let doc = documents.get(uri);
 	if(doc) {
+		let settings = await getDocumentSettings(doc.uri);
 		let items = [];
 		let content = doc.getText();
 		let offset = doc.offsetAt(e.position);
-		let token = buildActiveToken(connection, content, offset);
+		let token = buildActiveToken(connection, doc, content, offset);
 		let triggerChar = offset > 0 ? content.charAt(offset - 1) : '';
 		let nextChar = content.charAt(offset);
 		if((triggerChar == '' || triggerChar == '=' || (triggerChar == '"' && nextChar == '"')) && token.token) {
@@ -318,8 +381,8 @@ connection.onCompletion(e =>{
 				}
 			}
 		}
-		if((triggerChar == '' || triggerChar == ' ') && token.token) {
-			let ownerTagName = getOwnerTagName(token.all, token.index);
+		if((triggerChar == '' || triggerChar == ' ') && (token.token || token.prevToken)) {
+			let ownerTagName = getOwnerTagName(token.all, token.token && token.token.index || token.prevToken!.index);
 			if(ownerTagName) {
 				let ownerTag = content.substring(ownerTagName.startIndex, ownerTagName.endIndex);
 				let wirtedAttrs = getAllAttributeNames(content, token.all, ownerTagName.index + 1);
@@ -336,13 +399,19 @@ connection.onCompletion(e =>{
 						}
 						let svgJson = <ISvgJsonAttribute>attr;
 						if(wirtedAttrs.indexOf(svgJson.name.toUpperCase())>-1) continue;
+						if(svgJson.advanced && !settings.completion.showAdvanced) {
+							continue;
+						}
+						if(svgJson.deprecated && !settings.completion.showDeprecated) {
+							continue;
+						}
 						items.push(createCompletionFromAttribute(uri, offset, svgJson, !/\s/.test(triggerChar)));
 					}
 				}
 				return items;
 			}
 		}
-		if((triggerChar == '' || triggerChar == '<') && token.prevToken) {
+		if((triggerChar == '' || triggerChar == '<') && token.index >= 2) {
 			let ownerTagName = getParentTagName(token.all, token.index - 2);
 			if(ownerTagName) {
 				let ownerTag = content.substring(ownerTagName.startIndex, ownerTagName.endIndex);
@@ -350,22 +419,75 @@ connection.onCompletion(e =>{
 				if(svgElement) {
 					if(svgElement.subElements){
 						for(let name of svgElement.subElements) {
-							items.push(createCompletionFromElement(uri, offset, name, svg.elements[name], !triggerChar));
+							let element = svg.elements[name];
+							if(element.advanced && !settings.completion.showAdvanced) {
+								continue;
+							}
+							if(element.deprecated && !settings.completion.showDeprecated) {
+								continue;
+							}
+							items.push(createCompletionFromElement(uri, offset, name, element, !triggerChar));
 						}
 					}
 				}
 			}
 		}
+		else if((triggerChar == '' || triggerChar == '<') && token.all.length <= 2) {
+			// root svg element need
+			let needTagStart = triggerChar != '<';
+			let needTagEnd = nextChar != '>';
+			items.push({
+				kind: CompletionItemKind.Snippet, 
+				label: 'SVG Root Element', 
+				insertTextFormat: InsertTextFormat.Snippet,
+				insertText: (needTagStart?"<":"") + 'svg xmlns="http://www.w3.org/2000/svg">\n\t$0\n</svg' + (needTagEnd?">":"")
+			});
+		}
 		return items;
 	}
 });
+
+function createDocumentation(deprecated?:boolean|string,documentation?:string) : string|MarkupContent|undefined {
+	if(deprecated) {
+		if(typeof deprecated == 'string') {
+			if(documentation) {
+				return {
+					kind : MarkupKind.Markdown,
+					value : '*Deprecated* - ' + MarkedString.fromPlainText(deprecated) + 
+						'\n' + MarkedString.fromPlainText(documentation)
+				};
+			}
+			else{
+				return {
+					kind : MarkupKind.Markdown,
+					value : '**Deprecated** - ' + MarkedString.fromPlainText(deprecated)
+				};
+			}
+		}
+		else{
+			if(documentation) {
+				return {
+					kind : MarkupKind.Markdown,
+					value : '**Deprecated**\n' + MarkedString.fromPlainText(documentation)
+				};
+			}
+			else{
+				return {
+					kind : MarkupKind.Markdown,
+					value : '**Deprecated**'
+				};
+			}
+		}
+	}
+	return documentation;
+}
 
 connection.onCompletionResolve(item => {
 	if(item.data) {
 		if(item.kind == CompletionItemKind.Module) {
 			let data : ICompletionData<ISvgJsonElement> = item.data;
 			let svgElement: ISvgJsonElement = data.item;
-			item.documentation = svgElement.documentation;
+			item.documentation = createDocumentation(svgElement.deprecated, svgElement.documentation);
 			item.insertTextFormat = 2;
 			let insertText : Array<string> = [];
 			if(data.insertFullTag) {
@@ -380,7 +502,7 @@ connection.onCompletionResolve(item => {
 				}
 			}
 			if(svgElement.simple) {
-				insertText.push(" $0/>");
+				insertText.push("$0 />");
 			}
 			else {
 				insertText.push(">\n\t$0\n</" + item.label + ">");
@@ -390,7 +512,7 @@ connection.onCompletionResolve(item => {
 		else if(item.kind == CompletionItemKind.Property) {
 			let data : ICompletionData<ISvgJsonAttribute> = item.data;
 			let svgAttr: ISvgJsonAttribute = data.item;
-			item.documentation = svgAttr.documentation;
+			item.documentation = createDocumentation(svgAttr.deprecated, svgAttr.documentation);
 			item.insertTextFormat = 2;
 			let insertText : Array<string> = [];
 			if(data.insertFullTag) {
@@ -427,11 +549,11 @@ connection.onHover(e=>{
 	let doc = documents.get(e.textDocument.uri);
 	if(doc){
 		let offset =  doc.offsetAt(e.position);
-		let token = buildActiveToken(connection, doc.getText(), offset);
-		if(token && token.token && token.token.type == TokenType.Name) {
+		let token = buildActiveToken(connection, doc, doc.getText(), offset);
+		if(token && token.token && (token.token.type == TokenType.TagName || token.token.type == TokenType.AttributeName)) {
 			let content = doc.getText();
 			// try find tag element
-			if(token.prevToken && (token.prevToken.type == TokenType.StartTag || token.prevToken.type == TokenType.StartEndTag)) {
+			if(token.token.type == TokenType.TagName) {
 				var tagName = content.substring(token.token.startIndex, token.token.endIndex);
 				var range = Range.create(
 					doc.positionAt(token.token.startIndex),
@@ -446,8 +568,8 @@ connection.onHover(e=>{
 					}
 				}
 			}
-			// try find tag attribute
-			else if(token.prevToken) {
+			// tag attribute
+			else {
 				let ownerTagName = getOwnerTagName(token.all, token.index);
 				if(ownerTagName)
 				{
@@ -475,7 +597,7 @@ connection.onDefinition(e=>{
 	if(doc) {
 		let content = doc.getText();
 		let offset = doc.offsetAt(e.position);
-		let token = buildActiveToken(connection, content, offset);
+		let token = buildActiveToken(connection, doc, content, offset);
 		if(token && token.token && token.token.type == TokenType.String) {
 			let val = content.substring(token.token.startIndex, token.token.endIndex);
 			let urlMatch = val.match(/url\(#(.*?)\)/i);
@@ -496,7 +618,7 @@ connection.onReferences(e=>{
 	if(doc) {
 		let content = doc.getText();
 		let offset = doc.offsetAt(e.position);
-		let token = buildActiveToken(connection, content, offset);
+		let token = buildActiveToken(connection, doc, content, offset);
 		if(token && token.token && token.token.type == TokenType.String && token.prevToken && token.prevToken.type == TokenType.Equal) {
 			let ownerAttrName = getOwnerAttributeName(token.all, token.index);
 			if(ownerAttrName) {
@@ -540,7 +662,7 @@ function buildAstTree(all: Array<Token>, content: string) {
 				node = {parent:node, children:[], start: t};
 				node.parent!.children.push(node);
 				break;
-			case TokenType.Name:
+			case TokenType.TagName:
 				if(rp == 1) {
 					rp = 2;
 					node.name = content.substring(t.startIndex, t.endIndex)	;
@@ -607,7 +729,7 @@ connection.onDocumentSymbol(e=>{
 	let doc = documents.get(e.textDocument.uri);
 	if(doc) {
 		let content = doc.getText();
-		let token = buildActiveToken(connection, content, 0);
+		let token = buildActiveToken(connection, doc, content, 0);
 		let root = buildAstTree(token.all, content);
 
 		let result : Array<DocumentSymbol> = [];
@@ -664,9 +786,9 @@ connection.onRenameRequest(e=>{
 	if(doc) {
 		let content = doc.getText();
 		let offset = doc.offsetAt(e.position);
-		let token = buildActiveToken(connection, content, offset);
+		let token = buildActiveToken(connection, doc, content, offset);
 		if(token && token.token && token.prevToken) {
-			if(token.token.type == TokenType.Name) {
+			if(token.token.type == TokenType.TagName || token.token.type == TokenType.AttributeName) {
 				let ast = buildAstTree(token.all, content);
 				let node = findAstNode(ast, token.token.startIndex);
 				if(node) {
@@ -676,7 +798,7 @@ connection.onRenameRequest(e=>{
 
 					if(node.end && node.end.type == TokenType.EndTag) {
 						let endTagName = token.all[node.end.index - 1];
-						if(endTagName.type == TokenType.Name) {
+						if(endTagName.type == TokenType.TagName) {
 							changes.push(TextEdit.replace(createRange(doc, endTagName), e.newName));
 						}
 					}
@@ -709,9 +831,9 @@ connection.onPrepareRename(e=>{
 	if(doc) {
 		let content = doc.getText();
 		let offset = doc.offsetAt(e.position);
-		let token = buildActiveToken(connection, content, offset);
+		let token = buildActiveToken(connection, doc, content, offset);
 		if(token && token.token && token.prevToken) {
-			if(token.token.type == TokenType.Name) {
+			if(token.token.type == TokenType.TagName) {
 				if(token.prevToken.type == TokenType.StartTag) {
 					return createRange(doc, token.token);
 				}
@@ -751,7 +873,7 @@ function tryConvertColor(str: string) : Color | null {
 	}
 	else if(/^#[0-9A-Fa-f]{6}$/.test(str)) {
 		let r = Number.parseInt(str.substr(1, 2), 16);
-		let g = Number.parseInt(str.substr(4, 2), 16);
+		let g = Number.parseInt(str.substr(3, 2), 16);
 		let b = Number.parseInt(str.substr(5, 2), 16);
 		return Color.create(r/255, g/255, b/255, 1);
 	}
@@ -811,7 +933,7 @@ connection.onDocumentColor(e=>{
 	let doc = documents.get(e.textDocument.uri);
 	if(doc != null) {
 		let content = doc.getText();
-		let token = buildActiveToken(connection, content, 0);
+		let token = buildActiveToken(connection, doc, content, 0);
 		let colors : Array<ColorInformation> = [];
 		let index = 3;
 		for(;index < token.all.length; index++) {

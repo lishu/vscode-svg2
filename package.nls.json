@@ -1,5 +1,6 @@
 {
     "description": "SVG Language Support",
+    "configuration.title": "SVG",
     "svg.minifySvg.title": "Minify SVG",
     "svg.prettySvg.title": "Pretty SVG",
     "svg.showSvg.title": "Preview SVG",
