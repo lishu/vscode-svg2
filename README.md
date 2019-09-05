@@ -57,6 +57,9 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
+### 1.0.0
+* All Rewrite base langauge service protocol
+
 ### 0.1.6
 * A small amount of BUG fixes.
 
