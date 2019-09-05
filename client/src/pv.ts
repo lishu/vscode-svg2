@@ -1,6 +1,7 @@
 // Previewer in webviewPanel script
 
 let _toolbar : HTMLDivElement;
+let _host : HTMLDivElement;
 let groupBackground : HTMLDivElement;
 let labelZoom : HTMLSpanElement;
 
@@ -49,6 +50,7 @@ function showZoom(){
 
 function init() {
     _toolbar = <HTMLDivElement>document.getElementById('__toolbar');
+    _host = <HTMLDivElement>document.getElementById('__host');
     groupBackground = createButtonGroup();
     var btnBg = createButton(groupBackground, null, e=>{
         document.body.className='bg-trans';vscode.postMessage({action:'bg', color:'transparent'});
@@ -90,11 +92,11 @@ function init() {
         vscode.postMessage({action: 'scale', scale: scale});
     }).className = 'btn';
 
-    document.body.addEventListener('keypress', keypress);
+    _host.addEventListener('keydown', keydown);
 }
 
-function keypress(e:KeyboardEvent) {
-    console.log('keypress in webview ' + e.key);
+function keydown(e:KeyboardEvent) {
+    labelZoom.innerText = 'keydown ' + e.key;
 }
 
 console.warn('document.readyState', document.readyState);

@@ -187,7 +187,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 break;
         }
         html.push('<div id="__toolbar"></div>');
-        html.push('<div id="__host"><div id="__svg">');
+        html.push('<div id="__host" tabindex="0"}><div id="__svg">');
         html.push(svg);
         html.push('</div></div>');
         html.push(`<script>var scale = ${this.scale};</script>`);

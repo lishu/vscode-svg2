@@ -1,3 +1,5 @@
+*New Version from [vscode-svg](https://github.com/lishu/vscode-svg)*
+
 # svg
 
 A Powerful SVG Language Support Extension.
