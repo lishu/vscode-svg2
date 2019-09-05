@@ -17,9 +17,11 @@
 		"postinstall": "vscode-install"
 	},
 	"dependencies": {
+		"svgo": "^1.3.0",
 		"vscode-languageclient": "^5.2.1"
 	},
 	"devDependencies": {
+		"@types/svgo": "^1.2.1",
 		"vscode": "^1.1.35"
 	}
 }

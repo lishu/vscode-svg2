@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { workspace, ExtensionContext, DocumentSelector, env } from 'vscode';
+import { workspace, ExtensionContext, DocumentSelector, env, languages, commands } from 'vscode';
 
 import {SvgPreviwerContentProvider} from './previewer';
 
@@ -25,13 +25,16 @@ import {
 	ServerOptions,
 	TransportKind
 } from 'vscode-languageclient';
+import { SvgFormattingProvider, svgMinify } from './commands';
 
 let client: LanguageClient;
 let language = env.language;
 
 export function activate(context: ExtensionContext) {
 	context.subscriptions.push(
-		new SvgPreviwerContentProvider(context)
+		new SvgPreviwerContentProvider(context),
+		languages.registerDocumentFormattingEditProvider(SVG_MODE, new SvgFormattingProvider()),
+		commands.registerTextEditorCommand('_svg.minifySvg', svgMinify)
 	);
 
 	let serverModule = context.asAbsolutePath(

@@ -2,19 +2,14 @@ import {
 	createConnection,
 	TextDocuments,
 	TextDocument,
-	Diagnostic,
-	DiagnosticSeverity,
 	ProposedFeatures,
 	InitializeParams,
 	DidChangeConfigurationNotification,
 	CompletionItem,
 	CompletionItemKind,
-	TextDocumentPositionParams,
 	ClientCapabilities,
 	Command,
-	Hover,
 	Range,
-	Position,
 	MarkedString,
 	MarkupContent,
 	Location,
@@ -36,15 +31,15 @@ import { getSvgJson } from "./svg";
 import { buildActiveToken, getParentTagName, getOwnerTagName, getAllAttributeNames, getOwnerAttributeName, TokenType, Token } from "./token";
 
 let svg:ISvgJson = getSvgJson('');
+const svgDocUrl = {
+	attribute: 'https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/',
+	element: 'https://developer.mozilla.org/en-US/docs/Web/SVG/Element/'
+};
 
 function rgb(r:number, g:number, b:number) {
 	return Color.create(r/255, g/255, b/255, 1);
 }
 
-const namespaces = {
-	'DEFAULT': 'http://www.w3.org/2000/svg',
-	'links': 'http://www.w3.org/1999/xlink'
-};
 
 const colors : {[name:string]:Color} = {
 	"lightsalmon" : rgb(255,160,122),
@@ -212,7 +207,6 @@ let documents: TextDocuments = new TextDocuments();
 
 let hasConfigurationCapability: boolean = false;
 let hasWorkspaceFolderCapability: boolean = false;
-let hasDiagnosticRelatedInformationCapability: boolean = false;
 
 connection.onInitialize((params: InitializeParams) => {
 	let capabilities : ClientCapabilities = params.capabilities;
@@ -222,11 +216,6 @@ connection.onInitialize((params: InitializeParams) => {
 	);
 	hasWorkspaceFolderCapability = !!(
 		capabilities.workspace && !!capabilities.workspace.workspaceFolders
-	);
-	hasDiagnosticRelatedInformationCapability = !!(
-		capabilities.textDocument &&
-		capabilities.textDocument.publishDiagnostics &&
-		capabilities.textDocument.publishDiagnostics.relatedInformation
 	);
 
 	return {
@@ -256,6 +245,13 @@ connection.onInitialized(() => {
 		connection.workspace.onDidChangeWorkspaceFolders(_event => {
 		});
 	}
+
+	// test same thing;
+	let subSvgElements = svg.elements['svg'].subElements;
+	for (const ele of subSvgElements!) {
+		connection.console.log(ele);
+	}
+
 });
 
 connection.onNotification("_svg_init", p=>{
@@ -412,7 +408,7 @@ connection.onCompletion(async e =>{
 			}
 		}
 		if((triggerChar == '' || triggerChar == '<') && token.index >= 2) {
-			let ownerTagName = getParentTagName(token.all, token.index - 2);
+			let ownerTagName = getParentTagName(token.all, token.index - (triggerChar == '<' ? 1 : 0));
 			if(ownerTagName) {
 				let ownerTag = content.substring(ownerTagName.startIndex, ownerTagName.endIndex);
 				let svgElement = svg.elements[ownerTag];
@@ -447,20 +443,27 @@ connection.onCompletion(async e =>{
 	}
 });
 
-function createDocumentation(deprecated?:boolean|string,documentation?:string) : string|MarkupContent|undefined {
+function createDocumentation(item:CompletionItem, deprecated?:boolean|string,documentation?:string) : string|MarkupContent|undefined {
+	let docUrlPart = '';
+	if(item.kind == CompletionItemKind.Module) {
+		docUrlPart = '\n\n[MDN Reference]('+ svgDocUrl.element + item.label +')';
+	}
+	else if(item.kind == CompletionItemKind.Property) {
+		docUrlPart = '\n\n[MDN Reference]('+ svgDocUrl.attribute + item.label +')';
+	}
 	if(deprecated) {
 		if(typeof deprecated == 'string') {
 			if(documentation) {
 				return {
 					kind : MarkupKind.Markdown,
 					value : '*Deprecated* - ' + MarkedString.fromPlainText(deprecated) + 
-						'\n' + MarkedString.fromPlainText(documentation)
+						'\n' + MarkedString.fromPlainText(documentation) + docUrlPart
 				};
 			}
 			else{
 				return {
 					kind : MarkupKind.Markdown,
-					value : '**Deprecated** - ' + MarkedString.fromPlainText(deprecated)
+					value : '**Deprecated** - ' + MarkedString.fromPlainText(deprecated) + docUrlPart
 				};
 			}
 		}
@@ -468,18 +471,27 @@ function createDocumentation(deprecated?:boolean|string,documentation?:string) :
 			if(documentation) {
 				return {
 					kind : MarkupKind.Markdown,
-					value : '**Deprecated**\n' + MarkedString.fromPlainText(documentation)
+					value : '**Deprecated**\n' + MarkedString.fromPlainText(documentation) + docUrlPart
 				};
 			}
 			else{
 				return {
 					kind : MarkupKind.Markdown,
-					value : '**Deprecated**'
+					value : '**Deprecated**' + docUrlPart
 				};
 			}
 		}
 	}
-	return documentation;
+	if(documentation) {
+		return {
+			kind : MarkupKind.Markdown,
+			value : MarkedString.fromPlainText(documentation) + docUrlPart
+		};
+	}
+	return {
+		kind : MarkupKind.Markdown,
+		value : docUrlPart.substring(1)
+	};
 }
 
 connection.onCompletionResolve(item => {
@@ -487,7 +499,7 @@ connection.onCompletionResolve(item => {
 		if(item.kind == CompletionItemKind.Module) {
 			let data : ICompletionData<ISvgJsonElement> = item.data;
 			let svgElement: ISvgJsonElement = data.item;
-			item.documentation = createDocumentation(svgElement.deprecated, svgElement.documentation);
+			item.documentation = createDocumentation(item, svgElement.deprecated, svgElement.documentation);
 			item.insertTextFormat = 2;
 			let insertText : Array<string> = [];
 			if(data.insertFullTag) {
@@ -512,7 +524,7 @@ connection.onCompletionResolve(item => {
 		else if(item.kind == CompletionItemKind.Property) {
 			let data : ICompletionData<ISvgJsonAttribute> = item.data;
 			let svgAttr: ISvgJsonAttribute = data.item;
-			item.documentation = createDocumentation(svgAttr.deprecated, svgAttr.documentation);
+			item.documentation = createDocumentation(item, svgAttr.deprecated, svgAttr.documentation);
 			item.insertTextFormat = 2;
 			let insertText : Array<string> = [];
 			if(data.insertFullTag) {
@@ -540,9 +552,22 @@ connection.onCompletionResolve(item => {
 	return item;
 });
 
-function replaceDocumentationToMarkedString(documentation:string) {
-	var text = documentation.replace(/<>/g, '`');
-	return MarkedString.fromPlainText(text);
+function replaceDocumentationToMarkedString(documentation:string, label?: string) : string | MarkedString | MarkupContent {
+	if(label && label.toLowerCase() in svg.elements) {
+		return {
+			kind: MarkupKind.Markdown,
+			//language: 'xml',
+			value: MarkedString.fromPlainText(documentation) + '\n\n[MDN Reference]('+ svgDocUrl.element + label +')'
+		};
+	}
+	if(label && label.toLowerCase() in svg.attributes) {
+		return {
+			kind: MarkupKind.Markdown,
+			//language: 'xml',
+			value: MarkedString.fromPlainText(documentation) + '\n\n[MDN Reference]('+ svgDocUrl.attribute + label +')'
+		};
+	}
+	return MarkedString.fromPlainText(documentation);
 }
 
 connection.onHover(e=>{
@@ -562,7 +587,7 @@ connection.onHover(e=>{
 					var tag = svg.elements[tagName];
 					if(tag && tag.documentation) {
 						return {
-							contents: replaceDocumentationToMarkedString(tag.documentation),
+							contents: replaceDocumentationToMarkedString(tag.documentation, tagName),
 							range
 						};
 					}
@@ -581,7 +606,7 @@ connection.onHover(e=>{
 						var attr = svg.attributes[attrName];
 						if(attr && attr.documentation) {
 							return {
-								contents: replaceDocumentationToMarkedString(attr.documentation),
+								contents: replaceDocumentationToMarkedString(attr.documentation, attrName),
 								range
 							};
 						}
@@ -972,7 +997,6 @@ function isSameColor(colorStr: string, color: Color) : boolean
 connection.onColorPresentation(e=>{
 	let doc = documents.get(e.textDocument.uri);
 	if(doc != null) {
-		let content = doc.getText();
 		let currentStr = doc.getText(e.range);
 		if(e.color){
 			if(!isSameColor(currentStr, e.color)) {
@@ -984,15 +1008,15 @@ connection.onColorPresentation(e=>{
 	return null;
 });
 
-connection.onDidChangeConfiguration(change => {
+connection.onDidChangeConfiguration(() => {
 	connection.console.log("onDidChangeConfiguration");
 });
 
-documents.onDidClose(e => {
+documents.onDidClose(() => {
 	
 });
 
-documents.onDidChangeContent(change => {
+documents.onDidChangeContent(() => {
 	// connection.console.log("onDidChangeContent");
 });
 

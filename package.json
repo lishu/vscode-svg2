@@ -24,6 +24,7 @@
     ],
     "activationEvents": [
         "onCommand:_svg.showSvg",
+        "onCommand:_svg.minifySvg",
         "onLanguage:svg",
         "onLanguage:xml"
     ],
@@ -37,6 +38,11 @@
                     "dark": "./images/Preview_inverse.svg",
                     "light": "./images/Preview.svg"
                 }
+            },
+            {
+                "command": "_svg.minifySvg",
+                "title": "%svg.minifySvg.title%",
+                "enablement": "resourceLangId == svg"
             }
         ],
         "menus": {
@@ -47,11 +53,23 @@
                     "group": "navigation"
                 }
             ],
+            "editor/context": [
+                {
+                    "command": "_svg.minifySvg",
+                    "when": "editorLangId == svg",
+                    "group": "2"
+                }
+            ],
             "explorer/context": [
                 {
                     "command": "_svg.showSvg",
                     "when": "resourceLangId == svg",
                     "group": "navigation"
+                },
+                {
+                    "command": "_svg.minifySvg",
+                    "when": "resourceLangId == svg",
+                    "group": "1_modification"
                 }
             ]
         },
@@ -69,12 +87,23 @@
                     "description": "%configuration.completion.showDeprecated.description%",
                     "type": "boolean",
                     "default": false
+                },
+                "svg.minify.cleanupAttrs" : {
+                    "description": "cleanup attributes from newlines, trailing, and repeating spaces",
+                    "type": "boolean",
+                    "default" : true
+                },
+                "svg.minify.inlineStyles" : {
+                    "type": "boolean",
+                    "default" : true,
+                    "description": "move and merge styles from <style> elements to element style attributes"
                 }
             }
         },
         "configurationDefaults": {
             "[svg]": {
-                "editor.tabSize": 4
+                "editor.tabSize": 4,
+                "editor.formatOnSave": false
             }
         },
         "languages": [
