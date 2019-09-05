@@ -89,31 +89,52 @@ function getFullRange(doc: TextDocument) {
     return new Range(new Position(0, 0), doc.positionAt(length));
 }
 
+export function svgMinifyToFile(uri: Uri) {
+    if(uri && uri.fsPath) {
+        let baseName = path.basename(uri.fsPath);
+        let newName = path.join(path.dirname(uri.fsPath), baseName.substr(0, baseName.length - path.extname(baseName).length) + '.min.svg');
+        fs.readFile(uri.fsPath, {encoding: 'utf8'}, (e,data)=>{
+            if(data) {
+                let svgo = createMinifySVGO();
+                svgo.optimize(data)
+                    .then(r=>{
+                        if(r.data) {
+                            fs.writeFile(newName, r.data, { encoding: 'utf8'}, err=>{
+                                if(!err) {
+                                    workspace.openTextDocument(Uri.file(newName)).then(doc=>{
+                                        window.showTextDocument(doc);
+                                    });
+                                }
+                            });
+                        }
+                    });
+            }
+        });
+    }
+}
+
+function createMinifySVGO() {    
+    let cplugins = workspace.getConfiguration('svg').get<ConfigurationMinifyPlugins>('minify', defaultMinifyPlugins);
+    let plugins : Array<SVGO.PluginConfig> = [];
+    for(let cp in cplugins) {
+        if(typeof cplugins[cp] == 'boolean') {
+            let op = {};
+            op[cp] = cplugins[cp];
+            plugins.push(<SVGO.PluginConfig>op);
+        }
+    }
+    return new SVGO({
+        plugins
+    });
+}
+
 export function svgMinify(textEditor: TextEditor, edit: TextEditorEdit) {
     if(textEditor.document.languageId == 'svg'){
-        let cplugins = workspace.getConfiguration('svg').get<ConfigurationMinifyPlugins>('minify', defaultMinifyPlugins);
-        let plugins : Array<SVGO.PluginConfig> = [];
-        for(let cp in cplugins) {
-            if(typeof cplugins[cp] == 'boolean') {
-                let op = {};
-                op[cp] = cplugins[cp];
-                plugins.push(<SVGO.PluginConfig>op);
-            }
-        }
-        let svgo = new SVGO({
-            plugins
-        });
+        createMinifySVGO();
+        let svgo = createMinifySVGO();
         svgo.optimize(textEditor.document.getText()).then(r=>{
             if(r.data) {
-                if(textEditor.viewColumn == undefined) {
-                    // is not a visable editor, try output a min.svg file and open it.
-                    if(textEditor.document.uri.scheme == 'file') {
-                        let fsPath = textEditor.document.uri.fsPath;
-                    }
-                }
-                else {
-                    textEditor.edit(edit=>edit.replace(getFullRange(textEditor.document), r.data));
-                }
+                textEditor.edit(edit=>edit.replace(getFullRange(textEditor.document), r.data));
             }
         }).catch(reason=>{
             window.showErrorMessage('Failed to minify the document.\n' + reason);

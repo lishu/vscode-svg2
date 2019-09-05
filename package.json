@@ -24,7 +24,9 @@
     ],
     "activationEvents": [
         "onCommand:_svg.showSvg",
+        "onCommand:_svg.showSvgByUri",
         "onCommand:_svg.minifySvg",
+        "onCommand:_svg.minifySvgToFile",
         "onLanguage:svg",
         "onLanguage:xml"
     ],
@@ -40,7 +42,20 @@
                 }
             },
             {
+                "command": "_svg.showSvgByUri",
+                "title": "%svg.showSvg.title%",
+                "icon": {
+                    "dark": "./images/Preview_inverse.svg",
+                    "light": "./images/Preview.svg"
+                }
+            },
+            {
                 "command": "_svg.minifySvg",
+                "title": "%svg.minifySvg.title%",
+                "enablement": "resourceLangId == svg"
+            },
+            {
+                "command": "_svg.minifySvgToFile",
                 "title": "%svg.minifySvg.title%",
                 "enablement": "resourceLangId == svg"
             }
@@ -62,12 +77,12 @@
             ],
             "explorer/context": [
                 {
-                    "command": "_svg.showSvg",
+                    "command": "_svg.showSvgByUri",
                     "when": "resourceLangId == svg",
                     "group": "navigation"
                 },
                 {
-                    "command": "_svg.minifySvg",
+                    "command": "_svg.minifySvgToFile",
                     "when": "resourceLangId == svg",
                     "group": "1_modification"
                 }
@@ -97,6 +112,24 @@
                     "type": "boolean",
                     "default" : true,
                     "description": "move and merge styles from <style> elements to element style attributes"
+                },
+                "svg.preview.background": {
+                    "title": "%configuration.preview.background.title%",
+                    "type": "string",
+                    "enum": [
+                        "transparent",
+                        "white",
+                        "black",
+                        "custom"
+                    ],
+                    "default": "transparent",
+                    "description": "%configuration.preview.background.description%"
+                },
+                "svg.preview.backgroundCustom": {
+                    "title": "%configuration.preview.backgroundCustom.title%",
+                    "type": "string",
+                    "default": "#eee",
+                    "description": "%configuration.preview.backgroundCustom.description%"
                 }
             }
         },

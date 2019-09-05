@@ -19,6 +19,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     constructor(context: vscode.ExtensionContext) {
         this.path = vscode.Uri.file(context.asAbsolutePath('./client/out')).with({scheme: 'vscode-resource'});
         this.d0 =  vscode.commands.registerTextEditorCommand('_svg.showSvg', ()=>this.show());
+        this.d0 =  vscode.commands.registerCommand('_svg.showSvgByUri', uri=>this.show(uri));
         this.d1 = vscode.workspace.onDidChangeTextDocument(e=>this.onDidChangeTextDocument(e));
         this.d2 = vscode.window.onDidChangeActiveTextEditor(e=>this.onDidChangeActiveTextEditor(e));
     }
@@ -35,16 +36,18 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         }
     }
 
-    show() {
+    show(e?: any) {
         if(this.webviewPanel == null) {
             let scriptRoot = vscode.Uri.file(__dirname);
-            console.log('scriptRoot', scriptRoot);
             this.webviewPanel = vscode.window.createWebviewPanel('svg-preview', 'Svg Preview', vscode.ViewColumn.Three, {enableScripts: true});
             this.webviewPanel.webview.onDidReceiveMessage(e=>this.onDidReceiveMessage(e));
             this.webviewPanel.onDidDispose(()=>this.webviewPanel = null);
         }
         if(!this.webviewPanel.visible) {
             this.webviewPanel.reveal();
+        }
+        if(e instanceof vscode.Uri) {
+            this.showUri(e);
         }
         this.onDidChangeActiveTextEditor(vscode.window.activeTextEditor);
     }
@@ -69,6 +72,12 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         return document && (/\.svg$/i.test(document.uri.path) || document.languageId == 'svg' || document.languageId == 'xml' && /^<svg\b/.test(document.getText()));
     }
 
+    private showUri(uri : vscode.Uri) {
+        vscode.workspace.openTextDocument(uri).then(doc=>{
+            this.showDocument(doc);
+        });
+    }
+
     private showDocument(doc: vscode.TextDocument) {
         if(!this.webviewPanel){
             return;
@@ -90,7 +99,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         const html = [];
         html.push('<!DOCTYPE html>\n');
         html.push('<html>');
-        html.push('<head></head>');
+        html.push(`<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' vscode-resource: https: data:;">
+</head>`);
         html.push(`<style type="text/css">
         html, body {
             font: var(--vscode-editor-font-weight) var(--vscode-editor-font-size) var(--vscode-editor-font-family);
@@ -153,6 +164,13 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             transform-origin:top left;
             transform:scale(${this.scale});
         }
+        #__host{
+            position: fixed;
+            left: 0;
+            top: 24px;
+            right: 0;
+            bottom: 0;
+        }
         </style>`);
         switch (bg) {
             case 'white':
@@ -169,9 +187,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 break;
         }
         html.push('<div id="__toolbar"></div>');
-        html.push('<div id="__svg">');
+        html.push('<div id="__host"><div id="__svg">');
         html.push(svg);
-        html.push('</div>');
+        html.push('</div></div>');
         html.push(`<script>var scale = ${this.scale};</script>`);
         html.push('<script src="${vscode-resource}/pv.js"></script>');
         html.push(`</body>`);

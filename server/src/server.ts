@@ -246,19 +246,14 @@ connection.onInitialized(() => {
 		});
 	}
 
-	// test same thing;
-	let subSvgElements = svg.elements['svg'].subElements;
-	for (const ele of subSvgElements!) {
-		connection.console.log(ele);
-	}
-
 });
 
 connection.onNotification("_svg_init", p=>{
 	if(p && p.language){
 		langauge = p.language;
-		connection.console.log('当前语言为：' + p.language);
-		svg = getSvgJson(langauge.toLowerCase());
+		if(langauge) {
+			svg = getSvgJson(langauge.toLowerCase());
+		}
 	}
 });
 

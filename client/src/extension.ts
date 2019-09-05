@@ -25,7 +25,7 @@ import {
 	ServerOptions,
 	TransportKind
 } from 'vscode-languageclient';
-import { SvgFormattingProvider, svgMinify } from './commands';
+import { SvgFormattingProvider, svgMinify, svgMinifyToFile } from './commands';
 
 let client: LanguageClient;
 let language = env.language;
@@ -34,7 +34,8 @@ export function activate(context: ExtensionContext) {
 	context.subscriptions.push(
 		new SvgPreviwerContentProvider(context),
 		languages.registerDocumentFormattingEditProvider(SVG_MODE, new SvgFormattingProvider()),
-		commands.registerTextEditorCommand('_svg.minifySvg', svgMinify)
+		commands.registerTextEditorCommand('_svg.minifySvg', svgMinify),
+		commands.registerCommand('_svg.minifySvgToFile', svgMinifyToFile)
 	);
 
 	let serverModule = context.asAbsolutePath(
