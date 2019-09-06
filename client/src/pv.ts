@@ -32,6 +32,7 @@ const vscode = acquireVsCodeApi();
 var minScale = 0.08;
 var maxScale = 8;
 declare var scale : number;
+declare var uri : string;
 
 function normalScale() {
     if(scale < minScale) {
@@ -91,12 +92,60 @@ function init() {
         document.getElementById('__svg').style.transform = 'scale('+scale+')';
         vscode.postMessage({action: 'scale', scale: scale});
     }).className = 'btn';
+    
+    var groupTools = createButtonGroup();
+    createButton(groupTools, 'Export PNG', ()=>{
+        exportPng();
+    }).className = 'btn';
+
 
     _host.addEventListener('keydown', keydown);
+    _host.addEventListener('mouseover', mouseover, true);
+}
+
+function exportPng(){
+    try{
+        let svgParent = document.getElementById('__svg');
+        let svg = svgParent.innerHTML;
+        let img = new Image();
+        img.onload = () => {
+            let canvas = new OffscreenCanvas(img.naturalWidth, img.naturalHeight);
+            let cxt = canvas.getContext('2d');
+            cxt.drawImage(img, 0, 0);
+            canvas.convertToBlob({type: 'image/png'}).then(blob=>{
+                var reader = new FileReader();
+                reader.onload = () => {
+                    let result = <string>(reader.result);
+                    let b64 = result.replace(/^data:.+;base64,/, '');                    
+                    vscode.postMessage({action: 'export', b64, uri});
+                };
+                reader.readAsDataURL(blob);
+            });
+        };
+        img.onerror = e => {
+            showErrorMessage('Export PNG Fail, SVG may need to be corrected.');
+        };
+        let svgUrl = 'data:image/svg+xml,' + encodeURIComponent(svg);
+        img.src = svgUrl;
+    }catch(e) {
+        showErrorMessage('Export PNG Fail, SVG may need to be corrected.');
+    }
+}
+
+function showErrorMessage(msg: string) {
+    vscode.postMessage({action: 'showerror', msg});
 }
 
 function keydown(e:KeyboardEvent) {
     labelZoom.innerText = 'keydown ' + e.key;
+}
+
+function mouseover(e: MouseEvent) {
+    if(e.target instanceof SVGGraphicsElement) {
+        labelZoom.innerText = 'SVG IN ' + e.target.tagName;
+        e.stopPropagation();
+        return true;
+    }
 }
 
 console.warn('document.readyState', document.readyState);

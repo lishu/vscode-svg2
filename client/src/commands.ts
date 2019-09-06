@@ -1,7 +1,7 @@
 import SVGO = require("svgo");
-import path = require('path');
 import fs = require('fs');
 import { window, TextDocument, FormattingOptions, CancellationToken, ProviderResult, Range, TextEdit, DocumentFormattingEditProvider, Position, TextEditor, TextEditorEdit, Uri, workspace } from "vscode";
+import { changeName } from "./unit";
 
 const formatPlugins: Array<SVGO.PluginConfig> = [{
         cleanupAttrs: false 
@@ -91,17 +91,16 @@ function getFullRange(doc: TextDocument) {
 
 export function svgMinifyToFile(uri: Uri) {
     if(uri && uri.fsPath) {
-        let baseName = path.basename(uri.fsPath);
-        let newName = path.join(path.dirname(uri.fsPath), baseName.substr(0, baseName.length - path.extname(baseName).length) + '.min.svg');
+        let newUri = changeName(uri, (n,e)=>n+'.min'+e);
         fs.readFile(uri.fsPath, {encoding: 'utf8'}, (e,data)=>{
             if(data) {
                 let svgo = createMinifySVGO();
                 svgo.optimize(data)
                     .then(r=>{
                         if(r.data) {
-                            fs.writeFile(newName, r.data, { encoding: 'utf8'}, err=>{
+                            fs.writeFile(newUri.fsPath, r.data, { encoding: 'utf8'}, err=>{
                                 if(!err) {
-                                    workspace.openTextDocument(Uri.file(newName)).then(doc=>{
+                                    workspace.openTextDocument(newUri).then(doc=>{
                                         window.showTextDocument(doc);
                                     });
                                 }

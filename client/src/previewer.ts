@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 
 import * as path from 'path';
+import { changeName, writeB64ToFile } from './unit';
 
 export class SvgPreviwerContentProvider implements vscode.Disposable
 {
@@ -61,6 +62,33 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 break;
             case 'scale':
                 this.scale = e.scale;
+                break;
+            case 'action':
+                if(e.msg) {
+                    vscode.window.showErrorMessage(e.msg);
+                }
+                break;
+            case 'export': {
+                if(e.b64) {
+                    let b = <Blob>e.blob;
+                    let uri = vscode.Uri.parse(<string>e.uri);
+                    let newUri = changeName(uri, (n,e)=>n+'.png');
+                    vscode.window.showSaveDialog({
+                            'defaultUri': newUri,
+                            'filters' : {
+                                "Image" : ['png']
+                            }
+                        }).then(r=>{
+                            if(r) {
+                                writeB64ToFile(e.b64, r.fsPath, e=>{
+                                    if(e){
+                                        vscode.window.showErrorMessage('Export Fail.\n' + e.message);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
                 break;
             default:
                 console.warn(`unknown action message ${e.action}`);
@@ -149,7 +177,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             position:relative;
             top: -3px;
             font-size: 10px;
-            height: 17px;
+            height: 19px;
+            line-height: 16px;
+            vertical-align: middle;
             border: solid 1px #eee;
         }
         #__toolbar>.btn-group>.label{
@@ -190,7 +220,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push('<div id="__host" tabindex="0"}><div id="__svg">');
         html.push(svg);
         html.push('</div></div>');
-        html.push(`<script>var scale = ${this.scale};</script>`);
+        html.push(`<script>var scale = ${this.scale}; var uri = '${doc.uri}';</script>`);
         html.push('<script src="${vscode-resource}/pv.js"></script>');
         html.push(`</body>`);
         html.push('</html>');
