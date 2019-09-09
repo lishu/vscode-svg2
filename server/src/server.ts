@@ -26,11 +26,11 @@ import {
 
 import "process";
 
-import { ISvgJson, ISvgJsonElement, ISvgJsonAttribute, SvgEnum } from "./svgjson";
+import { ISvgJsonRoot, ISvgJsonElement, ISvgJsonAttribute, SvgEnum } from "./svgjson";
 import { getSvgJson } from "./svg";
 import { buildActiveToken, getParentTagName, getOwnerTagName, getAllAttributeNames, getOwnerAttributeName, TokenType, Token } from "./token";
 
-let svg:ISvgJson = getSvgJson('');
+let svg:ISvgJsonRoot = getSvgJson('');
 const svgDocUrl = {
 	attribute: 'https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/',
 	element: 'https://developer.mozilla.org/en-US/docs/Web/SVG/Element/'

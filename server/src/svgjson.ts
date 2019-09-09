@@ -3,7 +3,23 @@ export type SvgEnum = string | {name:string, documentation:string} ;
 
 export type SvgJsonAttributeType = string;
 
-export interface ISvgJsonAttribute {
+export type SvgVersion = 'version_1_1' | 'version_2_draft';
+
+/** 表示所在的属性或元素在特定版本上的属性 */
+export interface ISvgVersionSpec {
+    /** 表示特定版本中是否不存在此属性 */
+    disable?: boolean;
+    /** 是否已弃用，或弃用的详细说明 */
+    deprecated?: boolean | string;
+}
+
+export interface ISvgVersionsSpec {
+    version_1_1? : ISvgVersionSpec;
+    version_2_draft? : ISvgVersionSpec;
+}
+
+
+export interface ISvgJsonAttribute extends ISvgVersionsSpec {
     /** 属性名称 */
     name: string;
 
@@ -35,7 +51,7 @@ export interface ISvgJsonCategories {
     [pn: string]: Array<string>;
 }
 
-export interface ISvgJsonElement {
+export interface ISvgJsonElement extends ISvgVersionsSpec {
     /** 文档信息 */
     documentation?: string;
     /** 可用子标签名称 */
@@ -63,4 +79,10 @@ export interface ISvgJson {
     categories: ISvgJsonCategories;
     attributes: ISvgJsonAttributes;
     attributeCategories: ISvgJsonCategories;
+    [pn:string] : any;
+}
+
+export interface ISvgJsonRoot extends ISvgJson {
+    getElement : (el: string, version: string) => ISvgJsonElement | undefined | null;
+    getAttribute : (el: string, attr: string, version: string) => ISvgJsonElement | undefined | null;
 }

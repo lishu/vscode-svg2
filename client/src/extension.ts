@@ -26,6 +26,7 @@ import {
 	TransportKind
 } from 'vscode-languageclient';
 import { SvgFormattingProvider, svgMinify, svgMinifyToFile } from './commands';
+import { registerPathDataHightlightProvider } from './pdl';
 
 let client: LanguageClient;
 let language = env.language;
@@ -35,7 +36,8 @@ export function activate(context: ExtensionContext) {
 		new SvgPreviwerContentProvider(context),
 		languages.registerDocumentFormattingEditProvider(SVG_MODE, new SvgFormattingProvider()),
 		commands.registerTextEditorCommand('_svg.minifySvg', svgMinify),
-		commands.registerCommand('_svg.minifySvgToFile', svgMinifyToFile)
+		commands.registerCommand('_svg.minifySvgToFile', svgMinifyToFile),
+		registerPathDataHightlightProvider()
 	);
 
 	let serverModule = context.asAbsolutePath(

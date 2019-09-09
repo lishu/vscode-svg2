@@ -2,7 +2,7 @@ import * as utils from './utils';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { ISvgJson } from './svgjson';
+import { ISvgJson, ISvgJsonRoot, ISvgJsonElement, SvgVersion, ISvgJsonAttribute } from './svgjson';
 
 type SvgElementCategories = "Animation_elements" | "Basic_shapes" | "Container_elements" | "Descriptive_elements" | "Filter_primitive_elements" | "Font_elements" | "Gradient_elements" | "Graphics_elements" | "HTML_elements" | "Light_source_elements" | "Never-rendered_elements" | "Paint_server_elements" | "Renderable_elements" | "Shape_elements" | "Structural_elements" | "Text_content_elements" | "Text_content_child_elements" | "Uncategorized_elements";
 
@@ -21,7 +21,7 @@ export interface ISvgLanguageJson {
     }];
 }
 
-export function getSvgJson(language: string): ISvgJson {
+export function getSvgJson(language: string): ISvgJsonRoot {
     let svg :ISvgJson = {
         "elements": {
             "a": {
@@ -2577,5 +2577,38 @@ For the <radialgradient> element, this attribute defines the radius of the large
         // console.warn(e);
     }
 
-    return svg;
+    // 安装帮助方法
+    svg.getElement = (el: string, version: SvgVersion) => {
+        let base = svg.elements[el];
+        if(base) {
+            let versionSpec = base.version_1_1;
+            if(version == 'version_2_draft') {
+                versionSpec = base.version_2_draft;
+            }
+            return Object.assign({}, versionSpec, base);
+        }
+        return base;
+    };
+
+    // 安装帮助方法
+    svg.getAttribute = (el: string, attr: SvgVersion, version: string) => {
+        let baseEl = svg.elements[el];
+        let elSpec : ISvgJsonAttribute | undefined;
+        if(baseEl) {
+            if(baseEl.attributes) {
+                elSpec = <ISvgJsonAttribute | undefined>baseEl.attributes.find(o=>typeof o == 'object' && o.name == attr);
+            }
+        }
+        let base = svg.attributes[attr];
+        if(base) {
+            let versionSpec = base.version_1_1;
+            if(version == 'version_2_draft') {
+                versionSpec = base.version_2_draft;
+            }
+            return Object.assign({}, versionSpec, elSpec, base);
+        }
+        return base;
+    };
+
+    return <ISvgJsonRoot>svg;
 }

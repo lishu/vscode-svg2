@@ -98,9 +98,32 @@ function init() {
         exportPng();
     }).className = 'btn';
 
+    window.addEventListener('message', onmessagein);
+}
 
-    _host.addEventListener('keydown', keydown);
-    _host.addEventListener('mouseover', mouseover, true);
+interface MessageData {
+    action: string;
+    [pn:string]: any;
+}
+
+const MessageData = {
+    is: function (a:any): a is MessageData {
+        return a && typeof(a.action) == 'string';
+    }
+};
+
+function onmessagein(e: MessageEvent) {
+    if(MessageData.is(e.data)) {
+        let data = e.data;
+        switch(data.action) {
+            case 'selection':
+                onSelection(data.offset);
+        }
+    }
+}
+
+function onSelection(offset: number) {
+    
 }
 
 function exportPng(){
@@ -135,20 +158,6 @@ function exportPng(){
 function showErrorMessage(msg: string) {
     vscode.postMessage({action: 'showerror', msg});
 }
-
-function keydown(e:KeyboardEvent) {
-    labelZoom.innerText = 'keydown ' + e.key;
-}
-
-function mouseover(e: MouseEvent) {
-    if(e.target instanceof SVGGraphicsElement) {
-        labelZoom.innerText = 'SVG IN ' + e.target.tagName;
-        e.stopPropagation();
-        return true;
-    }
-}
-
-console.warn('document.readyState', document.readyState);
 
 if(document.readyState != 'loading') {
     init();
