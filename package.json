@@ -91,26 +91,26 @@
         "configuration": {
             "title": "%configuration.title%",
             "properties": {
-                "svg.completion.showAdvanced" : {
+                "svg.completion.showAdvanced": {
                     "title": "%configuration.completion.showAdvanced.title%",
                     "description": "%configuration.completion.showAdvanced.description%",
                     "type": "boolean",
                     "default": false
                 },
-                "svg.completion.showDeprecated" : {
+                "svg.completion.showDeprecated": {
                     "title": "%configuration.completion.showDeprecated.title%",
                     "description": "%configuration.completion.showDeprecated.description%",
                     "type": "boolean",
                     "default": false
                 },
-                "svg.minify.cleanupAttrs" : {
+                "svg.minify.cleanupAttrs": {
                     "description": "cleanup attributes from newlines, trailing, and repeating spaces",
                     "type": "boolean",
-                    "default" : true
+                    "default": true
                 },
-                "svg.minify.inlineStyles" : {
+                "svg.minify.inlineStyles": {
                     "type": "boolean",
-                    "default" : true,
+                    "default": true,
                     "description": "move and merge styles from <style> elements to element style attributes"
                 },
                 "svg.preview.background": {
@@ -142,7 +142,10 @@
         "languages": [
             {
                 "id": "svg",
-                "aliases": ["SVG", "svg"],
+                "aliases": [
+                    "SVG",
+                    "svg"
+                ],
                 "mimetypes": [
                     "image/svg+xml"
                 ],
@@ -166,7 +169,7 @@
         "url": "https://github.com/lishu/vscode-svg2.git"
     },
     "scripts": {
-        "vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
+        "vscode:prepublish": "cd client && npm run update-vscode && npm run vscode:prepublish && cd ../server && npm run vscode:prepublish",
         "compile": "tsc -b",
         "watch": "tsc -b -w",
         "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
@@ -174,7 +177,10 @@
     "devDependencies": {
         "@types/mocha": "^5.2.0",
         "@types/node": "^8.0.0",
+        "ts-loader": "^6.0.4",
         "tslint": "^5.16.0",
-        "typescript": "^3.5.1"
+        "typescript": "^3.5.1",
+        "webpack": "^4.39.3",
+        "webpack-cli": "^3.3.8"
     }
 }

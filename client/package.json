@@ -13,6 +13,11 @@
 		"vscode": "^1.33.0"
 	},
 	"scripts": {
+		"vscode:prepublish": "webpack --mode production && webpack --config webpack.pv.config.js --mode production",
+		"compile:client": "webpack --mode development",
+		"compile:pv": "webpack --config webpack.pv.config.js --mode development",
+		"compile" : "npm run compile:pv && npm run compile:client",
+		"test-compile": "tsc -p ./",
 		"update-vscode": "vscode-install",
 		"postinstall": "vscode-install"
 	},
@@ -22,6 +27,7 @@
 	},
 	"devDependencies": {
 		"@types/svgo": "^1.2.1",
+		"concurrently": "^4.1.2",
 		"vscode": "^1.1.35"
 	}
 }

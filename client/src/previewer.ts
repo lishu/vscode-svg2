@@ -10,6 +10,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     d1: vscode.Disposable;
     d2: vscode.Disposable;
     d3: vscode.Disposable;
+    d4: vscode.Disposable;
     previewUri: string;
     scale: number = 1;
     path: vscode.Uri;
@@ -21,10 +22,10 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     constructor(context: vscode.ExtensionContext) {
         this.path = vscode.Uri.file(context.asAbsolutePath('./client/out')).with({scheme: 'vscode-resource'});
         this.d0 =  vscode.commands.registerTextEditorCommand('_svg.showSvg', ()=>this.show());
-        this.d0 =  vscode.commands.registerCommand('_svg.showSvgByUri', uri=>this.show(uri));
-        this.d1 = vscode.workspace.onDidChangeTextDocument(e=>this.onDidChangeTextDocument(e));
-        this.d2 = vscode.window.onDidChangeActiveTextEditor(e=>this.onDidChangeActiveTextEditor(e));
-        this.d3 = vscode.window.onDidChangeTextEditorSelection(e=>this.onDidChangeTextEditorSelection(e));
+        this.d1 =  vscode.commands.registerCommand('_svg.showSvgByUri', uri=>this.show(uri));
+        this.d2 = vscode.workspace.onDidChangeTextDocument(e=>this.onDidChangeTextDocument(e));
+        this.d3 = vscode.window.onDidChangeActiveTextEditor(e=>this.onDidChangeActiveTextEditor(e));
+        this.d4 = vscode.window.onDidChangeTextEditorSelection(e=>this.onDidChangeTextEditorSelection(e));
     }
 
     onDidChangeTextEditorSelection(e: vscode.TextEditorSelectionChangeEvent): any {
@@ -263,5 +264,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         this.d0.dispose();
         this.d1.dispose();
         this.d2.dispose();
+        this.d3.dispose();
+        this.d4.dispose();
     }
 }
