@@ -48,11 +48,12 @@ export interface PathDataToken {
 function readNumber(p: string, i: number) : PathDataToken {
     let sign = false;
     let dot = false;
+    let num = false;
     let start = i;
     while(i < p.length) {
         let c = p.charAt(i);
         if(c=='+' || c=='-') {
-            if(sign) {
+            if(sign || num) {
                 break;
             }
             i++;
@@ -66,6 +67,7 @@ function readNumber(p: string, i: number) : PathDataToken {
             dot = true;
         }
         else if(/\d/.test(c)) {
+            num = true;
             i++;
         }
         else{

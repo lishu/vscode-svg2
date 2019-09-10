@@ -172,7 +172,8 @@
         "vscode:prepublish": "cd client && npm run update-vscode && npm run vscode:prepublish && cd ../server && npm run vscode:prepublish",
         "compile": "tsc -b",
         "watch": "tsc -b -w",
-        "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
+        "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+        "clear": "del client\\out\\*.* /q && del server\\out\\*.* /q"
     },
     "devDependencies": {
         "@types/mocha": "^5.2.0",

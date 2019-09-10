@@ -28,7 +28,7 @@ export interface Token {
     error?: string | {code:number, message:string};
 }
 
-const NO_OUTPUT_WHITE_TOKEN = true;
+const NO_OUTPUT_WHITE_TOKEN = false;
 
 let spaceRegex = /^[ \r\n\t\f]+/;
 let processingRegex = /^<\?.*?\?>/;
@@ -149,7 +149,7 @@ export function getOwnerAttributeName(tokens:Array<Token>, index: number) : Toke
     while(index >= 1) {
         let token = tokens[index];
         let prevToken = tokens[index-1];
-        if(prevToken.type == TokenType.AttributeName) {
+        if(prevToken.type == TokenType.AttributeName || prevToken.type == TokenType.Name) {
             return prevToken;
         }
         else if(prevToken.type == TokenType.StartTag || prevToken.type == TokenType.EndTag || prevToken.type == TokenType.StartEndTag || prevToken.type == TokenType.SimpleEndTag) {
@@ -180,7 +180,6 @@ export function getOwnerTagName(tokens:Array<Token>, index: number) : Token|null
 
 export function getParentTagName(tokens:Array<Token>, index: number) : Token|null {
     let depth = 0;
-    let simpleTag = false;
     while(index >= 1) {
         let token = tokens[index];
         let prevToken = tokens[index-1];
