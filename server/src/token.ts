@@ -28,6 +28,10 @@ export interface Token {
     error?: string | {code:number, message:string};
 }
 
+export function getTokenLen(token: Token) {
+    return token.endIndex - token.startIndex;
+}
+
 const NO_OUTPUT_WHITE_TOKEN = false;
 
 let spaceRegex = /^[ \r\n\t\f]+/;
@@ -82,7 +86,7 @@ function getTokens(connection: Connection, content:string) {
                 if(lastToken.type == TokenType.StartTag || lastToken.type == TokenType.StartEndTag) {
                     tokenType = TokenType.TagName;
                 }
-                else if(lastToken.type == TokenType.String || lastToken.type == TokenType.TagName) {
+                else if(lastToken.type == TokenType.String || lastToken.type == TokenType.Whitespace) {
                     tokenType = TokenType.AttributeName;
                 }
             }

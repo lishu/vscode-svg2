@@ -1,5 +1,7 @@
 *New Version from [vscode-svg](https://github.com/lishu/vscode-svg)*
 
+[![Version](https://vsmarketplacebadge.apphb.com/version/jock.svg.svg)](https://marketplace.visualstudio.com/items?itemName=jock.svg)
+
 # svg
 
 A Powerful SVG Language Support Extension.
@@ -7,23 +9,29 @@ Almost all the features you need to handle SVG.
 
 ## Features
 
-### SVG Elements Auto Completion.
+### SVG Full Auto Completion.
 
-![feature 1](images/f1.png)
+![feature 1](images/f1s.gif)
 
-### SVG Attributes Auto Completion.
+> Tip: All Completion list is context, will only show enable items.
 
-![feature 2](images/f2.png)
+### Document Symbol tree.
 
-### Document Symbol with SVG Element [id].
+![feature 2](images/f3.png)
 
-![feature 3](images/f3.png)
+### SVG Live Preview and Export PNG
 
-### SVG Preview
+![feature 3](images/f2s.gif)
 
-![feature 4](images/f4.png)
+### MDN Reference for fast learn
 
-> Tip: All Completion list is context, will not show all items.
+![feature 4](images/f3s.gif)
+
+> Tip: Configure Trusted Domains add MDN to it get more fast action.
+
+### Fast Color Picker
+
+![feature 4](images/f4s.gif)
 
 ### Rename Tag Name or Id Reference.
 

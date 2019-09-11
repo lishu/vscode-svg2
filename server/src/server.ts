@@ -28,7 +28,7 @@ import "process";
 
 import { ISvgJsonRoot, ISvgJsonElement, ISvgJsonAttribute, SvgEnum } from "./svgjson";
 import { getSvgJson } from "./svg";
-import { buildActiveToken, getParentTagName, getOwnerTagName, getAllAttributeNames, getOwnerAttributeName, TokenType, Token } from "./token";
+import { buildActiveToken, getParentTagName, getOwnerTagName, getAllAttributeNames, getOwnerAttributeName, TokenType, Token, getTokenLen } from "./token";
 
 let svg:ISvgJsonRoot = getSvgJson('');
 const svgDocUrl = {
@@ -286,11 +286,12 @@ function getDocumentSettings(resource: string): Thenable<SVGSettings> {
 interface ICompletionData<T> {
 	item : T;
 	insertFullTag : boolean;
+	firstAppend: string;
 	uri: string;
 	position:number;
 }
 
-function createCompletionFromElement(uri: string, position: number, name: string, element: ISvgJsonElement, insertFullTag: boolean) : CompletionItem
+function createCompletionFromElement(uri: string, position: number, name: string, element: ISvgJsonElement, insertFullTag: boolean, firstAppend: string) : CompletionItem
 {
 	let item : CompletionItem = {
 		label : name,
@@ -299,6 +300,7 @@ function createCompletionFromElement(uri: string, position: number, name: string
 		data : {
 			item : element,
 			insertFullTag,
+			firstAppend,
 			uri,
 			position
 		} 
@@ -306,7 +308,7 @@ function createCompletionFromElement(uri: string, position: number, name: string
 	return item;
 }
 
-function createCompletionFromAttribute(uri: string, position: number, attribute: ISvgJsonAttribute, insertFullTag: boolean) : CompletionItem
+function createCompletionFromAttribute(uri: string, position: number, attribute: ISvgJsonAttribute, insertFullTag: boolean, firstAppend: string) : CompletionItem
 {
 	let item : CompletionItem = {
 		label : attribute.name,
@@ -314,6 +316,7 @@ function createCompletionFromAttribute(uri: string, position: number, attribute:
 		data : {
 			item : attribute,
 			insertFullTag,
+			firstAppend,
 			uri,
 			position
 		} 
@@ -321,7 +324,7 @@ function createCompletionFromAttribute(uri: string, position: number, attribute:
 	return item;
 }
 
-function createCompletionFromEnum(uri: string, position: number, svgEnum: SvgEnum, insertFullTag: boolean) : CompletionItem
+function createCompletionFromEnum(uri: string, position: number, svgEnum: SvgEnum, insertFullTag: boolean, firstAppend: string) : CompletionItem
 {
 	if(typeof svgEnum == "string") {
 		svgEnum = {name: svgEnum, documentation: ''};
@@ -333,6 +336,7 @@ function createCompletionFromEnum(uri: string, position: number, svgEnum: SvgEnu
 		data : {
 			item : svgEnum,
 			insertFullTag,
+			firstAppend,
 			uri,
 			position
 		} 
@@ -352,32 +356,46 @@ connection.onCompletion(async e =>{
 		let token = buildActiveToken(connection, doc, content, offset);
 		let triggerChar = offset > 0 ? content.charAt(offset - 1) : '';
 		let nextChar = content.charAt(offset);
-		if((triggerChar == '' || triggerChar == '=' || (triggerChar == '"' && nextChar == '"')) && token.token) {
+		if((triggerChar == '' || triggerChar == '=' || (triggerChar == '"' && nextChar == '"') || (token.token && token.token.type == TokenType.String && getTokenLen(token.token) == 3)) && token.token) {
+			let firstAppend: string = '';
 			let ownerAttrName = getOwnerAttributeName(token.all, token.index);
 			if(ownerAttrName) {
+				if(token.token.type == TokenType.String && getTokenLen(token.token) == 3) {
+					firstAppend = getTokenText(content, token.token).substr(1, 1);
+				}
 				let ownerAttr = content.substring(ownerAttrName.startIndex, ownerAttrName.endIndex);
 				if(ownerAttr in svg.attributes){
 					let attr = svg.attributes[ownerAttr];
 					if(attr && attr.enum) {
 						for(let se of attr.enum) {
-							items.push(createCompletionFromEnum(uri, offset, se, triggerChar != '"'));
+							if(firstAppend && !attr.name.startsWith(firstAppend)) {
+								continue;
+							}
+							items.push(createCompletionFromEnum(uri, offset, se, triggerChar != '"', firstAppend));
 						}
 					}
 					if(attr && attr.type && /^(color|fill|stroke|paint)$/.test(attr.type))
 					{
 						for(let color in colors) {
+							if(firstAppend && !attr.name.startsWith(firstAppend)) {
+								continue;
+							}
 							items.push({label: color, kind: CompletionItemKind.Color});
 						}
 					}
 				}
 			}
 		}
-		if((triggerChar == '' || triggerChar == ' ') && (token.token || token.prevToken)) {
+		if((triggerChar == '' || (token.token && token.token.type != TokenType.String && triggerChar == ' ')) && (token.token || token.prevToken) || (token.token && (token.token.type == TokenType.AttributeName || token.token.type == TokenType.Name) && token.token.endIndex == offset)) {
+			let firstAppend: string = '';
 			let ownerTagName = getOwnerTagName(token.all, token.token && token.token.index || token.prevToken!.index);
 			if(ownerTagName) {
 				let ownerTag = content.substring(ownerTagName.startIndex, ownerTagName.endIndex);
 				let wirtedAttrs = getAllAttributeNames(content, token.all, ownerTagName.index + 1);
 				let svgElement = svg.elements[ownerTag];
+				if(token.token && (token.token.type == TokenType.AttributeName || token.token.type == TokenType.Name) && token.token.endIndex == offset) {
+					firstAppend = getTokenText(content, token.token);
+				}
 				if(svgElement && svgElement.attributes) {
 					for(let attr of svgElement.attributes) {
 						if(typeof attr == 'string') {
@@ -389,6 +407,9 @@ connection.onCompletion(async e =>{
 							}
 						}
 						let svgJson = <ISvgJsonAttribute>attr;
+						if(firstAppend && !svgJson.name.startsWith(firstAppend)) {
+							continue;
+						}
 						if(wirtedAttrs.indexOf(svgJson.name.toUpperCase())>-1) continue;
 						if(svgJson.advanced && !settings.completion.showAdvanced) {
 							continue;
@@ -396,7 +417,7 @@ connection.onCompletion(async e =>{
 						if(svgJson.deprecated && !settings.completion.showDeprecated) {
 							continue;
 						}
-						items.push(createCompletionFromAttribute(uri, offset, svgJson, !/\s/.test(triggerChar)));
+						items.push(createCompletionFromAttribute(uri, offset, svgJson, !/\s/.test(triggerChar), firstAppend));
 					}
 				}
 				return items;
@@ -417,7 +438,7 @@ connection.onCompletion(async e =>{
 							if(element.deprecated && !settings.completion.showDeprecated) {
 								continue;
 							}
-							items.push(createCompletionFromElement(uri, offset, name, element, !triggerChar));
+							items.push(createCompletionFromElement(uri, offset, name, element, !triggerChar, ''));
 						}
 					}
 				}
@@ -500,7 +521,13 @@ connection.onCompletionResolve(item => {
 			if(data.insertFullTag) {
 				insertText.push("<");
 			}
-			insertText.push(item.label);
+			if(data.firstAppend) {
+				insertText.push(item.label.substr(data.firstAppend.length));
+			}
+			else
+			{
+				insertText.push(item.label);
+			}
 			let index = 1;
 			if(svgElement.defaultAttributes) {
 				for(var pn in svgElement.defaultAttributes) {
@@ -522,10 +549,16 @@ connection.onCompletionResolve(item => {
 			item.documentation = createDocumentation(item, svgAttr.deprecated, svgAttr.documentation);
 			item.insertTextFormat = 2;
 			let insertText : Array<string> = [];
-			if(data.insertFullTag) {
+			if(!data.firstAppend && data.insertFullTag) {
 				insertText.push(' ');
 			}
-			insertText.push(item.label);
+			// else if(data.firstAppend) {
+			// 	insertText.push(item.label.substr(data.firstAppend.length));
+			// }
+			else
+			{
+				insertText.push(item.label);
+			}
 			insertText.push("=\"$0\"");
 			if(svgAttr.enum || svgAttr.enums || (svgAttr.type && /^(color|fill|stroke|paint)$/.test(svgAttr.type))) {
 				item.command = Command.create("Show Enum Completion List", "editor.action.triggerSuggest");
@@ -541,6 +574,9 @@ connection.onCompletionResolve(item => {
 			item.documentation = svgEnum.documentation;
 			if(data.insertFullTag) {
 				item.insertText = `"${item.label}"`;
+			}
+			else if(data.firstAppend) {
+				item.insertText = item.label.substr(data.firstAppend.length);
 			}
 		}
 	}
