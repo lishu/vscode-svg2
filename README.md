@@ -65,6 +65,10 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
+### 1.0.1
+* Fix Preview toolbar styles bug
+* Add `svg.preview.autoShow` configuration let preview auto show when a SVG document open
+
 ### 1.0.0
 * All Rewrite base langauge service protocol
 * Add MDN doc link to hover tip and completion documentation
