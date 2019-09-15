@@ -223,7 +223,6 @@ function createMinifySVGO() {
 
 export function svgMinify(textEditor: TextEditor, edit: TextEditorEdit) {
     if (textEditor.document.languageId == 'svg') {
-        createMinifySVGO();
         let svgo = createMinifySVGO();
         svgo.optimize(textEditor.document.getText()).then(r => {
             if (r.data) {
