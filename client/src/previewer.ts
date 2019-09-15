@@ -3,6 +3,26 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import { changeName, writeB64ToFile } from './unit';
 
+let previewer: SvgPreviwerContentProvider = null;
+
+interface ISVGPreviewConfiguration {
+    autoShow: boolean;
+}
+
+function onDidChangeActiveTextEditor(e:vscode.TextEditor) {
+    if(previewer && e && e.document && e.document.languageId == 'svg') {
+        let svgCfg = vscode.workspace.getConfiguration('svg');
+        let previewCfg = svgCfg.get<ISVGPreviewConfiguration>('preview');
+        if(previewCfg.autoShow) {
+            previewer.show();
+        }
+    }
+}
+
+export function registerAutoShowPreviewer() {
+    return vscode.window.onDidChangeActiveTextEditor(e=>onDidChangeActiveTextEditor(e));
+}
+
 export class SvgPreviwerContentProvider implements vscode.Disposable
 {
     webviewPanel : vscode.WebviewPanel;
@@ -20,6 +40,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
      *
      */
     constructor(context: vscode.ExtensionContext) {
+        previewer = this;
         this.path = vscode.Uri.file(context.asAbsolutePath('./client/out')).with({scheme: 'vscode-resource'});
         this.d0 =  vscode.commands.registerTextEditorCommand('_svg.showSvg', ()=>this.show());
         this.d1 =  vscode.commands.registerCommand('_svg.showSvgByUri', uri=>this.show(uri));
@@ -181,7 +202,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             position: fixed;
             left: 0;
             top:0;
-            height: 24px;
+            min-height: 24px;
+            padding-bottom: 1px;
             width: 100%;
             z-index: 10000;
             background: var(--vscode-tab-activeBackground);
@@ -208,15 +230,15 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             /* editorGroupHeader.tabsBackground */
             border-style: solid;
             border-width: 1px;
-            border-color: var(--vscode-editorgroupheader-tabsbackground);
+            border-color: var(--vscode-editorGroupHeader-tabsBackground);
             /* descriptionForeground */
             color: var(--vscode-descriptionforeground);
             /* welcomePage.buttonBackground: */
-            background-color: var(--vscode-welcomepage-buttonbackground);
+            background-color: var(--vscode-welcomepage-buttonBackground);
         }
         #__toolbar>.btn-group>.btn:hover{
             /* welcomePage.buttonHoverBackground: */
-            background-color: var(--vscode-welcomepage-buttonhoverbackground);
+            background-color: var(--vscode-list-hoverBackground);
         }
         #__toolbar>.btn-group>.label{
             position:relative;

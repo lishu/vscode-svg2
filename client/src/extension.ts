@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { workspace, ExtensionContext, DocumentSelector, env, languages, commands } from 'vscode';
 
-import {SvgPreviwerContentProvider} from './previewer';
+import {SvgPreviwerContentProvider, registerAutoShowPreviewer} from './previewer';
 
 const SVG_MODE : DocumentSelector = [
     {
@@ -34,6 +34,7 @@ let language = env.language;
 export function activate(context: ExtensionContext) {
 	context.subscriptions.push(
 		new SvgPreviwerContentProvider(context),
+		registerAutoShowPreviewer(),
 		languages.registerDocumentFormattingEditProvider(SVG_MODE, new SvgFormattingProvider()),
 		commands.registerTextEditorCommand('_svg.minifySvg', svgMinify),
 		commands.registerCommand('_svg.minifySvgToFile', svgMinifyToFile),
@@ -56,7 +57,14 @@ export function activate(context: ExtensionContext) {
 		}
 	};
 	let clientOptions: LanguageClientOptions = {
-		documentSelector: [{ scheme: 'file', language: 'svg' }],
+		documentSelector: [{
+			scheme: "file",
+			language: "svg"
+		},
+		{
+			scheme: "untitled",
+			language: "svg"
+		}],
 		synchronize: {
 			// Notify the server about file changes to '.clientrc files contained in the workspace
 			fileEvents: workspace.createFileSystemWatcher('**/.clientrc')

@@ -4,7 +4,7 @@ let path = require('path');
 import {Uri} from 'vscode';
 
 export function writeB64ToFile(b64: string, path: string, done: (err: NodeJS.ErrnoException | null) => void) {
-    let data = new Buffer(b64, 'base64');
+    let data = Buffer.from(b64, 'base64');// new Buffer(b64, 'base64');
     fs.writeFile(path, data, e=>{
         done(e);
     });
