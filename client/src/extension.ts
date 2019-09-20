@@ -32,6 +32,7 @@ let client: LanguageClient;
 let language = env.language;
 
 export function activate(context: ExtensionContext) {
+	console.log(__dirname);
 	context.subscriptions.push(
 		new SvgPreviwerContentProvider(context),
 		registerAutoShowPreviewer(),

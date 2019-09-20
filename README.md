@@ -65,6 +65,10 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
+### 1.0.2
+* Add `svg.pathDataHighlight` configuration you can disable path data highlight feature
+* Fix release webpack bug `minifySvg` command no working
+
 ### 1.0.1
 * Fix Preview toolbar styles bug
 * Add `svg.preview.autoShow` configuration let preview auto show when a SVG document open

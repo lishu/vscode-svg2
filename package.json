@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.22.0"
@@ -108,6 +108,11 @@
                     "description": "Auto show preview on side when a SVG document open",
                     "type": "boolean",
                     "default": false
+                },
+                "svg.pathDataHighlight" : {
+                    "description": "Show Grammar Highlight in path data",
+                    "type": "boolean",
+                    "default": true
                 },
                 "svg.minify.cleanupAttrs": {
                     "description": "cleanup attributes from newlines, trailing, and repeating spaces",

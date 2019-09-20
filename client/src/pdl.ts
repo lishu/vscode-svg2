@@ -1,15 +1,18 @@
 // Path data hightlight support
 
-import { window, Range, TextDocument, TextEditorDecorationType, Disposable, workspace, Position, TextEditor, DecorationRangeBehavior, OverviewRulerLane, TextDocumentChangeEvent } from 'vscode';
+import { window, Range, TextDocument, TextEditorDecorationType, Disposable, workspace, Position, TextEditor, DecorationRangeBehavior, OverviewRulerLane, TextDocumentChangeEvent, ConfigurationChangeEvent } from 'vscode';
 import { parsePath, PathDataToken, PathDataTokenType, PathDataCommand, PathDataCommandItem } from './path-grammar';
 
 let PathCommandType, PathStopPointType : TextEditorDecorationType;
 let disposables: Disposable[] = [];
+let pathDataHighlight = true;
 
 const defaultColors = {
     command : '#99f',
     stopPoint: '#f0f',
 };
+
+console.log('pdl.ts', __dirname);
 
 function onDidChangeVisibleTextEditors(editors: TextEditor[]) {
     for(let editor of editors) {
@@ -33,6 +36,11 @@ function addStopRanges(doc: TextDocument, ranges: Array<Range>, node: PathDataCo
 }
 
 function handlePathDataHightlight(editor: TextEditor) {
+    if(!pathDataHighlight) {
+        editor.setDecorations(PathCommandType, []);
+        editor.setDecorations(PathStopPointType, []);
+        return;
+    }
     let content = editor.document.getText();
     let pathDataAttrRegex = /<(path|glyph|missing-glyph)[^>]*d\s*=\"([^\"]+)/g;
     let r: RegExpExecArray;
@@ -64,10 +72,12 @@ function handlePathDataHightlight(editor: TextEditor) {
                     case PathDataCommand.ArcRel:
                         addStopRanges(editor.document, stopRanges, node, 5, 7, pathDataOffset);
                         break;
-                    case PathDataCommand.CurvetoQuadraticAbs:
-                    case PathDataCommand.CurvetoQuadraticRel:
                     case PathDataCommand.CurvetoCubicAbs:
                     case PathDataCommand.CurvetoCubicRel:
+                        addStopRanges(editor.document, stopRanges, node, 4, 6, pathDataOffset);
+                        break;
+                    case PathDataCommand.CurvetoQuadraticAbs:
+                    case PathDataCommand.CurvetoQuadraticRel:
                         addStopRanges(editor.document, stopRanges, node, 2, 4, pathDataOffset);
                         break;
                     case PathDataCommand.CurvetoCubicSmoothAbs:
@@ -89,12 +99,24 @@ function onDidChangeTextDocument(e: TextDocumentChangeEvent) {
     }
 }
 
+function updatePathDataHighlightFromConfiguration() {
+    let svg = workspace.getConfiguration('svg');
+    pathDataHighlight = svg.pathDataHighlight;
+}
+
+function onDidChangeConfiguration(e:ConfigurationChangeEvent) {
+    if(e.affectsConfiguration('svg')) {
+        updatePathDataHighlightFromConfiguration();
+        onDidChangeVisibleTextEditors(window.visibleTextEditors);
+    }
+}
+
 export function registerPathDataHightlightProvider() : Disposable
 {
     disposables.push(
         PathCommandType = window.createTextEditorDecorationType({color: defaultColors.command, fontWeight: 'bold', rangeBehavior: DecorationRangeBehavior.ClosedClosed, overviewRulerLane: OverviewRulerLane.Full}),
         PathStopPointType = window.createTextEditorDecorationType({color: defaultColors.stopPoint, rangeBehavior: DecorationRangeBehavior.ClosedClosed, overviewRulerLane: OverviewRulerLane.Full}),
-
+        workspace.onDidChangeConfiguration(onDidChangeConfiguration),
         window.onDidChangeVisibleTextEditors(onDidChangeVisibleTextEditors),
         workspace.onDidChangeTextDocument(onDidChangeTextDocument)
         );
