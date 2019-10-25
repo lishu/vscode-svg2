@@ -65,6 +65,9 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
+### 1.0.3
+* Fix in `Untitled` file, some command no working.
+
 ### 1.0.2
 * Add `svg.pathDataHighlight` configuration you can disable path data highlight feature
 * Fix release webpack bug `minifySvg` command no working

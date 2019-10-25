@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.22.0"
@@ -52,12 +52,12 @@
             {
                 "command": "_svg.minifySvg",
                 "title": "%svg.minifySvg.title%",
-                "enablement": "resourceLangId == svg"
+                "enablement": "editorLangId == svg"
             },
             {
                 "command": "_svg.minifySvgToFile",
                 "title": "%svg.minifySvg.title%",
-                "enablement": "resourceLangId == svg"
+                "enablement": "editorLangId == svg"
             }
         ],
         "menus": {
@@ -71,19 +71,19 @@
             "editor/context": [
                 {
                     "command": "_svg.minifySvg",
-                    "when": "editorLangId == svg",
+                    
                     "group": "2"
                 }
             ],
             "explorer/context": [
                 {
                     "command": "_svg.showSvgByUri",
-                    "when": "resourceLangId == svg",
+                    "when": "editorLangId == svg",
                     "group": "navigation"
                 },
                 {
                     "command": "_svg.minifySvgToFile",
-                    "when": "resourceLangId == svg",
+                    "when": "editorLangId == svg",
                     "group": "1_modification"
                 }
             ]
