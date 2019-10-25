@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.22.0"
@@ -78,12 +78,12 @@
             "explorer/context": [
                 {
                     "command": "_svg.showSvgByUri",
-                    "when": "editorLangId == svg",
+                    "when": "resourceLangId == svg",
                     "group": "navigation"
                 },
                 {
                     "command": "_svg.minifySvgToFile",
-                    "when": "editorLangId == svg",
+                    "when": "resourceLangId == svg",
                     "group": "1_modification"
                 }
             ]

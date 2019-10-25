@@ -65,7 +65,7 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
-### 1.0.3
+### 1.0.3 & 1.0.4
 * Fix in `Untitled` file, some command no working.
 
 ### 1.0.2
