@@ -65,6 +65,9 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
+### 1.0.5
+* Fix `pathDataHighlight` does not work after VS Code restarting
+
 ### 1.0.3 & 1.0.4
 * Fix in `Untitled` file, some command no working.
 

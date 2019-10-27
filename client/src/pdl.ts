@@ -5,7 +5,7 @@ import { parsePath, PathDataToken, PathDataTokenType, PathDataCommand, PathDataC
 
 let PathCommandType, PathStopPointType : TextEditorDecorationType;
 let disposables: Disposable[] = [];
-let pathDataHighlight = true;
+let pathDataHighlight : boolean | null = null;
 
 const defaultColors = {
     command : '#99f',
@@ -36,6 +36,10 @@ function addStopRanges(doc: TextDocument, ranges: Array<Range>, node: PathDataCo
 }
 
 function handlePathDataHightlight(editor: TextEditor) {
+    if(pathDataHighlight === null) {
+        let svg = workspace.getConfiguration('svg');
+        pathDataHighlight = svg.pathDataHighlight;
+    }
     if(!pathDataHighlight) {
         editor.setDecorations(PathCommandType, []);
         editor.setDecorations(PathStopPointType, []);
