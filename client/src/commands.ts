@@ -101,7 +101,7 @@ interface ConfigurationMinifyPlugins {
     removeNonInheritableGroupAttrs: boolean;
     removeUselessStrokeAndFill: boolean;
     removeUnusedNS: boolean;
-    prefixIds: boolean;
+    prefixIds: boolean | object;
     cleanupIDs: boolean;
     cleanupNumericValues: boolean;
     cleanupListOfValues: boolean;
@@ -210,7 +210,7 @@ function createMinifySVGO() {
     let cplugins = workspace.getConfiguration('svg').get<ConfigurationMinifyPlugins>('minify', defaultMinifyPlugins);
     let plugins: Array<SVGO.PluginConfig> = [];
     for (let cp in cplugins) {
-        if (typeof cplugins[cp] == 'boolean') {
+        if (typeof(cplugins[cp]) == 'boolean' || typeof(cplugins[cp]) == 'object') {
             let op = {};
             op[cp] = cplugins[cp];
             plugins.push(<SVGO.PluginConfig>op);

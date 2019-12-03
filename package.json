@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.22.0"
@@ -245,7 +245,7 @@
                     "description": "remove unused namespaces declaration"
                 },
                 "svg.minify.prefixIds": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "prefix IDs and classes with the SVG filename or an arbitrary string"
                 },
