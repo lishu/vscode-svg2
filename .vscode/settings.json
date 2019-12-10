@@ -1,3 +1,4 @@
 {
-    "svg.preview.background": "black"
+    "svg.preview.background": "black",
+    "svg.minify.prefixIds": false
 }

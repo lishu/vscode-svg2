@@ -71,7 +71,6 @@
             "editor/context": [
                 {
                     "command": "_svg.minifySvg",
-                    
                     "group": "2"
                 }
             ],
@@ -103,13 +102,13 @@
                     "type": "boolean",
                     "default": false
                 },
-                "svg.preview.autoShow" : {
+                "svg.preview.autoShow": {
                     "title": "Auto Show Preview",
                     "description": "Auto show preview on side when a SVG document open",
                     "type": "boolean",
                     "default": false
                 },
-                "svg.pathDataHighlight" : {
+                "svg.pathDataHighlight": {
                     "description": "Show Grammar Highlight in path data",
                     "type": "boolean",
                     "default": true
@@ -245,7 +244,10 @@
                     "description": "remove unused namespaces declaration"
                 },
                 "svg.minify.prefixIds": {
-                    "type": ["boolean", "object"],
+                    "type": [
+                        "boolean",
+                        "object"
+                    ],
                     "default": true,
                     "description": "prefix IDs and classes with the SVG filename or an arbitrary string"
                 },
