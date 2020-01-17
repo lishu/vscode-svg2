@@ -46,7 +46,7 @@ function handlePathDataHightlight(editor: TextEditor) {
         return;
     }
     let content = editor.document.getText();
-    let pathDataAttrRegex = /<(path|glyph|missing-glyph)[^>]*d\s*=\"([^\"]+)/g;
+    let pathDataAttrRegex = /<(path|glyph|missing-glyph)[^>]*\sd\s*=\"([^\"]+)/g;
     let r: RegExpExecArray;
 
     let commandRanges = [];

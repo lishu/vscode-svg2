@@ -237,14 +237,14 @@ export function buildActiveToken(connection: Connection, doc: TextDocument, cont
                 token: token
             };
         }
-        else if(token.endIndex == activeOffset) {
-            return {
-                all: tokens,
-                index: index,
-                prevToken: index > 0 ? tokens[index - 1] : undefined,
-                token: token
-            };
-        }
+        // else if(token.endIndex == activeOffset) {
+        //     return {
+        //         all: tokens,
+        //         index: index,
+        //         prevToken: index > 0 ? tokens[index - 1] : undefined,
+        //         token: token
+        //     };
+        // }
         else if(token.startIndex > activeOffset) {
             return {
                 all: tokens,

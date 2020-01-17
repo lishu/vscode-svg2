@@ -21,7 +21,9 @@ import {
 	Color,
 	ColorInformation,
 	InsertTextFormat,
-	MarkupKind
+	MarkupKind,
+	SignatureInformation,
+	ParameterInformation
 } from "vscode-languageserver";
 
 import "process";
@@ -29,6 +31,10 @@ import "process";
 import { ISvgJsonRoot, ISvgJsonElement, ISvgJsonAttribute, SvgEnum } from "./svgjson";
 import { getSvgJson } from "./svg";
 import { buildActiveToken, getParentTagName, getOwnerTagName, getAllAttributeNames, getOwnerAttributeName, TokenType, Token, getTokenLen } from "./token";
+
+import * as pc from './pc-info';
+
+import { parsePath, PathDataCommandItem } from './path-grammar';
 
 let svg:ISvgJsonRoot = getSvgJson('');
 const svgDocUrl = {
@@ -226,6 +232,9 @@ connection.onInitialize((params: InitializeParams) => {
 				resolveProvider: true
 			},
 			hoverProvider: true,
+			signatureHelpProvider: {
+				triggerCharacters: '"|M|m|L|l|H|h|V|v|C|c|S|s|Q|q|T|t|A|a|Z|z|0|1|2|3|4|5|6|7|8|9|.|,|-| '.split('|')
+			},
 			definitionProvider: true,
 			referencesProvider: true,
 			documentSymbolProvider: true,
@@ -266,6 +275,89 @@ connection.onDidChangeConfiguration(change => {
 			(change.settings.svg || defaultSettings)
 		);
 	}
+});
+
+function posInPath(pgs: PathDataCommandItem[], offset: number) {
+	connection.console.log('posInPath: ' + pgs.length + ', ' + offset);
+	for(let pg of pgs) {
+		connection.console.log('posInPath of: ' + pg.start + ', ' + pg.end);
+		if(pg.start<=offset && pg.end>=offset) {
+			connection.console.log(pg.commandType);
+			let cmd = pc.pathCommandFromChar(pg.commandType);
+			if(cmd){
+				let argFull = !cmd.parameters ? true : (pg.args.length % cmd.parameters.length === 0);
+				for(let pi=0;pi<pg.args.length;pi++) {
+					let p = pg.args[pi];
+					if(p.start <= offset && p.end>=offset) {
+						return { cmd , pi };
+					}
+				}
+				if(!argFull) {
+					return { cmd , pi: pg.args.length };
+				}
+			}
+		}
+	}
+	if(pgs.length) {
+		let pg = pgs[pgs.length - 1];
+		let cmd = pc.pathCommandFromChar(pg.commandType);
+		if(cmd) {
+			let argFull = !cmd.parameters ? true : (pg.args.length % cmd.parameters.length === 0);
+			if(!argFull) {
+				return { cmd , pi: pg.args.length };
+			}
+		}
+	}
+	return null;
+}
+
+connection.onSignatureHelp(e=>{	
+	let uri = e.textDocument.uri;
+	let doc = documents.get(uri);
+	if(doc){
+		let content = doc.getText();
+		let offset = doc.offsetAt(e.position);
+		let triggerChar = offset > 0 ? content.charAt(offset - 1) : '';
+		let token = buildActiveToken(connection, doc, content, offset);
+		if(token && token.token && token.token.type === TokenType.String) {
+			let attrToken = getOwnerAttributeName(token.all, token.index);
+			if(attrToken && attrToken.type === TokenType.AttributeName) {
+				if(getTokenText(content, attrToken) === 'd') {
+					let eleToken = getOwnerTagName(token.all, token.index);
+					if(eleToken && ['path', 'glyph', 'missing-glyph'].indexOf(getTokenText(content, eleToken))>-1) {
+						// @ts-ignore TS2554
+						let pathData = getTokenText(content, token.token);
+						pathData = pathData.length > 2 ? pathData.substring(1, pathData.length - 1) : '';
+						const pgs = parsePath(pathData);
+						const inPathDataOffset = offset - token.token.startIndex - 1;
+						let pos = posInPath(pgs, inPathDataOffset);
+
+						let tpc = (!!pos) ? pos.cmd : pc.pathCommandFromChar(triggerChar);
+						if(tpc) {
+							return {
+								signatures: [
+									pc.signatureFromPathCommand(tpc), 
+									pc.PathDataSignature
+								],
+								activeSignature: 0,
+								// @ts-ignore TS2554
+								activeParameter: pos != null ? (pos.pi % tpc.parameters.length) : null
+							};
+						}
+						else{
+							return {
+								signatures: [pc.PathDataSignature],
+								activeSignature: 0,
+								activeParameter: null
+							};
+						}
+					}
+				}
+			}
+		}
+		connection.console.log('onSignatureHelp token ' + JSON.stringify(token.token));
+	}
+	return null;
 });
 
 function getDocumentSettings(resource: string): Thenable<SVGSettings> {

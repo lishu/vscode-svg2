@@ -1,5 +1,3 @@
-*New Version from [vscode-svg](https://github.com/lishu/vscode-svg)*
-
 [![Version](https://vsmarketplacebadge.apphb.com/version/jock.svg.svg)](https://marketplace.visualstudio.com/items?itemName=jock.svg)
 
 # svg
@@ -64,6 +62,9 @@ Open the **Command Palette** (`⇧⌘P` on Mac and `Ctrl+Shift+P` on Win/Linux) 
 SVG Version 2.0 is not included.
 
 ## Update History
+
+### 1.1.0
+* Add path data auto tip feature
 
 ### 1.0.5
 * Fix `pathDataHighlight` does not work after VS Code restarting

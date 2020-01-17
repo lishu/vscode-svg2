@@ -109,7 +109,7 @@ function getTokens(pathdata: string) : Array<PathDataToken> {
             tokens.push(token);
             i = token.end;
         }
-        else if(/[\+\-]?[0-9]+(\.[0-9]+)?/.test(c)) {
+        else if(/[0-9.+-]/.test(c)) {
             let token = readNumber(pathdata, i);
             tokens.push(token);
             i = token.end;
@@ -132,6 +132,8 @@ export interface PathCoordinate {
 }
 
 export interface PathDataCommandItem {
+    start: number;
+    end: number;
     command: PathDataToken;
     commandType: PathDataCommand;
     args: Array<PathDataToken>;
@@ -141,39 +143,75 @@ export interface PathDataCommandItem {
 function buildAst(tokens: Array<PathDataToken>) {
     let i = 0;
     let items : Array<PathDataCommandItem> = [];
-    let command: PathDataToken = null;
+    let item: PathDataCommandItem| null = null;
+    let command: PathDataToken|null = null;
+    let commandPos = {start: 0, end: 0};
     let args: Array<PathDataToken> = [];
     let bads: Array<PathDataToken> = [];
     for(;i<tokens.length;i++) {
         let token = tokens[i];
         if(token.type == PathDataTokenType.WhitespaceComma) {
+            if(item) {
+                item.end = token.end;
+            }
             continue;
         }
         else if(token.type == PathDataTokenType.Command) {
             if(command != null) {
-                items.push({command, commandType: <PathDataCommand>command.data, args, bads});
+                items.push(item = {
+                    start: commandPos.start,
+                    end: token.start,
+                    command, 
+                    commandType: <PathDataCommand>command.data, 
+                    args, 
+                    bads
+                });
                 args = [];
             }
             command = token;
+            commandPos.start = token.start;
         }
         else if(token.type == PathDataTokenType.Number) {
             if(command != null) {
                 args.push(token);
+                commandPos.end = token.end;
             }
             else {
                 // invalid number position
                 bads.push(token);
+                commandPos.end = token.end;
             }
         }
         else {
             // invalid tokens
             bads.push(token);
+            commandPos.end = token.end;
         }
     }
     if(command) {
-        items.push({command, commandType: <PathDataCommand>command.data, args, bads});
+        items.push(item = {
+            start: command.start, 
+            end: getEndPos(command.end, args, bads),
+            command, 
+            commandType: <PathDataCommand>command.data, 
+            args, 
+            bads
+        });
     }
     return items;
+}
+
+function getEndPos(offset: number, args: PathDataToken[], bads: PathDataToken[]) {
+    if(args && args.length && bads && bads.length) {
+        return Math.max(args[args.length - 1].end, bads[bads.length - 1].end);
+    }
+    if(args && args.length) {
+        return args[args.length - 1].end;
+    }
+    if(bads && bads.length) {
+        return bads[bads.length - 1].end;
+    }
+    return offset;
 }
 
 export function parsePath(pathdata: string) {
