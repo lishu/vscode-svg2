@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
+### 1.1.1
+* Fix minifySvg menu show in all editor
+
 ### 1.1.0
 * Add path data auto tip feature
 

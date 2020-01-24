@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.22.0"
@@ -71,6 +71,7 @@
             "editor/context": [
                 {
                     "command": "_svg.minifySvg",
+                    "when": "editorLangId == svg",
                     "group": "2"
                 }
             ],
