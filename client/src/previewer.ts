@@ -75,12 +75,20 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     show(e?: any) {
         if(this.webviewPanel == null) {
             let scriptRoot = vscode.Uri.file(__dirname);
-            this.webviewPanel = vscode.window.createWebviewPanel('svg-preview', 'Svg Preview', vscode.ViewColumn.Three, {enableScripts: true});
+            this.webviewPanel = vscode.window.createWebviewPanel(
+                'svg-preview', 
+                'Svg Preview', 
+                { 
+                    viewColumn: vscode.ViewColumn.Three, 
+                    preserveFocus: true
+                },
+                {enableScripts: true}
+                );
             this.webviewPanel.webview.onDidReceiveMessage(e=>this.onDidReceiveMessage(e));
             this.webviewPanel.onDidDispose(()=>this.webviewPanel = null);
         }
         if(!this.webviewPanel.visible) {
-            this.webviewPanel.reveal();
+            this.webviewPanel.reveal(vscode.ViewColumn.Three, true);
         }
         if(e instanceof vscode.Uri) {
             this.showUri(e);

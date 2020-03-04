@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
+### 1.1.2
+* Fix previewer will not auto take focus.
+
 ### 1.1.1
 * Fix minifySvg menu show in all editor
 
