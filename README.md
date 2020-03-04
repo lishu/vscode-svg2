@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
+### 1.1.3
+* Fix a format bug from `SVGO`
+
 ### 1.1.2
 * Fix previewer will not auto take focus.
 
