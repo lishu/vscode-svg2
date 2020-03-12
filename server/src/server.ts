@@ -757,6 +757,20 @@ connection.onDefinition(e=>{
 					return Location.create(e.textDocument.uri, range);
 				}
 			}
+			else {
+				if(token.index > 2 && token.prevToken && token.prevToken.type == TokenType.Equal){
+					let attrNameToken = token.all[token.index - 2];
+					let result = getTokenText(content, token.token);
+					let attrName = getTokenText(content, attrNameToken);
+					if(attrNameToken.type == TokenType.AttributeName && (attrName == 'in' || attrName == 'in2')){
+						let resultStartIndex = content.indexOf(`result=${result}`);
+						if(resultStartIndex > -1) {
+							let range = Range.create(doc.positionAt(resultStartIndex), doc.positionAt(resultStartIndex + 7 + result.length));
+							return Location.create(e.textDocument.uri, range);
+						}
+					}
+				}
+			}
 		}
 	}
 });
@@ -779,9 +793,28 @@ connection.onReferences(e=>{
 						let locations = [];
 						while(result = refRegx.exec(content)) 
 						{
-							let start = doc.positionAt(result.index);
-							let end = doc.positionAt(result.index + result[0].length);
-							locations.push(Location.create(e.textDocument.uri, Range.create(start, end)));
+							if(result[1]==id){
+								let start = doc.positionAt(result.index);
+								let end = doc.positionAt(result.index + result[0].length);
+								locations.push(Location.create(e.textDocument.uri, Range.create(start, end)));
+							}
+						}
+						return locations;
+					}
+				}
+				else if(ownerAttr.toUpperCase() == "RESULT") {
+					let id = content.substring(token.token.startIndex + 1, token.token.endIndex - 1);
+					if(id) {
+						let refRegx = /in2?="(.*?)"/ig;
+						let result : RegExpExecArray | null = null;
+						let locations = [];
+						while(result = refRegx.exec(content)) 
+						{
+							if(result[1]==id){
+								let start = doc.positionAt(result.index);
+								let end = doc.positionAt(result.index + result[0].length);
+								locations.push(Location.create(e.textDocument.uri, Range.create(start, end)));
+							}
 						}
 						return locations;
 					}

@@ -63,6 +63,11 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
+### 1.1.4
+* Change configuration `svg.minify.removeXMLNS` default value set to `false`
+* FIX #11 Add `in`, `in2`, `result` goto definition / reference
+* FIX `id`, `url(#)` goto definition / reference
+
 ### 1.1.3
 * Fix a format bug from `SVGO`
 

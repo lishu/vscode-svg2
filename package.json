@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.22.0"
@@ -161,7 +161,7 @@
                 },
                 "svg.minify.removeXMLNS": {
                     "type": "boolean",
-                    "default": true,
+                    "default": false,
                     "description": "removes xmlns attribute (for inline svg, disabled by default)"
                 },
                 "svg.minify.removeEditorsNSData": {
