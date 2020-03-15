@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Update History
 
+### 1.1.5
+* Add `id`, `xlink:href="#"` goto definition / reference support
+
 ### 1.1.4
 * Change configuration `svg.minify.removeXMLNS` default value set to `false`
 * FIX #11 Add `in`, `in2`, `result` goto definition / reference

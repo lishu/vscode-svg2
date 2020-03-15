@@ -757,6 +757,15 @@ connection.onDefinition(e=>{
 					return Location.create(e.textDocument.uri, range);
 				}
 			}
+			urlMatch = val.match(/"#(.*?)"/i);
+			if(urlMatch && urlMatch.length) {
+				let id = urlMatch[1];
+				let idAttrStartIndex = content.indexOf(`id="${id}"`);
+				if(idAttrStartIndex > -1) {
+					let range = Range.create(doc.positionAt(idAttrStartIndex), doc.positionAt(idAttrStartIndex + 5 + id.length));
+					return Location.create(e.textDocument.uri, range);
+				}
+			}
 			else {
 				if(token.index > 2 && token.prevToken && token.prevToken.type == TokenType.Equal){
 					let attrNameToken = token.all[token.index - 2];
@@ -788,9 +797,18 @@ connection.onReferences(e=>{
 				if(ownerAttr.toUpperCase() == "ID") {
 					let id = content.substring(token.token.startIndex + 1, token.token.endIndex - 1);
 					if(id) {
-						let refRegx = /url\(#(.*?)\)/ig;
+						let refRegx = /(url\(#(.*?)\))/ig;
 						let result : RegExpExecArray | null = null;
 						let locations = [];
+						while(result = refRegx.exec(content)) 
+						{
+							if(result[1]==id){
+								let start = doc.positionAt(result.index);
+								let end = doc.positionAt(result.index + result[0].length);
+								locations.push(Location.create(e.textDocument.uri, Range.create(start, end)));
+							}
+						}
+						refRegx = /xlink:href="#(.*?)"/ig;
 						while(result = refRegx.exec(content)) 
 						{
 							if(result[1]==id){
