@@ -38,7 +38,7 @@ export function activate(context: ExtensionContext) {
 		registerAutoShowPreviewer(),
 		languages.registerDocumentFormattingEditProvider(SVG_MODE, new SvgFormattingProvider()),
 		commands.registerTextEditorCommand('_svg.minifySvg', svgMinify),
-		commands.registerCommand('_svg.minifySvgToFile', svgMinifyToFile),
+		commands.registerCommand('_svg.minifySvgToFile', uri=>svgMinifyToFile(uri)),
 		registerPathDataHightlightProvider()
 	);
 

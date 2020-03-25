@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.22.0"
@@ -57,7 +57,7 @@
             {
                 "command": "_svg.minifySvgToFile",
                 "title": "%svg.minifySvg.title%",
-                "enablement": "editorLangId == svg"
+                "enablement": "resourceLangId == svg"
             }
         ],
         "menus": {

@@ -1,5 +1,5 @@
 {
-    "description": "SVG Language Support",
+    "description": "SVG Coding, Minify, Pretty, Preview All-In-One",
     "configuration.title": "SVG",
     "svg.minifySvg.title": "Minify SVG",
     "svg.prettySvg.title": "Pretty SVG",
