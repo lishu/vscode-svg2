@@ -366,7 +366,11 @@
                     "type": "string",
                     "default": "Workspace",
                     "description": "When you change the background color in the preview view, the new settings store the location",
-                    "enum": ["Global", "Workspace", "NoSave"],
+                    "enum": [
+                        "Global",
+                        "Workspace",
+                        "NoSave"
+                    ],
                     "enumDescriptions": [
                         "Save new background in your global scope",
                         "Save new background in your workspace",
