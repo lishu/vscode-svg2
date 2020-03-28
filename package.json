@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.22.0"
@@ -361,6 +361,17 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Find duplicated elements and replace them with links (disabled by default)"
+                },
+                "svg.preview.backgroundSaveTo": {
+                    "type": "string",
+                    "default": "Workspace",
+                    "description": "When you change the background color in the preview view, the new settings store the location",
+                    "enum": ["Global", "Workspace", "NoSave"],
+                    "enumDescriptions": [
+                        "Save new background in your global scope",
+                        "Save new background in your workspace",
+                        "Only temporarily changed, configuration will not be saved"
+                    ]
                 },
                 "svg.preview.background": {
                     "title": "%configuration.preview.background.title%",

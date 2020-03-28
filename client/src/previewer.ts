@@ -34,6 +34,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     previewUri: string;
     scale: number = 1;
     path: vscode.Uri;
+    noSaveBackground: string = null;
     //lastDocument: vscode.TextDocument;
 
     /**
@@ -99,7 +100,16 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     onDidReceiveMessage(e: any): any {
         switch (e.action) {
             case 'bg':
-                vscode.workspace.getConfiguration('svg.preview').update('background', e.color).then(()=>{
+                let saveTo = vscode.workspace.getConfiguration('svg.preview').get<string>('backgroundSaveTo', 'Workspace');
+                let target = vscode.ConfigurationTarget.Workspace;
+                if(saveTo == 'NoSave') {
+                    this.noSaveBackground = e.color;
+                    break;
+                }
+                else if(saveTo == 'Global') {
+                    target = vscode.ConfigurationTarget.Global;
+                }
+                vscode.workspace.getConfiguration('svg.preview').update('background', e.color, target).then(()=>{
                     console.log('svg.preview.background updated');
                 });
                 break;
@@ -172,7 +182,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
 
     private createHtml(doc: vscode.TextDocument):string
     {
-        let bg = vscode.workspace.getConfiguration('svg.preview').get<string>('background') || 'transparent';
+        let bg = this.noSaveBackground || vscode.workspace.getConfiguration('svg.preview').get<string>('background') || 'transparent';
         let bgCustom = vscode.workspace.getConfiguration('svg.preview').get<string>('backgroundCustom') || '#eee';
         let svg = doc.getText();
         const html = [];

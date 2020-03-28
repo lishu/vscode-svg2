@@ -62,16 +62,14 @@ Open the **Command Palette** (`⇧⌘P` on Mac and `Ctrl+Shift+P` on Win/Linux) 
 SVG Version 2.0 is not included.
 
 ## Changelog
+### 1.1.7 - 2020-03-28
+- Add `svg.preview.backgroundSaveTo` option so prevent **preview** create `.vscode\settings.json` in workspace
+
 ### 1.1.6 - 2020-03-25
 - Fixed The `Minify SVG` option from the context menu does not work
 
 ### 1.1.5 - 2020-03-15
 - Add `id`, `xlink:href="#"` goto definition / reference support
-
-### 1.1.4
-- Change configuration `svg.minify.removeXMLNS` default value set to `false`
-- #11 Add `in`, `in2`, `result` goto definition / reference
-- Fix `id`, `url(#)` goto definition / reference
 
 ### [Full Changelog](Changelog.md)
 

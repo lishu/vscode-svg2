@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.1.7 - 2020-03-28
+### Added
+- Add `svg.preview.backgroundSaveTo` option so prevent **preview** create `.vscode\settings.json` in workspace
+
 ## 1.1.6 - 2020-03-25
 ### Fixed
 - The `Minify SVG` option from the context menu does not work
