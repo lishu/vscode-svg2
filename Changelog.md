@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.1.8 - 2020-04-24
+### Added
+- Preview add `svg`/`img` mode switch can show how a svg use in html or img. Show svg document can only view in img mode.
+
 ## 1.1.7 - 2020-03-28
 ### Added
 - Add `svg.preview.backgroundSaveTo` option so prevent **preview** create `.vscode\settings.json` in workspace

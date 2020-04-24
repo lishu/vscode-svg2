@@ -3,7 +3,10 @@
 let _toolbar : HTMLDivElement;
 let _host : HTMLDivElement;
 let groupBackground : HTMLDivElement;
+let groupMode : HTMLDivElement;
 let labelZoom : HTMLSpanElement;
+let btnSvg : HTMLButtonElement;
+let btnImg : HTMLButtonElement;
 
 function createButtonGroup(){
     var group = document.createElement('div');
@@ -33,6 +36,7 @@ var minScale = 0.08;
 var maxScale = 8;
 declare var scale : number;
 declare var uri : string;
+declare var mode : string;
 
 function normalScale() {
     if(scale < minScale) {
@@ -92,6 +96,20 @@ function init() {
         document.getElementById('__svg').style.transform = 'scale('+scale+')';
         vscode.postMessage({action: 'scale', scale: scale});
     }).className = 'btn';
+
+    groupMode = createButtonGroup();
+    btnSvg = createButton(groupMode, '&lt;svg&gt;', e=>switchMode('svg'));
+    btnSvg.title = 'SVG embedded in HTML';
+    btnSvg.className = 'btn';
+    if(mode == 'svg') {
+        btnSvg.classList.add('active');
+    }
+    btnImg = createButton(groupMode, '&lt;img&gt;', e=>switchMode('img'));
+    btnImg.title = 'Show SVG in IMG element\nThis mode displays all legitimate SVG document';
+    btnImg.className = 'btn';
+    if(mode == 'img') {
+        btnImg.classList.add('active');
+    }
     
     var groupTools = createButtonGroup();
     createButton(groupTools, 'Export PNG', ()=>{
@@ -99,6 +117,22 @@ function init() {
     }).className = 'btn';
 
     window.addEventListener('message', onmessagein);
+}
+
+function switchMode(mode: string) {
+    vscode.postMessage({action:'mode', mode:mode});
+    if(mode == 'svg') {
+        btnSvg.className = 'btn active';
+    }
+    else{
+        btnSvg.className = 'btn';
+    }
+    if(mode == 'img') {
+        btnImg.className = 'btn active';
+    }
+    else{
+        btnImg.className = 'btn';
+    }
 }
 
 interface MessageData {
@@ -126,24 +160,32 @@ function onSelection(offset: number) {
     
 }
 
+function exportImg(img) {
+    let canvas = new OffscreenCanvas(img.naturalWidth, img.naturalHeight);
+    let cxt = canvas.getContext('2d');
+    cxt.drawImage(img, 0, 0);
+    canvas.convertToBlob({type: 'image/png'}).then(blob=>{
+        var reader = new FileReader();
+        reader.onload = () => {
+            let result = <string>(reader.result);
+            let b64 = result.replace(/^data:.+;base64,/, '');                    
+            vscode.postMessage({action: 'export', b64, uri});
+        };
+        reader.readAsDataURL(blob);
+    });
+}
+
 function exportPng(){
     try{
         let svgParent = document.getElementById('__svg');
+        if(mode == 'img') {
+            exportImg(svgParent.querySelector('img'));
+            return;
+        }
         let svg = svgParent.innerHTML;
         let img = new Image();
         img.onload = () => {
-            let canvas = new OffscreenCanvas(img.naturalWidth, img.naturalHeight);
-            let cxt = canvas.getContext('2d');
-            cxt.drawImage(img, 0, 0);
-            canvas.convertToBlob({type: 'image/png'}).then(blob=>{
-                var reader = new FileReader();
-                reader.onload = () => {
-                    let result = <string>(reader.result);
-                    let b64 = result.replace(/^data:.+;base64,/, '');                    
-                    vscode.postMessage({action: 'export', b64, uri});
-                };
-                reader.readAsDataURL(blob);
-            });
+            exportImg(img);
         };
         img.onerror = e => {
             showErrorMessage('Export PNG Fail, SVG may need to be corrected.');

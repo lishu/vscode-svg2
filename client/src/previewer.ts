@@ -113,6 +113,11 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                     console.log('svg.preview.background updated');
                 });
                 break;
+            case 'mode':
+                vscode.workspace.getConfiguration('svg.preview').update('mode', e.mode, vscode.ConfigurationTarget.Global).then(()=>{
+                    this.showUri(vscode.Uri.parse(this.previewUri));
+                });
+                break;
             case 'scale':
                 this.scale = e.scale;
                 break;
@@ -142,6 +147,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                         });
                     }
                 }
+                break;
+            case 'showerror':
+                vscode.window.showErrorMessage(e.msg);
                 break;
             default:
                 console.warn(`unknown action message ${e.action}`);
@@ -182,9 +190,17 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
 
     private createHtml(doc: vscode.TextDocument):string
     {
+        console.debug('create preview html');
         let bg = this.noSaveBackground || vscode.workspace.getConfiguration('svg.preview').get<string>('background') || 'transparent';
         let bgCustom = vscode.workspace.getConfiguration('svg.preview').get<string>('backgroundCustom') || '#eee';
+        let mode = vscode.workspace.getConfiguration('svg.preview').get<string>('mode', 'svg');
         let svg = doc.getText();
+
+        if(mode == 'img') {
+            // 尝试使用 img + data 提供 svg 非嵌入格式支持
+            svg = '<img src="data:image/svg+xml,' + escape(svg) + '" />';
+        }
+
         const html = [];
         html.push('<!DOCTYPE html>\n');
         html.push('<html>');
@@ -254,9 +270,13 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             /* welcomePage.buttonBackground: */
             background-color: var(--vscode-welcomepage-buttonBackground);
         }
-        #__toolbar>.btn-group>.btn:hover{
+        #__toolbar>.btn-group>.btn:hover,
+        #__toolbar>.btn-group>.btn.active{
             /* welcomePage.buttonHoverBackground: */
-            background-color: var(--vscode-list-hoverBackground);
+            /* background-color: var(--vscode-list-hoverBackground); */
+            /* menu.selectionBackground */
+            background-color: var(--vscode-menu-selectionBackground);
+            color: var(--vscode-menu-selectionForeground);
         }
         #__toolbar>.btn-group>.label{
             position:relative;
@@ -291,7 +311,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push('<div id="__host" tabindex="0"}><div id="__svg">');
         html.push(svg);
         html.push('</div></div>');
-        html.push(`<script>var scale = ${this.scale}; var uri = '${doc.uri}';</script>`);
+        html.push(`<script>var mode = '${mode}'; var scale = ${this.scale}; var uri = '${doc.uri}';</script>`);
         html.push('<script src="${vscode-resource}/pv.js"></script>');
         html.push(`</body>`);
         html.push('</html>');

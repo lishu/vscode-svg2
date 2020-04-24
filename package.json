@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.1.7",
+    "version": "1.1.8",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.22.0"
@@ -361,6 +361,19 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Find duplicated elements and replace them with links (disabled by default)"
+                },
+                "svg.preview.mode": {
+                    "type": "string",
+                    "default": "svg",
+                    "description": "How show svg content in preview view",
+                    "enum": [
+                        "svg",
+                        "img"
+                    ],
+                    "enumDescriptions": [
+                        "SVG embedded in HTML",
+                        "Show SVG in IMG element"
+                    ]
                 },
                 "svg.preview.backgroundSaveTo": {
                     "type": "string",
