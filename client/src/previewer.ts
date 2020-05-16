@@ -33,7 +33,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     d4: vscode.Disposable;
     previewUri: string;
     scale: number = 1;
-    path: vscode.Uri;
+    resPath: vscode.Uri;
+    // path: vscode.Uri;
     noSaveBackground: string = null;
     //lastDocument: vscode.TextDocument;
 
@@ -42,7 +43,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
      */
     constructor(context: vscode.ExtensionContext) {
         previewer = this;
-        this.path = vscode.Uri.file(context.asAbsolutePath('./client/out')).with({scheme: 'vscode-resource'});
+        // this.path = vscode.Uri.file(context.asAbsolutePath('./client/out')).with({scheme: 'vscode-resource'});
+        this.resPath = vscode.Uri.file(context.asAbsolutePath('./client/out'));
         this.d0 =  vscode.commands.registerTextEditorCommand('_svg.showSvg', ()=>this.show());
         this.d1 =  vscode.commands.registerCommand('_svg.showSvgByUri', uri=>this.show(uri));
         this.d2 = vscode.workspace.onDidChangeTextDocument(e=>this.onDidChangeTextDocument(e));
@@ -185,12 +187,13 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             this.previewUri = doc.uri.toString();
             this.webviewPanel.title = path.basename(doc.uri.fsPath) + '[Preview]';
         }
-        this.webviewPanel.webview.html = this.createHtml(doc);
+        this.webviewPanel.webview.html = this.createHtml(doc, this.webviewPanel.webview);
     }
 
-    private createHtml(doc: vscode.TextDocument):string
+    private createHtml(doc: vscode.TextDocument, webivew: vscode.Webview):string
     {
         console.debug('create preview html');
+        let path = webivew.asWebviewUri(this.resPath).toString();
         let bg = this.noSaveBackground || vscode.workspace.getConfiguration('svg.preview').get<string>('background') || 'transparent';
         let bgCustom = vscode.workspace.getConfiguration('svg.preview').get<string>('backgroundCustom') || '#eee';
         let mode = vscode.workspace.getConfiguration('svg.preview').get<string>('mode', 'svg');
@@ -316,7 +319,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push(`</body>`);
         html.push('</html>');
         let output = html.join('');
-        output = output.replace(/\$\{vscode\-resource\}/g, this.path.toString());
+        output = output.replace(/\$\{vscode\-resource\}/g, path);
         return output;
     }
 
