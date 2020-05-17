@@ -36,7 +36,7 @@ const NO_OUTPUT_WHITE_TOKEN = false;
 
 let spaceRegex = /^[ \r\n\t\f]+/;
 let processingRegex = /^<\?.*?\?>/;
-let commentRegex = /^<!--.*?-->/;
+let commentRegex = /^<!--.*?-->/s;
 let cdataRegex = /^<!\[CDATA\[.*?\]\]>/;
 let entityRegex = /^<!ENTITY.*?>/;
 let notationRegex = /^<!NOTATION.*?>/;
