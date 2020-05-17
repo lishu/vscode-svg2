@@ -63,14 +63,14 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.1.9 - 2020-05-17
+- Fixed some thin bug and Outdated API Replace.
+
 ### 1.1.8 - 2020-04-24
 - Add Preview `svg`/`img` mode switch can show how a svg use in html or img. Show svg document can only view in img mode.
 
 ### 1.1.7 - 2020-03-28
 - Add `svg.preview.backgroundSaveTo` option so prevent **preview** create `.vscode\settings.json` in workspace
-
-### 1.1.6 - 2020-03-25
-- Fixed The `Minify SVG` option from the context menu does not work
 
 ### [Full Changelog](Changelog.md)
 
