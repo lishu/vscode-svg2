@@ -193,8 +193,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     private createHtml(doc: vscode.TextDocument, webivew: vscode.Webview):string
     {
         console.debug('create preview html');
+        let saveTo = vscode.workspace.getConfiguration('svg.preview').get<string>('backgroundSaveTo', 'Workspace');
         let path = webivew.asWebviewUri(this.resPath).toString();
-        let bg = this.noSaveBackground || vscode.workspace.getConfiguration('svg.preview').get<string>('background') || 'transparent';
+        let bg = (saveTo == 'NoSave' && this.noSaveBackground) || vscode.workspace.getConfiguration('svg.preview').get<string>('background') || 'transparent';
         let bgCustom = vscode.workspace.getConfiguration('svg.preview').get<string>('backgroundCustom') || '#eee';
         let mode = vscode.workspace.getConfiguration('svg.preview').get<string>('mode', 'svg');
         let svg = doc.getText();
