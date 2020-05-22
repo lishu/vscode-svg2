@@ -105,6 +105,28 @@
 			]
 		},
 		{
+			"begin": "(<)(style)([^>]*)(>)",
+			"captures": {
+				"1": {
+					"name": "punctuation.definition.tag.svg"
+				},
+				"2": {
+					"name": "entity.name.tag.svg"
+				},
+				"4": {
+					"name": "punctuation.definition.tag.svg"
+				}
+			},
+			"end": "(</)(style)(>)",
+			"name": "meta.tag.style",
+			"patterns": [
+				{
+					"name":"meta.embedded.block.css",
+					"include":"source.css"
+				}
+			]
+		},
+		{
 			"begin": "(</?)(?:([-\\w\\.]+)((:)))?([-\\w\\.:]+)",
 			"captures": {
 				"1": {

@@ -436,7 +436,10 @@
             {
                 "language": "svg",
                 "scopeName": "text.svg",
-                "path": "./syntaxes/svg.json"
+                "path": "./syntaxes/svg.json",
+                "embeddedLanguages": {
+                    "meta.embedded.block.css": "css"
+                }
             }
         ]
     },
