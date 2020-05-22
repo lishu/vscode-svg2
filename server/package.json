@@ -12,6 +12,7 @@
 		"url": "https://github.com/lishu/vscode-svg2.git"
 	},
 	"dependencies": {
+		"vscode-css-languageservice": "^4.2.0",
 		"vscode-languageserver": "^5.2.1"
 	},
 	"scripts": {

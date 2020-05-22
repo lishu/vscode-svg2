@@ -26,6 +26,10 @@ import {
 	ParameterInformation
 } from "vscode-languageserver";
 
+import {Position} from 'vscode-languageserver-types';
+
+import { getCSSLanguageService, getDefaultCSSDataProvider } from 'vscode-css-languageservice';
+
 import "process";
 
 import { ISvgJsonRoot, ISvgJsonElement, ISvgJsonAttribute, SvgEnum } from "./svgjson";
@@ -35,6 +39,7 @@ import { buildActiveToken, getParentTagName, getOwnerTagName, getAllAttributeNam
 import * as pc from './pc-info';
 
 import { parsePath, PathDataCommandItem } from './path-grammar';
+import { getModes, getModeAtOffset, DocumentRangeMode, getModeDocument } from "./modes";
 
 let svg:ISvgJsonRoot = getSvgJson('');
 const svgDocUrl = {
@@ -435,6 +440,14 @@ function createCompletionFromEnum(uri: string, position: number, svgEnum: SvgEnu
 	};
 	return item;
 }
+let cssLangService = getCSSLanguageService();
+
+function onCompletionInCss(doc: TextDocument, content: string, position: Position, modes: Array<DocumentRangeMode>)
+{
+	var cssDoc = getModeDocument(doc, content, modes, 'css');
+	var styleSheet = cssLangService.parseStylesheet(cssDoc);
+	return cssLangService.doComplete(cssDoc, position, styleSheet);
+}
 
 connection.onCompletion(async e =>{
 	// connection.console.log("onCompletion " + e.textDocument.uri);
@@ -444,7 +457,14 @@ connection.onCompletion(async e =>{
 		let settings = await getDocumentSettings(doc.uri);
 		let items = [];
 		let content = doc.getText();
+		let modes = getModes(content);
 		let offset = doc.offsetAt(e.position);
+		let mode = getModeAtOffset(modes, offset);
+		if(mode) {
+			if(mode.languageId == 'css') {
+				return onCompletionInCss(doc, content, e.position, modes);
+			}
+		}
 		let token = buildActiveToken(connection, doc, content, offset);
 		let triggerChar = offset > 0 ? content.charAt(offset - 1) : '';
 		let nextChar = content.charAt(offset);

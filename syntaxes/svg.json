@@ -119,6 +119,7 @@
 			},
 			"end": "(</)(style)(>)",
 			"name": "meta.tag.style",
+			"contentName": "meta.embedded.block.css",
 			"patterns": [
 				{
 					"name":"meta.embedded.block.css",
