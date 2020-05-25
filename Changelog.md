@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.2.0 - 2020-05-25
+- Add `style` css base supported
+
 ## 1.1.9 - 2020-05-17
 - Permit newlines in the comment body regex.
 - vscode Webview Outdated API Replace.

@@ -449,6 +449,26 @@ function onCompletionInCss(doc: TextDocument, content: string, position: Positio
 	return cssLangService.doComplete(cssDoc, position, styleSheet);
 }
 
+function onCompletionClassAttr(items: Array<CompletionItem>, doc: TextDocument, content: string, modes: Array<DocumentRangeMode>, appendQute: boolean) 
+{
+	var cssDoc = getModeDocument(doc, content, modes, 'css');
+	var css = cssDoc.getText();
+	let reg = /\s\.([-a-z_][-a-z0-9_]*)/gi;
+	let match = null;
+	let writed : any = {};
+	while(match = reg.exec(css)) {
+		let name = match[1];
+		if(name in writed) {
+			continue;
+		}
+		writed[name] = true;
+		items.push({
+			label: appendQute ? `"${name}"` : name,
+			kind: CompletionItemKind.Class
+		});
+	}
+}
+
 connection.onCompletion(async e =>{
 	// connection.console.log("onCompletion " + e.textDocument.uri);
 	let uri = e.textDocument.uri;
@@ -494,6 +514,11 @@ connection.onCompletion(async e =>{
 							}
 							items.push({label: color, kind: CompletionItemKind.Color});
 						}
+					}
+					// Auto Css Class Fill
+					if(attr.name == 'class') {
+
+						onCompletionClassAttr(items, doc, content, modes, triggerChar != '"');
 					}
 				}
 			}

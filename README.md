@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.2.0 - 2020-05-25
+- Add `style` css base supported
+
 ### 1.1.9 - 2020-05-17
 - Fixed some thin bug and Outdated API Replace.
 
