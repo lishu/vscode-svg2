@@ -2,11 +2,15 @@
 
 let _toolbar : HTMLDivElement;
 let _host : HTMLDivElement;
+let groupPrefix : HTMLDivElement;
 let groupBackground : HTMLDivElement;
 let groupMode : HTMLDivElement;
 let labelZoom : HTMLSpanElement;
 let btnSvg : HTMLButtonElement;
 let btnImg : HTMLButtonElement;
+let btnLocked : HTMLButtonElement;
+declare var isRootLocked: boolean;
+declare var isLocked : boolean;
 
 function createButtonGroup(){
     var group = document.createElement('div');
@@ -37,6 +41,8 @@ var maxScale = 8;
 declare var scale : number;
 declare var uri : string;
 declare var mode : string;
+type ViewMode = 'onlyOne' | 'oneByOne';
+declare var viewMode : ViewMode;
 
 function normalScale() {
     if(scale < minScale) {
@@ -53,9 +59,29 @@ function showZoom(){
     labelZoom.innerText = (scale * 100).toFixed(0) + '%';
 }
 
+function switchViewMode() {
+    if(isLocked) {
+        vscode.postMessage({action: 'unlock'});
+    } else {
+        vscode.postMessage({action: 'lock'});
+    }
+}
+
 function init() {
     _toolbar = <HTMLDivElement>document.getElementById('__toolbar');
     _host = <HTMLDivElement>document.getElementById('__host');
+    if(!isRootLocked) {
+        groupPrefix = createButtonGroup();
+        btnLocked = createButton(groupPrefix, `<svg viewBox="0 0 1024 1024" width="16" height="16" style="background-color:transparent">
+        <path d="M989.57691363 296.58232795L715.22421854 22.2296339c-28.45139082-28.45139082-73.16071896-28.45139082-101.61210978 0s-28.45139082 73.16071896 0 101.61210876l14.22569592 14.22569489-329.22323431 217.44991448-10.16121107-10.16121109c-28.45139082-28.45139082-73.16071896-28.45139082-101.61210876 0s-28.45139082 73.16071896 0 101.61210875l146.32143689 146.32143793L32.39084396 894.0615311c-28.45139082 28.45139082-28.45139082 75.19296036 0 103.64435118 28.45139082 28.45139082 75.19296036 28.45139082 103.6443522 0L436.80703964 694.90179638l128.03125716 128.03125819c28.45139082 28.45139082 73.16071896 28.45139082 101.61210876 0s28.45139082-73.16071896 0-101.61210979l-10.16121005-10.16121108 215.41767101-331.2554757 14.22569593 14.22569489c28.45139082 28.45139082 73.16071896 28.45139082 101.61210875 0 28.45139082-24.38690598 28.45139082-69.09623412 2.03224243-97.54762494z" p-id="4526" fill="currentColor"></path>
+        </svg>`, e=>switchViewMode());
+        btnLocked.className = 'btn';
+        btnLocked.title = 'Locked or Unlocked SVG document';
+        if(isLocked) {
+            btnLocked.classList.add('locked');
+        }
+    }
+
     groupBackground = createButtonGroup();
     var btnBg = createButton(groupBackground, null, e=>{
         document.body.className='bg-trans';vscode.postMessage({action:'bg', color:'transparent'});
@@ -152,12 +178,28 @@ function onmessagein(e: MessageEvent) {
         switch(data.action) {
             case 'selection':
                 onSelection(data.offset);
+                break;
+            case 'changeLock':
+                onChangeLock(data.value);
+                break;
         }
     }
 }
 
 function onSelection(offset: number) {
     
+}
+
+function onChangeLock(locked: boolean) {
+    if(isLocked == locked){
+        return;
+    }
+    isLocked = locked;
+    if(isLocked) {
+        btnLocked.classList.add('locked');
+    } else {
+        btnLocked.classList.remove('locked');
+    }
 }
 
 function exportImg(img) {

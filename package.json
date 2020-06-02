@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.40.0"
@@ -23,12 +23,7 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:_svg.showSvg",
-        "onCommand:_svg.showSvgByUri",
-        "onCommand:_svg.minifySvg",
-        "onCommand:_svg.minifySvgToFile",
-        "onLanguage:svg",
-        "onLanguage:xml"
+        "*"
     ],
     "main": "./client/out/extension.js",
     "contributes": {
@@ -58,6 +53,11 @@
                 "command": "_svg.minifySvgToFile",
                 "title": "%svg.minifySvg.title%",
                 "enablement": "resourceLangId == svg"
+            },
+            {
+                "command": "svg.showAllSvg",
+                "title": "Preview All Svg",
+                "enablement": "workbenchState != empty"
             }
         ],
         "menus": {
@@ -361,6 +361,19 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Find duplicated elements and replace them with links (disabled by default)"
+                },
+                "svg.preview.viewMode" :{
+                    "type": "string",
+                    "default": "onlyOne",
+                    "description": "How the previewer interacts with the user",
+                    "enum": [
+                        "onlyOne",
+                        "oneByOne"
+                    ],
+                    "enumDescriptions": [
+                        "Only one preview window will be displayed",
+                        "Each SVG document corresponds to a separate preview window"
+                    ]
                 },
                 "svg.preview.mode": {
                     "type": "string",

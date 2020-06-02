@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { workspace, ExtensionContext, DocumentSelector, env, languages, commands } from 'vscode';
 
-import {SvgPreviwerContentProvider, registerAutoShowPreviewer} from './previewer';
+import {SvgPreviwerContentProvider, registerPreviewer} from './previewer';
 
 const SVG_MODE : DocumentSelector = [
     {
@@ -33,9 +33,9 @@ let language = env.language;
 
 export function activate(context: ExtensionContext) {
 	console.log(__dirname);
+	SvgPreviwerContentProvider.$context = context;	
+	registerPreviewer();
 	context.subscriptions.push(
-		new SvgPreviwerContentProvider(context),
-		registerAutoShowPreviewer(),
 		languages.registerDocumentFormattingEditProvider(SVG_MODE, new SvgFormattingProvider()),
 		commands.registerTextEditorCommand('_svg.minifySvg', svgMinify),
 		commands.registerCommand('_svg.minifySvgToFile', uri=>svgMinifyToFile(uri)),

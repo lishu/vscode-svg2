@@ -63,22 +63,21 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.3.0 - 2020-06-02
+- Add `Preview All SVG` command
+- Add `svg.preview.viewMode` configuration option, so preview can show one by one
+- Add a Lock button in Previewer (show only `svg.preview.viewMode` is `onlyOne`) can lock current previewer to displayed svg document.
+
 ### 1.2.0 - 2020-05-25
 - Add `style` css base supported
 
 ### 1.1.9 - 2020-05-17
 - Fixed some thin bug and Outdated API Replace.
 
-### 1.1.8 - 2020-04-24
-- Add Preview `svg`/`img` mode switch can show how a svg use in html or img. Show svg document can only view in img mode.
-
-### 1.1.7 - 2020-03-28
-- Add `svg.preview.backgroundSaveTo` option so prevent **preview** create `.vscode\settings.json` in workspace
-
-### [Full Changelog](Changelog.md)
+### [MORE](Changelog.md)
 
 ## Donations
-Welcome [Support this project](Donations.md).
+[Support me in paypal](https://www.paypal.me/jockli).
 
 -----------------------------------------------------------------------------------------------------------
 ## For more information

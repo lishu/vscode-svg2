@@ -21,7 +21,7 @@
 			"port": 6009,
 			"restart": true,
 			"outFiles": ["${workspaceRoot}/server/out/**/*.js"],
-			"timeout": 20000
+			"timeout": 30000
 		},
 		{
 			"name": "Language Server E2E Test",

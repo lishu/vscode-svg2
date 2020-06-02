@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.3.0 - 2020-06-02
+- Add `Preview All SVG` command
+- Add `svg.preview.viewMode` configuration option, so preview can show one by one
+- Add a Lock button in Previewer (show only `svg.preview.viewMode` is `onlyOne`) can lock current previewer to displayed svg document.
+
 ## 1.2.0 - 2020-05-25
 - Add `style` css base supported
 

@@ -1,55 +1,331 @@
 import * as vscode from 'vscode';
 
 import * as path from 'path';
+import * as fs from 'fs';
+
 import { changeName, writeB64ToFile } from './unit';
 
-let previewer: SvgPreviwerContentProvider = null;
+let previewers: {[pn: string]: SvgPreviwerContentProvider} = {};
+
+type ViewMode = 'onlyOne' | 'oneByOne';
+
+interface AllSvgItem {
+    name: string;
+    uri: string;
+    svgImgSrc: string;
+}
+
+function getProviderBy(uri: vscode.Uri) {
+    return previewers[uri.toString()];
+}
+
+function getUnlockedProvider() {
+    for(let key in previewers) {
+        let previewer = previewers[key];
+        if(!previewer.isLocked) {
+            return previewer;
+        }
+    }
+    return null;
+}
 
 interface ISVGPreviewConfiguration {
     autoShow: boolean;
 }
 
-function onDidChangeActiveTextEditor(e:vscode.TextEditor) {
-    if(previewer && e && e.document && e.document.languageId == 'svg') {
-        let svgCfg = vscode.workspace.getConfiguration('svg');
-        let previewCfg = svgCfg.get<ISVGPreviewConfiguration>('preview');
-        if(previewCfg.autoShow) {
-            previewer.show();
+interface TextEditorLike {
+    readonly document : vscode.TextDocument;
+}
+
+function onDidChangeActiveTextEditor(e:TextEditorLike) {
+    if(e && e.document && e.document.languageId == 'svg'){
+        let previewer = getProviderBy(e.document.uri);
+        if(!previewer) {
+            let viewMode = vscode.workspace.getConfiguration('svg.preview').get<ViewMode>('viewMode', 'onlyOne');
+            let unlockedPreviewer = getUnlockedProvider();
+            if(viewMode == 'oneByOne' || !unlockedPreviewer) {
+                previewer = new SvgPreviwerContentProvider();
+                previewer.isLocked = viewMode == 'oneByOne';
+                previewer.isRootLocked = previewer.isLocked;
+                previewer.show(e.document.uri);
+                return;
+            }
+            previewer = unlockedPreviewer;
+        }
+        if(previewer) {
+            let svgCfg = vscode.workspace.getConfiguration('svg');
+            let previewCfg = svgCfg.get<ISVGPreviewConfiguration>('preview');
+            if(previewCfg.autoShow) {
+                previewer.show(e.document.uri);
+            }
         }
     }
 }
 
-export function registerAutoShowPreviewer() {
-    return vscode.window.onDidChangeActiveTextEditor(e=>onDidChangeActiveTextEditor(e));
+function show(e?: any) {
+    if(e) {
+        const uri = <vscode.Uri>e;
+        vscode.workspace.openTextDocument(uri).then(doc=>{
+            onDidChangeActiveTextEditor({document : doc});
+        });
+        return;
+    }
+    var editor = vscode.window.activeTextEditor;
+    onDidChangeActiveTextEditor(editor);
+}
+
+export function registerPreviewer() {
+    SvgPreviwerContentProvider.$context.subscriptions.push(
+        vscode.window.onDidChangeActiveTextEditor(e=>onDidChangeActiveTextEditor(e)),
+        vscode.commands.registerTextEditorCommand('_svg.showSvg', ()=>show()),
+        vscode.commands.registerCommand('_svg.showSvgByUri', uri=>show(uri)),
+        new AllSvgPreviwerContentProvider()
+    );
+}
+
+export class AllSvgPreviwerContentProvider implements vscode.Disposable
+{
+    private subdisposed : Array<vscode.Disposable> = [];
+
+    webviewPanel : vscode.WebviewPanel;
+
+    constructor() {
+        this.subdisposed.push(
+            vscode.commands.registerCommand('svg.showAllSvg', ()=>this.showAllSvg())
+        );
+    }
+
+    showAllSvg() {
+        const workspace = vscode.workspace;
+        if(!workspace.workspaceFolders || workspace.workspaceFolders.length == 0) {
+            vscode.window.showWarningMessage('You need to open a folder before you can use this command');
+            return;
+        }
+        if(this.webviewPanel == null) {
+            this.webviewPanel = vscode.window.createWebviewPanel(
+                'all-svg-preview', 
+                'Preview All SVG', 
+                {
+                    viewColumn: vscode.ViewColumn.Three,
+                    preserveFocus: true
+                },
+                {
+                    enableScripts: true
+                }
+                );
+            this.webviewPanel.webview.onDidReceiveMessage(e=>this.onDidReceiveMessage(e));
+            this.webviewPanel.onDidDispose(()=>this.onWebViewPanelDispose());
+            this.webviewPanel.webview.html = this.createHtml();
+        }
+        if(!this.webviewPanel.visible) {
+            this.webviewPanel.reveal(vscode.ViewColumn.Three, true);
+        }
+    }
+    onDidReceiveMessage(e: any): any {
+        switch(e.action) {
+            case 'update':
+                this.onUpdate();
+                break;
+            case 'open':
+                this.onOpen(e.uri);
+                break;
+            case 'preview':
+                this.onPreviewer(e.uri);
+                break;
+        }
+    }
+
+    onOpen(uri: string) {
+        uri = unescape(uri);
+        vscode.window.showTextDocument(vscode.Uri.parse(uri));
+    }
+
+    onPreviewer(uri: string) {
+        uri = unescape(uri);
+        vscode.commands.executeCommand('_svg.showSvgByUri', vscode.Uri.parse(uri));
+    }
+
+    onUpdate() {
+        vscode.workspace.findFiles('**/*.svg').then(uris=>{            
+            let items : Array<AllSvgItem> = [];
+            let openedDocuments = vscode.workspace.textDocuments;
+            for(var uri of uris)
+            {
+                let openedDocument = openedDocuments.find(d=>d.uri.path == uri.path);
+                let fsPath = uri.fsPath;
+                if(fsPath) {
+                    var svgSource = openedDocument != null ? openedDocument.getText() : fs.readFileSync(fsPath, {encoding: 'utf8', flag: 'r'});
+                    items.push({
+                        name: path.basename(fsPath),
+                        uri: uri.toString(),
+                        svgImgSrc: `data:image/svg+xml,${escape(svgSource)}`
+                    });
+                }
+            }
+            items = items.sort((a,b) => a.name.localeCompare(b.name));
+            this.webviewPanel.webview.postMessage({action : 'items', items});
+        });
+    }
+
+    onWebViewPanelDispose(): any {
+        
+    }
+
+    createHtml(): string {
+        let html = [];
+        html.push('<!DOCTYPE html>\n');
+        html.push('<html>');
+        html.push(`<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' vscode-resource: https: data:;">
+    <style type="text/css">
+    html, body {
+        font: var(--vscode-editor-font-weight) var(--vscode-editor-font-size) var(--vscode-editor-font-family);
+    }
+    #__listview{
+        position: fixed;
+        display: flex;
+        flex-direction:row;
+        flex-wrap: wrap;
+        align-items:flex-start;
+        align-content: flex-start;
+        padding: 5px;
+        left:0;
+        right:0;
+        top:0;
+        bottom:0;
+    }
+    .svg-icon{
+        display: flex;
+        position: relative;
+        box-sizing: border-box;
+        width: 180px;
+        height: 180px;
+        border: solid 1px #80808080;
+        justify-content: center;
+        align-items: center;
+        margin: 10px;
+    }
+    .svg-icon:hover {
+        border-color: var(--vscode-menu-selectionBackground);
+    }
+    .svg-icon>img {
+        display: block;
+        max-width: 160px;
+        max-height: 160px;
+    }
+    .svg-name {
+        position: absolute;
+        left: 1px;
+        right: 1px;
+        bottom: 1px;
+        padding: 2px;
+        text-overflow: ellipsis;
+        color: #f0f0f0;
+        background-color: #80808080;
+        text-align: center;
+    }
+    </style>
+</head>
+<body>
+`);
+
+        html.push('<div id="__toolbar"></div>');
+
+        html.push('<div id="__listview"></div>');        
+        html.push(`<script>
+
+        var vscode = acquireVsCodeApi();
+        var displayItems = [];
+
+        function init() {
+            window.addEventListener('message', onmessagein);
+            vscode.postMessage({action: 'update'});
+            console.log('init update');
+        }
+
+        function showDoc(e) {
+            //console.log('showDoc', e, this);
+            var uri = e.getAttribute('data-uri');
+            vscode.postMessage({action: 'open', uri: uri});
+        }
+
+        function previewDoc(t, e) {
+            if(e.button != 2) {
+                return;
+            }
+            var uri = t.getAttribute('data-uri');
+            vscode.postMessage({action: 'preview', uri: uri});
+            return false;
+        }
+
+        function onUpdateItems(items) {
+            var html = [];
+            displayItems = items;
+            for(var i in displayItems) {
+                var item = displayItems[i];
+                html.push('<div class="svg-icon" title="LMB: open in editor&#10;RMB: open in previewr" data-uri="'+escape(item.uri)+'" onclick="showDoc(this)" onmousedown="previewDoc(this, event)"><img src="' + item.svgImgSrc + '" /><div class="svg-name">'+item.name+'</div></div>');
+            }
+            document.getElementById('__listview').innerHTML = html.join('');
+        }
+        
+        function onmessagein(e) {
+            switch(e.data.action) {
+                case 'items':
+                    onUpdateItems(e.data.items);
+                    break;
+            }
+        }
+
+        if(document.readyState != 'loading') {
+            init();
+        } else {
+            document.onreadystatechange = function(){
+                if(document.readyState == 'interactive') {
+                    init();
+                }
+            };
+        } 
+</script>`);
+        html.push(`</body>
+</html>`);
+
+        return html.join('');
+    }
+
+    dispose() {
+        this.subdisposed.forEach(d=>d.dispose());
+    }    
 }
 
 export class SvgPreviwerContentProvider implements vscode.Disposable
 {
     webviewPanel : vscode.WebviewPanel;
-    d0: vscode.Disposable;
-    d1: vscode.Disposable;
+    // d0: vscode.Disposable;
+    // d1: vscode.Disposable;
     d2: vscode.Disposable;
-    d3: vscode.Disposable;
-    d4: vscode.Disposable;
+    // d3: vscode.Disposable;
+    // d4: vscode.Disposable;
     previewUri: string;
+    isRootLocked: boolean = false;
+    isLocked: boolean = false;
     scale: number = 1;
     resPath: vscode.Uri;
     // path: vscode.Uri;
     noSaveBackground: string = null;
+	static $context: vscode.ExtensionContext;
     //lastDocument: vscode.TextDocument;
 
     /**
      *
      */
-    constructor(context: vscode.ExtensionContext) {
-        previewer = this;
+    constructor() {
         // this.path = vscode.Uri.file(context.asAbsolutePath('./client/out')).with({scheme: 'vscode-resource'});
-        this.resPath = vscode.Uri.file(context.asAbsolutePath('./client/out'));
-        this.d0 =  vscode.commands.registerTextEditorCommand('_svg.showSvg', ()=>this.show());
-        this.d1 =  vscode.commands.registerCommand('_svg.showSvgByUri', uri=>this.show(uri));
+        this.resPath = vscode.Uri.file(SvgPreviwerContentProvider.$context.asAbsolutePath('./client/out'));
+        // this.d0 =  vscode.commands.registerTextEditorCommand('_svg.showSvg', ()=>this.show());
+        // this.d1 =  vscode.commands.registerCommand('_svg.showSvgByUri', uri=>this.show(uri));
         this.d2 = vscode.workspace.onDidChangeTextDocument(e=>this.onDidChangeTextDocument(e));
-        this.d3 = vscode.window.onDidChangeActiveTextEditor(e=>this.onDidChangeActiveTextEditor(e));
-        this.d4 = vscode.window.onDidChangeTextEditorSelection(e=>this.onDidChangeTextEditorSelection(e));
+        // this.d3 = vscode.window.onDidChangeActiveTextEditor(e=>this.onDidChangeActiveTextEditor(e));
+        // this.d4 = vscode.window.onDidChangeTextEditorSelection(e=>this.onDidChangeTextEditorSelection(e));        
     }
 
     onDidChangeTextEditorSelection(e: vscode.TextEditorSelectionChangeEvent): any {
@@ -64,16 +340,28 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     }
 
     onDidChangeTextDocument(e: vscode.TextDocumentChangeEvent): any {
+        if(this.isLocked) {
+            if(e.document.uri.toString() == this.previewUri) {
+                this.showDocument(e.document);
+            }
+            return;
+        }
         if(this.isSvgDocument(e.document)) {
             this.showDocument(e.document);
         }
     }
 
-    onDidChangeActiveTextEditor(e: vscode.TextEditor): any {
-        if(this.isSvgDocument(e && e.document)) {
-            this.showDocument(e.document);
-        }
-    }
+    // onDidChangeActiveTextEditor(e: vscode.TextEditor): any {
+    //     // if(this.isLocked) {
+    //     //     if(e && e.document && e.document.uri.toString() == this.previewUri) {
+    //     //         this.showDocument(e.document);
+    //     //     }
+    //     //     return;
+    //     // }
+    //     if(this.isSvgDocument(e && e.document)) {
+    //         this.showDocument(e.document);
+    //     }
+    // }
 
     show(e?: any) {
         if(this.webviewPanel == null) {
@@ -88,15 +376,27 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 {enableScripts: true}
                 );
             this.webviewPanel.webview.onDidReceiveMessage(e=>this.onDidReceiveMessage(e));
-            this.webviewPanel.onDidDispose(()=>this.webviewPanel = null);
+            this.webviewPanel.onDidDispose(()=>this.onWebViewPanelDispose());
         }
         if(!this.webviewPanel.visible) {
             this.webviewPanel.reveal(vscode.ViewColumn.Three, true);
         }
+        let docUri: vscode.Uri = null;
         if(e instanceof vscode.Uri) {
-            this.showUri(e);
+            docUri = e;
         }
-        this.onDidChangeActiveTextEditor(vscode.window.activeTextEditor);
+        else if(vscode.window.activeTextEditor && this.isSvgDocument(vscode.window.activeTextEditor.document)) {
+            docUri = vscode.window.activeTextEditor.document.uri;
+        }
+        // this.onDidChangeActiveTextEditor(vscode.window.activeTextEditor);
+        if(docUri){
+            vscode.workspace.openTextDocument(docUri).then(doc=>this.showDocument(doc));
+        }
+    }
+
+    onWebViewPanelDispose() {
+        delete previewers[this.previewUri];
+        this.webviewPanel = null;
     }
 
     onDidReceiveMessage(e: any): any {
@@ -153,6 +453,14 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             case 'showerror':
                 vscode.window.showErrorMessage(e.msg);
                 break;
+            case 'lock':
+                this.isLocked = true;
+                this.webviewPanel.webview.postMessage({action: 'changeLock', value: true});
+                break;
+            case 'unlock':
+                this.isLocked = false;
+                this.webviewPanel.webview.postMessage({action: 'changeLock', value: false});
+                break;
             default:
                 console.warn(`unknown action message ${e.action}`);
                 break;
@@ -184,7 +492,11 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         if(this.previewUri != doc.uri.toString())
         {
             // this.lastDocument = doc;
+            if(previewers[this.previewUri] == this) {
+                delete previewers[this.previewUri];
+            }
             this.previewUri = doc.uri.toString();
+            previewers[this.previewUri] = this;
             this.webviewPanel.title = path.basename(doc.uri.fsPath) + '[Preview]';
         }
         this.webviewPanel.webview.html = this.createHtml(doc, this.webviewPanel.webview);
@@ -197,6 +509,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         let path = webivew.asWebviewUri(this.resPath).toString();
         let bg = (saveTo == 'NoSave' && this.noSaveBackground) || vscode.workspace.getConfiguration('svg.preview').get<string>('background') || 'transparent';
         let bgCustom = vscode.workspace.getConfiguration('svg.preview').get<string>('backgroundCustom') || '#eee';
+        let viewMode = vscode.workspace.getConfiguration('svg.preview').get<ViewMode>('viewMode', 'onlyOne');
         let mode = vscode.workspace.getConfiguration('svg.preview').get<string>('mode', 'svg');
         let svg = doc.getText();
 
@@ -296,6 +609,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         }
         #__host{
         }
+        .locked svg{
+            transform: rotate(-45deg);
+        }
         </style>`);
         switch (bg) {
             case 'white':
@@ -315,7 +631,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push('<div id="__host" tabindex="0"}><div id="__svg">');
         html.push(svg);
         html.push('</div></div>');
-        html.push(`<script>var mode = '${mode}'; var scale = ${this.scale}; var uri = '${doc.uri}';</script>`);
+        html.push(`<script>var mode = '${mode}'; var scale = ${this.scale}; var uri = '${doc.uri}'; var viewMode = '${viewMode}'; var isRootLocked = ${this.isRootLocked?'true':'false'};var isLocked = ${this.isLocked?'true':'false'};</script>`);
         html.push('<script src="${vscode-resource}/pv.js"></script>');
         html.push(`</body>`);
         html.push('</html>');
@@ -325,10 +641,10 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     }
 
     dispose():any {
-        this.d0.dispose();
-        this.d1.dispose();
+        // this.d0.dispose();
+        // this.d1.dispose();
         this.d2.dispose();
-        this.d3.dispose();
-        this.d4.dispose();
+        // this.d3.dispose();
+        // this.d4.dispose();
     }
 }
