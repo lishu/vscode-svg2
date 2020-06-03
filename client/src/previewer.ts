@@ -55,7 +55,7 @@ function onDidChangeActiveTextEditor(e:TextEditorLike) {
         if(previewer) {
             let svgCfg = vscode.workspace.getConfiguration('svg');
             let previewCfg = svgCfg.get<ISVGPreviewConfiguration>('preview');
-            if(previewCfg.autoShow) {
+            if(previewCfg.autoShow || e.document.uri.toString() != previewer.previewUri) {
                 previewer.show(e.document.uri);
             }
         }
