@@ -31,21 +31,25 @@ function getUnlockedProvider() {
 
 interface ISVGPreviewConfiguration {
     autoShow: boolean;
+    viewMode: ViewMode;
 }
 
 interface TextEditorLike {
     readonly document : vscode.TextDocument;
 }
 
-function onDidChangeActiveTextEditor(e:TextEditorLike) {
+function onDidChangeActiveTextEditor(e:TextEditorLike, show?: boolean) {
     if(e && e.document && e.document.languageId == 'svg'){
         let previewer = getProviderBy(e.document.uri);
+        let cfg = vscode.workspace.getConfiguration('svg').get<ISVGPreviewConfiguration>('preview');
         if(!previewer) {
-            let viewMode = vscode.workspace.getConfiguration('svg.preview').get<ViewMode>('viewMode', 'onlyOne');
             let unlockedPreviewer = getUnlockedProvider();
-            if(viewMode == 'oneByOne' || !unlockedPreviewer) {
+            if(cfg.viewMode == 'oneByOne' || !unlockedPreviewer) {
+                if(!cfg.autoShow && !show) {
+                    return;
+                }
                 previewer = new SvgPreviwerContentProvider();
-                previewer.isLocked = viewMode == 'oneByOne';
+                previewer.isLocked = cfg.viewMode == 'oneByOne';
                 previewer.isRootLocked = previewer.isLocked;
                 previewer.show(e.document.uri);
                 return;
@@ -53,10 +57,10 @@ function onDidChangeActiveTextEditor(e:TextEditorLike) {
             previewer = unlockedPreviewer;
         }
         if(previewer) {
-            let svgCfg = vscode.workspace.getConfiguration('svg');
-            let previewCfg = svgCfg.get<ISVGPreviewConfiguration>('preview');
-            if(previewCfg.autoShow || e.document.uri.toString() != previewer.previewUri) {
+            if(cfg.autoShow || e.document.uri.toString() != previewer.previewUri) {
                 previewer.show(e.document.uri);
+            } else {
+                previewer.webviewPanel.reveal(null, true);
             }
         }
     }
@@ -66,12 +70,12 @@ function show(e?: any) {
     if(e) {
         const uri = <vscode.Uri>e;
         vscode.workspace.openTextDocument(uri).then(doc=>{
-            onDidChangeActiveTextEditor({document : doc});
+            onDidChangeActiveTextEditor({document : doc}, true);
         });
         return;
     }
     var editor = vscode.window.activeTextEditor;
-    onDidChangeActiveTextEditor(editor);
+    onDidChangeActiveTextEditor(editor, true);
 }
 
 export function registerPreviewer() {
@@ -110,7 +114,8 @@ export class AllSvgPreviwerContentProvider implements vscode.Disposable
                     preserveFocus: true
                 },
                 {
-                    enableScripts: true
+                    enableScripts: true,
+                    enableFindWidget: true
                 }
                 );
             this.webviewPanel.webview.onDidReceiveMessage(e=>this.onDidReceiveMessage(e));

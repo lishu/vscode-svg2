@@ -32,9 +32,16 @@ function createButton(parent, content, handler) {
 
 declare function acquireVsCodeApi() : {
     postMessage(obj:any);
+    setState(obj:any);
+    getState():any;
 };
 
 const vscode = acquireVsCodeApi();
+
+var vsstate = vscode.getState();
+if(vsstate && 'isLocked' in vsstate) {
+    isLocked = vsstate.isLocked;
+}
 
 var minScale = 0.08;
 var maxScale = 8;
@@ -195,6 +202,9 @@ function onChangeLock(locked: boolean) {
         return;
     }
     isLocked = locked;
+    vscode.setState({
+        isLocked
+    });
     if(isLocked) {
         btnLocked.classList.add('locked');
     } else {

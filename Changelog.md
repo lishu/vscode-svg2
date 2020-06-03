@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.3.3 - 2020-06-04
+- Fixed 'auto show' always on (off no effect)
+
 ## 1.3.2 - 2020-06-03
 - Fixed thin preview command action
 
