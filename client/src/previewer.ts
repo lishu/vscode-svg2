@@ -168,7 +168,7 @@ export class AllSvgPreviwerContentProvider implements vscode.Disposable
     }
 
     onWebViewPanelDispose(): any {
-        
+        this.webviewPanel = null;
     }
 
     createHtml(): string {

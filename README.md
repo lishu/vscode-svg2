@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.3.1 - 2020-06-03
+- Fixed `Preview All SVG` command only work first open
+
 ### 1.3.0 - 2020-06-02
 - Add `Preview All SVG` command
 - Add `svg.preview.viewMode` configuration option, so preview can show one by one
