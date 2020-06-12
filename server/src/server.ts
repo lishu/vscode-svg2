@@ -449,6 +449,24 @@ function onCompletionInCss(doc: TextDocument, content: string, position: Positio
 	return cssLangService.doComplete(cssDoc, position, styleSheet);
 }
 
+function onCompletionPaintAttr(items: Array<CompletionItem>, doc: TextDocument, content: string, modes: Array<DocumentRangeMode>, appendQute: boolean)
+{
+	// 快速找到有 ID 的 linearGradient, pattern, radialGradient
+	let reg = /<(linearGradient|pattern|radialGradient)[^>]*id="([^"]+)"/g;
+	let text = doc.getText();
+	let match: RegExpExecArray | null = null;
+	let qute = appendQute ? '"' : '';
+	while(match = reg.exec(text))
+	{
+		let id = match[2];
+		items.push({
+			label: '#' + id,
+			kind: CompletionItemKind.Variable,
+			insertText: qute + 'url(#' + id + ')' + qute
+		});
+	}
+}
+
 function onCompletionClassAttr(items: Array<CompletionItem>, doc: TextDocument, content: string, modes: Array<DocumentRangeMode>, appendQute: boolean) 
 {
 	var cssDoc = getModeDocument(doc, content, modes, 'css');
@@ -513,6 +531,10 @@ connection.onCompletion(async e =>{
 								continue;
 							}
 							items.push({label: color, kind: CompletionItemKind.Color});
+						}
+
+						if(attr.type == 'paint') {
+							onCompletionPaintAttr(items, doc, content, modes, triggerChar != '"');
 						}
 					}
 					// Auto Css Class Fill

@@ -993,7 +993,10 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                     "y2",
                     "spreadMethod",
                     "xlink:href"
-                ]
+                ],
+                defaultAttributes: {
+                    "id": ""
+                }
             },
             "marker": {
                 documentation: "The <marker> element defines the graphics that is to be used for drawing arrowheads or polymarkers on a given <path>, <line>, <polyline> or <polygon> element.",
@@ -1126,7 +1129,10 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                     "height",
                     "xlink:href",
                     "preserveAspectRatio"
-                ]
+                ],
+                defaultAttributes: {
+                    "id": ""
+                }
             },
             "polygon": {
                 documentation: "The <polygon> element defines a closed shape consisting of a set of connected straight line segments. The last point is connected to the first point. For open shapes see the <polyline> element.",
@@ -1195,7 +1201,10 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                     "fr",
                     "spreadMethod",
                     "xlink:href"
-                ]
+                ],
+                defaultAttributes: {
+                    "id": ""
+                }
             },
             "rect": {
                 documentation: "The rect element is an SVG basic shape, used to create rectangles based on the position of a corner and their width and height. It may also be used to create rectangles with rounded corners.",
@@ -1266,7 +1275,12 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                     "offset",
                     "stop-color",
                     "stop-opacity"
-                ]
+                ],
+                defaultAttributes: {
+                    "offset": "0%",
+                    "stop-color": ""
+                },
+                simple: true
             },
             "style": {
                 documentation: "The <style> SVG element allows style sheets to be embedded directly within SVG content. SVG's style element has the same attributes as the corresponding element in HTML (see HTML's <style> element).",

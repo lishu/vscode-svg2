@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.3.4 - 2020-06-12
+- Support paint (`fill`, `stroke`) url picker for `linearGradient`/`radialGradient`/`pattern` 
+
 ### 1.3.1 - 2020-06-03
 - Fixed `Preview All SVG` command only work first open
 
