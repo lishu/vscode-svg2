@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 import { changeName, writeB64ToFile } from './unit';
+import { utils } from 'mocha';
 
 let previewers: {[pn: string]: SvgPreviwerContentProvider} = {};
 
@@ -37,6 +38,8 @@ interface ISVGPreviewConfiguration {
 interface TextEditorLike {
     readonly document : vscode.TextDocument;
 }
+
+let customCssFiles = [];
 
 function onDidChangeActiveTextEditor(e:TextEditorLike, show?: boolean) {
     if(e && e.document && e.document.languageId == 'svg'){
@@ -433,6 +436,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                     vscode.window.showErrorMessage(e.msg);
                 }
                 break;
+            case 'selectcss':
+                this.selectCss();
+                break;
             case 'export': {
                 if(e.b64) {
                     let b = <Blob>e.blob;
@@ -470,6 +476,24 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 console.warn(`unknown action message ${e.action}`);
                 break;
         }
+    }
+
+    selectCss() {
+        vscode.workspace.findFiles('**/*.css', '**​/node_modules/**').then(uris=>{
+            let options = uris.map(uri=>{
+                return {
+                    label: uri.toString(), 
+                    picked: customCssFiles.indexOf(uri.toString()) > -1
+                };
+            });
+            vscode.window.showQuickPick(options, {canPickMany: true}).then(selectedCssUris=>{
+                if(selectedCssUris){
+                    let docUri = vscode.Uri.parse(this.previewUri);
+                    customCssFiles = selectedCssUris.map(cu=>cu.label);
+                    this.showUri(docUri);
+                }
+            });
+        });
     }
 
     public isActive() {
@@ -510,12 +534,13 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     private createHtml(doc: vscode.TextDocument, webivew: vscode.Webview):string
     {
         console.debug('create preview html');
-        let saveTo = vscode.workspace.getConfiguration('svg.preview').get<string>('backgroundSaveTo', 'Workspace');
+        let cfg = vscode.workspace.getConfiguration('svg.preview');
+        let saveTo = cfg.get<string>('backgroundSaveTo', 'Workspace');
         let path = webivew.asWebviewUri(this.resPath).toString();
-        let bg = (saveTo == 'NoSave' && this.noSaveBackground) || vscode.workspace.getConfiguration('svg.preview').get<string>('background') || 'transparent';
-        let bgCustom = vscode.workspace.getConfiguration('svg.preview').get<string>('backgroundCustom') || '#eee';
-        let viewMode = vscode.workspace.getConfiguration('svg.preview').get<ViewMode>('viewMode', 'onlyOne');
-        let mode = vscode.workspace.getConfiguration('svg.preview').get<string>('mode', 'svg');
+        let bg = (saveTo == 'NoSave' && this.noSaveBackground) || cfg.get<string>('background') || 'transparent';
+        let bgCustom = cfg.get<string>('backgroundCustom') || '#eee';
+        let viewMode = cfg.get<ViewMode>('viewMode', 'onlyOne');
+        let mode = cfg.get<string>('mode', 'svg');
         let svg = doc.getText();
 
         if(mode == 'img') {
@@ -600,6 +625,17 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             background-color: var(--vscode-menu-selectionBackground);
             color: var(--vscode-menu-selectionForeground);
         }
+        .btn>.label {
+            display: inline-block;
+            padding-left:0.5em;
+            padding-right:0.5em;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+            border-radius: 1em;
+            background: #090;
+            color: #ccc;
+            font-weight: bold;
+        }
         #__toolbar>.btn-group>.label{
             position:relative;
             padding:0 2px;
@@ -618,6 +654,17 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             transform: rotate(-45deg);
         }
         </style>`);
+
+        // 文档自定义样式文件
+        if(mode == 'svg' && customCssFiles.length) {
+            for(let cssUri of customCssFiles){
+                try{
+                    html.push(`<link crossorigin="anonymous" media="all" rel="stylesheet" href="${this.webviewPanel.webview.asWebviewUri(vscode.Uri.parse(cssUri))}" />`);
+                }
+                catch{}
+            }
+        }
+
         switch (bg) {
             case 'white':
                 html.push('<body class="bg-white">');
@@ -636,7 +683,15 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push('<div id="__host" tabindex="0"}><div id="__svg">');
         html.push(svg);
         html.push('</div></div>');
-        html.push(`<script>var mode = '${mode}'; var scale = ${this.scale}; var uri = '${doc.uri}'; var viewMode = '${viewMode}'; var isRootLocked = ${this.isRootLocked?'true':'false'};var isLocked = ${this.isLocked?'true':'false'};</script>`);
+        html.push(`<script>
+        var mode = '${mode}'; 
+        var scale = ${this.scale}; 
+        var uri = '${doc.uri}'; 
+        var viewMode = '${viewMode}'; 
+        var isRootLocked = ${this.isRootLocked?'true':'false'};
+        var isLocked = ${this.isLocked?'true':'false'};
+        var customCssFiles = ${customCssFiles.length};
+        </script>`);
         html.push('<script src="${vscode-resource}/pv.js"></script>');
         html.push(`</body>`);
         html.push('</html>');

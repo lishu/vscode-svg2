@@ -11,6 +11,7 @@ let btnImg : HTMLButtonElement;
 let btnLocked : HTMLButtonElement;
 declare var isRootLocked: boolean;
 declare var isLocked : boolean;
+declare var customCssFiles: number;
 
 function createButtonGroup(){
     var group = document.createElement('div');
@@ -143,6 +144,13 @@ function init() {
     if(mode == 'img') {
         btnImg.classList.add('active');
     }
+
+    if(mode == 'svg') {
+        var groupCss = createButtonGroup();
+        var btnSelectCss = createButton(groupCss, 'CSS' + (customCssFiles > 0 ? `<span class="label">${customCssFiles}</span>` : ''), e=>selectCss());
+        btnSelectCss.title = 'Select CSS Files for preview SVG';
+        btnSelectCss.className = 'btn';
+    }
     
     var groupTools = createButtonGroup();
     createButton(groupTools, 'Export PNG', ()=>{
@@ -150,6 +158,10 @@ function init() {
     }).className = 'btn';
 
     window.addEventListener('message', onmessagein);
+}
+
+function selectCss() {
+    vscode.postMessage({action: 'selectcss'});
 }
 
 function switchMode(mode: string) {
