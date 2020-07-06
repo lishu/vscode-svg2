@@ -362,7 +362,7 @@
                     "default": false,
                     "description": "Find duplicated elements and replace them with links (disabled by default)"
                 },
-                "svg.preview.viewMode" :{
+                "svg.preview.viewMode": {
                     "type": "string",
                     "default": "onlyOne",
                     "description": "How the previewer interacts with the user",
