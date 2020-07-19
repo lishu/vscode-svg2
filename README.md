@@ -5,6 +5,15 @@
 A Powerful SVG Language Support Extension.
 Almost all the features you need to handle SVG.
 
+## **Breaking Changes**
+We Removed default `tabSize` & `formatOnSave` configurations `[svg]` override, If your want old effects, add the following to your 'settings.json'. 
+```json
+    "[svg]": {
+        "editor.tabSize": 4,
+        "editor.formatOnSave": false
+    }
+```
+
 ## Features
 
 ### SVG Full Auto Completion.
@@ -62,6 +71,10 @@ Open the **Command Palette** (`⇧⌘P` on Mac and `Ctrl+Shift+P` on Win/Linux) 
 SVG Version 2.0 is not included.
 
 ## Changelog
+
+### 1.3.6 - 2020-07-19
+- Change format svgo configration
+- Remove default `tabSize` & `formatOnSave` configurations override
 
 ### 1.3.5 - 2020-06-28
 - Preview now can select css files.

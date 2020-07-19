@@ -71,6 +71,10 @@ const formatPlugins: Array<SVGO.PluginConfig> = [{
     removeDimensions: false,
 }, {
     removeAttrs: false,
+}, {
+    inlineStyles: false
+}, {
+    minifyStyles: false
 }
 ];
 
