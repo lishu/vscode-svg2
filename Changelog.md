@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.3.7 - 2020-07-26
+- Change default format to html base
+
+## 1.3.6 - 2020-07-19
+- Change format svgo configration
+
 ## 1.3.5 - 2020-06-28
 - Preview now can select css files.
 

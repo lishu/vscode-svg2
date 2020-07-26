@@ -6,13 +6,7 @@ A Powerful SVG Language Support Extension.
 Almost all the features you need to handle SVG.
 
 ## **Breaking Changes**
-We Removed default `tabSize` & `formatOnSave` configurations `[svg]` override, If your want old effects, add the following to your 'settings.json'. 
-```json
-    "[svg]": {
-        "editor.tabSize": 4,
-        "editor.formatOnSave": false
-    }
-```
+It is known that SVGO is used for formatting that does not work properly with content including `style` and `script`, this version has been used html formatting program, formatting options will be used directly with your 'html.format' configuration.
 
 ## Features
 
@@ -71,6 +65,9 @@ Open the **Command Palette** (`⇧⌘P` on Mac and `Ctrl+Shift+P` on Win/Linux) 
 SVG Version 2.0 is not included.
 
 ## Changelog
+
+### 1.3.7 - 2020-07-26
+- Change default format to html base
 
 ### 1.3.6 - 2020-07-19
 - Change format svgo configration

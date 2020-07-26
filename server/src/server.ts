@@ -30,6 +30,8 @@ import {Position} from 'vscode-languageserver-types';
 
 import { getCSSLanguageService, getDefaultCSSDataProvider } from 'vscode-css-languageservice';
 
+import { getLanguageService as getHTMLLanguageService, HTMLFormatConfiguration} from 'vscode-html-languageservice';
+
 import "process";
 
 import { ISvgJsonRoot, ISvgJsonElement, ISvgJsonAttribute, SvgEnum } from "./svgjson";
@@ -243,6 +245,7 @@ connection.onInitialize((params: InitializeParams) => {
 			definitionProvider: true,
 			referencesProvider: true,
 			documentSymbolProvider: true,
+			documentFormattingProvider: true,
 			renameProvider: {
 				prepareProvider: true
 			},
@@ -260,6 +263,11 @@ connection.onInitialized(() => {
 		});
 	}
 
+	connection.workspace.getConfiguration('html.format').then(a=>{
+		if(a){
+			htmlFormatOptions = <HTMLFormatConfiguration>a;
+		}
+	});
 });
 
 connection.onNotification("_svg_init", p=>{
@@ -268,6 +276,20 @@ connection.onNotification("_svg_init", p=>{
 		if(langauge) {
 			svg = getSvgJson(langauge.toLowerCase());
 		}
+	}
+});
+
+// 使用 vscode-html-langservice 作为格式化工具
+connection.onDocumentFormatting(e=>{
+	let doc = documents.get(e.textDocument.uri);
+	if(doc){
+		let options = { 
+			tabSize: e.options.tabSize,
+			insertSpaces: e.options.insertSpaces,
+			...htmlFormatOptions
+		};
+		let edits = htmlLangService.format(doc, undefined, options);
+		return edits;
 	}
 });
 
@@ -441,6 +463,8 @@ function createCompletionFromEnum(uri: string, position: number, svgEnum: SvgEnu
 	return item;
 }
 let cssLangService = getCSSLanguageService();
+let htmlLangService = getHTMLLanguageService();
+let htmlFormatOptions : HTMLFormatConfiguration = {};
 
 function onCompletionInCss(doc: TextDocument, content: string, position: Position, modes: Array<DocumentRangeMode>)
 {
