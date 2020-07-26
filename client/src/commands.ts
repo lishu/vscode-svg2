@@ -241,6 +241,7 @@ export function svgMinify(textEditor: TextEditor, edit: TextEditorEdit) {
 export class SvgFormattingProvider implements DocumentFormattingEditProvider {
     provideDocumentFormattingEdits(document: TextDocument, options: FormattingOptions, token: CancellationToken): ProviderResult<TextEdit[]> {
         let svgo = new SVGO({
+            full: false,
             plugins: formatPlugins,
             js2svg: { pretty: true, indent: <number>window.activeTextEditor.options.tabSize }
         });
