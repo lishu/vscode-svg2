@@ -575,13 +575,11 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         }
         body{
             margin:0;
-            margin-top: 24px;
-            padding:0;
+            padding:0;            
         }
         #__toolbar{
-            box-sizing: border-box;
             position: fixed;
-            left: 0;
+            box-sizing: border-box;
             top:0;
             min-height: 24px;
             padding-bottom: 1px;
@@ -679,7 +677,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 html.push('<body class="bg-trans">');
                 break;
         }
+        html.push('<div id="__toolbar_parent">');
         html.push('<div id="__toolbar"></div>');
+        html.push('</div>');
         html.push('<div id="__host" tabindex="0"}><div id="__svg">');
         html.push(svg);
         html.push('</div></div>');

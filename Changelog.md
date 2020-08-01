@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.3.8 - 2020-08-01
+- Fixed top bar on svg preview covers top of preview
+
 ## 1.3.7 - 2020-07-26
 - Change default format to html base
 

@@ -5,9 +5,6 @@
 A Powerful SVG Language Support Extension.
 Almost all the features you need to handle SVG.
 
-## **Breaking Changes**
-It is known that SVGO is used for formatting that does not work properly with content including `style` and `script`, this version has been used html formatting program, formatting options will be used directly with your 'html.format' configuration.
-
 ## Features
 
 ### SVG Full Auto Completion.
@@ -65,6 +62,9 @@ Open the **Command Palette** (`⇧⌘P` on Mac and `Ctrl+Shift+P` on Win/Linux) 
 SVG Version 2.0 is not included.
 
 ## Changelog
+
+### 1.3.8 - 2020-08-01
+- Fixed top bar on svg preview covers top of preview
 
 ### 1.3.7 - 2020-07-26
 - Change default format to html base

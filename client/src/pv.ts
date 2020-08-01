@@ -75,6 +75,10 @@ function switchViewMode() {
     }
 }
 
+function onResize() {
+    document.body.style.marginTop = _toolbar.offsetHeight + 'px';
+}
+
 function init() {
     _toolbar = <HTMLDivElement>document.getElementById('__toolbar');
     _host = <HTMLDivElement>document.getElementById('__host');
@@ -158,6 +162,8 @@ function init() {
     }).className = 'btn';
 
     window.addEventListener('message', onmessagein);
+    window.addEventListener('resize', onResize);
+    onResize();
 }
 
 function selectCss() {
