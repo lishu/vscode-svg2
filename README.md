@@ -63,6 +63,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.3.9 - 2020-09-04
+- The previewer now supports up to 64x scaling.
+- After 16x zoom, the pixel grid is automatically displayed.
+
 ### 1.3.8 - 2020-08-01
 - Fixed top bar on svg preview covers top of preview
 

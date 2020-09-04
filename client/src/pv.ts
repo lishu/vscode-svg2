@@ -2,6 +2,7 @@
 
 let _toolbar : HTMLDivElement;
 let _host : HTMLDivElement;
+let _pixelGrid : HTMLDivElement;
 let groupPrefix : HTMLDivElement;
 let groupBackground : HTMLDivElement;
 let groupMode : HTMLDivElement;
@@ -45,7 +46,8 @@ if(vsstate && 'isLocked' in vsstate) {
 }
 
 var minScale = 0.08;
-var maxScale = 8;
+var maxScale = 64;
+var pixelGridScale = 12;
 declare var scale : number;
 declare var uri : string;
 declare var mode : string;
@@ -65,6 +67,17 @@ function normalScale() {
 
 function showZoom(){
     labelZoom.innerText = (scale * 100).toFixed(0) + '%';
+    requestAnimationFrame(()=>{
+        if(scale < pixelGridScale) {
+            _pixelGrid.style.width = '0px';
+            _pixelGrid.style.height = '0px';
+        } else {
+            _pixelGrid.style.width = `${_host.scrollWidth}px`;
+            _pixelGrid.style.height = `${_host.scrollHeight}px`;
+            let pgSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${scale}" height="${scale}" viewBox="0 0 ${scale} ${scale}"><path d="M${scale} 0v${scale}h-${scale}" stroke="#808080" stroke-opacity=".5" fill-opacity="0" /></svg>`;
+            _pixelGrid.style.backgroundImage = `url(data:image/svg+xml;base64,${btoa(pgSvg)})`;
+        }
+    });
 }
 
 function switchViewMode() {
@@ -82,6 +95,7 @@ function onResize() {
 function init() {
     _toolbar = <HTMLDivElement>document.getElementById('__toolbar');
     _host = <HTMLDivElement>document.getElementById('__host');
+    _pixelGrid = <HTMLDivElement>document.querySelector('#__host>.--pixel-grid');
     if(!isRootLocked) {
         groupPrefix = createButtonGroup();
         btnLocked = createButton(groupPrefix, `<svg viewBox="0 0 1024 1024" width="16" height="16" style="background-color:transparent">

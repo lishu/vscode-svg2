@@ -647,6 +647,14 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             transform:scale(${this.scale});
         }
         #__host{
+            position:relative;
+        }
+        #__host>.--pixel-grid{
+            position: absolute;
+            left:0;
+            top:0;
+            background-repeat: repeat;
+            background-position: left top;
         }
         .locked svg{
             transform: rotate(-45deg);
@@ -682,7 +690,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push('</div>');
         html.push('<div id="__host" tabindex="0"}><div id="__svg">');
         html.push(svg);
-        html.push('</div></div>');
+        html.push('</div><div class="--pixel-grid"></div></div>');
         html.push(`<script>
         var mode = '${mode}'; 
         var scale = ${this.scale}; 
