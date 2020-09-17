@@ -382,7 +382,7 @@ connection.onSignatureHelp(e=>{
 				}
 			}
 		}
-		connection.console.log('onSignatureHelp token ' + JSON.stringify(token.token));
+		// connection.console.log('onSignatureHelp token ' + JSON.stringify(token.token));
 	}
 	return null;
 });
@@ -569,7 +569,7 @@ connection.onCompletion(async e =>{
 				}
 			}
 		}
-		if((triggerChar == '' || (token.token && token.token.type != TokenType.String && triggerChar == ' ')) && (token.token || token.prevToken) || (token.token && (token.token.type == TokenType.AttributeName || token.token.type == TokenType.Name) && token.token.endIndex == offset)) {
+		if(token.index > 0 && (((triggerChar == '' || (token.token && token.token.type != TokenType.String && triggerChar == ' ')) && (token.token || token.prevToken) || (token.token && (token.token.type == TokenType.AttributeName || token.token.type == TokenType.Name) && token.token.endIndex == offset)))) {
 			let firstAppend: string = '';
 			let ownerTagName = getOwnerTagName(token.all, token.token && token.token.index || token.prevToken!.index);
 			if(ownerTagName) {

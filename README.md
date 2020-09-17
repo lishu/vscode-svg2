@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.3.10 - 2020-09-17
+- Fixed write top level comment has error message in output.
+
 ### 1.3.9 - 2020-09-04
 - The previewer now supports up to 64x scaling.
 - After 16x zoom, the pixel grid is automatically displayed.
@@ -76,23 +79,6 @@ SVG Version 2.0 is not included.
 ### 1.3.6 - 2020-07-19
 - Change format svgo configration
 - Remove default `tabSize` & `formatOnSave` configurations override
-
-### 1.3.5 - 2020-06-28
-- Preview now can select css files.
-
-### 1.3.4 - 2020-06-12
-- Support paint (`fill`, `stroke`) url picker for `linearGradient`/`radialGradient`/`pattern` 
-
-### 1.3.1 - 2020-06-03
-- Fixed `Preview All SVG` command only work first open
-
-### 1.3.0 - 2020-06-02
-- Add `Preview All SVG` command
-- Add `svg.preview.viewMode` configuration option, so preview can show one by one
-- Add a Lock button in Previewer (show only `svg.preview.viewMode` is `onlyOne`) can lock current previewer to displayed svg document.
-
-### 1.2.0 - 2020-05-25
-- Add `style` css base supported
 
 ### [MORE](Changelog.md)
 

@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.3.10 - 2020-09-17
+- Fixed write top level comment has error message in output.
+
 ## 1.3.9 - 2020-09-04
 - The previewer now supports up to 64x scaling.
 - After 16x zoom, the pixel grid is automatically displayed.
