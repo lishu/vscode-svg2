@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.3.10",
+    "version": "1.3.11",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.40.0"
@@ -448,7 +448,10 @@
                     "meta.embedded.block.css": "css"
                 }
             }
-        ]
+        ],
+        "html": {
+            "customData": ["./html.html-data.json"]
+        }
     },
     "license": "MIT",
     "repository": {
