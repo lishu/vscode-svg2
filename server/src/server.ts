@@ -27,6 +27,7 @@ import {
 } from "vscode-languageserver";
 
 import {Position} from 'vscode-languageserver-types';
+import * as emmet from './emmet';
 
 import { getCSSLanguageService, getDefaultCSSDataProvider } from 'vscode-css-languageservice';
 
@@ -235,7 +236,7 @@ connection.onInitialize((params: InitializeParams) => {
 		capabilities: {
 			textDocumentSync: documents.syncKind,
 			completionProvider: {
-				triggerCharacters: '<|.| |=|"'.split('|'),
+				triggerCharacters: '<|.| |=|"|}|0|1|2|3|4|5|6|7|8|9|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z'.split('|'),
 				resolveProvider: true
 			},
 			hoverProvider: true,
@@ -527,7 +528,12 @@ connection.onCompletion(async e =>{
 				return onCompletionInCss(doc, content, e.position, modes);
 			}
 		}
+		const completionList = emmet.doComplete(doc, e.position, 'svg', svg);
+		if(completionList && completionList.items) {
+			items.push(...completionList.items);
+		}
 		let token = buildActiveToken(connection, doc, content, offset);
+		// console.log('token', token);
 		let triggerChar = offset > 0 ? content.charAt(offset - 1) : '';
 		let nextChar = content.charAt(offset);
 		if((triggerChar == '' || triggerChar == '=' || (triggerChar == '"' && nextChar == '"') || (token.token && token.token.type == TokenType.String && getTokenLen(token.token) == 3)) && token.token) {
@@ -693,7 +699,8 @@ function createDocumentation(item:CompletionItem, deprecated?:boolean|string,doc
 	};
 }
 
-connection.onCompletionResolve(item => {
+connection.onCompletionResolve(item => {	
+	connection.console.log("onCompletionResolve " + item);
 	if(item.data) {
 		if(item.kind == CompletionItemKind.Module) {
 			let data : ICompletionData<ISvgJsonElement> = item.data;
