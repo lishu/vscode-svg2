@@ -63,6 +63,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.3.11 - 2020-10-11
+- Add svg elements & attributes to HTML Language Service Custom Data.
+- Experimental add emmet-style auto complete, If you want to try this feature, configure 'svg.completion.emmet' to 'true'.
+
 ### 1.3.10 - 2020-09-17
 - Fixed write top level comment has error message in output.
 
@@ -75,10 +79,6 @@ SVG Version 2.0 is not included.
 
 ### 1.3.7 - 2020-07-26
 - Change default format to html base
-
-### 1.3.6 - 2020-07-19
-- Change format svgo configration
-- Remove default `tabSize` & `formatOnSave` configurations override
 
 ### [MORE](Changelog.md)
 

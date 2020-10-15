@@ -1272,7 +1272,11 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                     "@Presentation_attributes",
                     "class",
                     "style",
-                    "offset",
+                    {
+                        name: "offset",
+                        documentation: 'This attribute defines where the gradient stop is placed along the gradient vector.',
+                        type: 'number | percentage'
+                    },
                     "stop-color",
                     "stop-opacity"
                 ],
@@ -1425,7 +1429,8 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                     "@Core_attributes",
                     "class",
                     "style"
-                ]
+                ],
+                inline: true,
             },
             "tref": {
                 deprecated: "This feature has been removed from the Web standards.",
@@ -1816,7 +1821,7 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                 name: "flood-color",
                 documentation: "The flood-color attribute indicates what color to use to flood the current filter primitive subregion defined through the <feflood> element. The keyword currentColor and ICC colors can be specified in the same manner as within a <paint> specification for the fill and stroke attributes.",
                 enum: "currentColor | inherit".split(' | '),
-                type: "color | icccolor"
+                type: "color"
             },
             "flood-opacity": {
                 name: "flood-opacity",
@@ -1968,7 +1973,7 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                 name: "lighting-color",
                 documentation: "The lighting-color attribute defines the color of the light source for filter primitives elements <fediffuselighting> and <fespecularlighting>.",
                 enum: "currentColor | inherit".split(' | '),
-                type: "color | icccolor"
+                type: "color"
             },
             "limitingConeAngle": {
                 name: "limitingConeAngle",
@@ -2229,7 +2234,7 @@ For the <radialgradient> element, this attribute defines the radius of the large
                 name: "stop-color",
                 documentation: "The stop-color attribute indicates what color to use at that gradient stop. The keyword currentColor and ICC colors can be specified in the same manner as within a <paint> specification for the fill and stroke attributes.",
                 enum: "currentColor | inherit".split(' | '),
-                type: "color | icccolor"
+                type: "color"
             },
             "stop-opacity": {
                 name: "stop-opacity",

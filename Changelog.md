@@ -5,48 +5,66 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- Add SVG elements to VSCode stand HTML language service 🧧
+
+
+## 1.3.11 - 2020-10-11
+### Added
+- Add svg elements & attributes to HTML Language Service Custom Data.
+- Experimental add emmet-style auto complete, If you want to try this feature, configure 'svg.completion.emmet' to 'true'.
 
 ## 1.3.10 - 2020-09-17
+### Fixed
 - Fixed write top level comment has error message in output.
 
 ## 1.3.9 - 2020-09-04
+### Added
 - The previewer now supports up to 64x scaling.
 - After 16x zoom, the pixel grid is automatically displayed.
 
 ## 1.3.8 - 2020-08-01
+### Fixed
 - Fixed top bar on svg preview covers top of preview
 
 ## 1.3.7 - 2020-07-26
+### Change
 - Change default format to html base
 
 ## 1.3.6 - 2020-07-19
+### Change
 - Change format svgo configration
 
 ## 1.3.5 - 2020-06-28
+### Added
 - Preview now can select css files.
 
 ## 1.3.4 - 2020-06-12
+### Added
 - Support paint (`fill`, `stroke`) url picker for `linearGradient`/`radialGradient`/`pattern` 
 
 ## 1.3.3 - 2020-06-04
+### Fixed
 - Fixed 'auto show' always on (off no effect)
 
 ## 1.3.2 - 2020-06-03
+### Fixed
 - Fixed thin preview command action
 
 ## 1.3.1 - 2020-06-03
+### Fixed
 - Fixed `Preview All SVG` command only work first open
 
 ## 1.3.0 - 2020-06-02
+### Added
 - Add `Preview All SVG` command
 - Add `svg.preview.viewMode` configuration option, so preview can show one by one
 - Add a Lock button in Previewer (show only `svg.preview.viewMode` is `onlyOne`) can lock current previewer to displayed svg document.
 
 ## 1.2.0 - 2020-05-25
+### Added
 - Add `style` css base supported
 
 ## 1.1.9 - 2020-05-17
+### Change
 - Permit newlines in the comment body regex.
 - vscode Webview Outdated API Replace.
 

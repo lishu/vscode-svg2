@@ -8,6 +8,8 @@
     "configuration.completion.showAdvanced.description": "Specifies whether advanced items that are not commonly used are displayed in the AutoComplete list.",
     "configuration.completion.showDeprecated.title": "Show deprecated items in completion list.",
     "configuration.completion.showDeprecated.description": "Specifies whether advanced items that are deprecated are displayed in the AutoComplete list.",
+    "configuration.completion.emmet.title": "Enable Emmet-style completion list.",
+    "configuration.completion.emmet.description": "Indicates whether the Completion List of Emmet-styles is enabled.",
     "configuration.minifyPlugins.title": "SVGO plugins use by minify",
     "configuration.minifyPlugins.description": "Each items corresponds to a plugin that should be enabled, the rest is disabled.",
     "configuration.preview.background.title": "Svg Preview Background",

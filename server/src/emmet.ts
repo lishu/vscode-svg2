@@ -11,6 +11,8 @@ const NAME_EXP = /^[a-z0-9_-]+$/gi;
 const STR_EXP = /^"[^"]*"$/gi;
 const NUM_EXP = /^[0-9]+$/gi;
 
+const NO_EMMET_TAGS = ['script'];
+
 interface IMatchInfo {
     index: number;
     texts: Array<string>;
@@ -173,7 +175,7 @@ class ENodeBuilder {
                 default:
                     if(part.startsWith('{')){
                         this.current.chilren.push({
-                            textContent: part.substring(1, part.length-2),
+                            textContent: part.substring(1, part.length-1),
                             attributes: {},
                             chilren: []
                         });
@@ -193,7 +195,7 @@ class ENodeBuilder {
                         this.current.tag = part;
                         this.current.element = this.svginfo.elements[this.current.tag.toLowerCase()];
                         if(!this.current.element) {
-                            this.current.tag = this.elementNames.find(n=>n.startsWith(part));
+                            this.current.tag = this.elementNames.find(n=>n.startsWith(part) && !NO_EMMET_TAGS.includes(n));
                             if(this.current.tag) {
                                 this.current.element = this.svginfo.elements[this.current.tag];
                                 break;
@@ -322,6 +324,10 @@ export function doComplete(doc: TextDocument, position: Position, lang: string, 
     try {
         const lineRange = Range.create(Position.create(position.line, 0), Position.create(position.line + 1, -1));
         const line = doc.getText(lineRange);
+        if(line.includes('<')) {
+            // 只要本行内有这个字符就不应该处理
+            return { isIncomplete: false, items };
+        }
         let matches = execAll(line);
         for(let match of matches) {
             if(match.index < position.character && match.endIndex >= position.character) {

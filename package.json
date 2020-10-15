@@ -103,6 +103,12 @@
                     "type": "boolean",
                     "default": false
                 },
+                "svg.completion.emmet": {
+                    "title": "%configuration.completion.emmet.title%",
+                    "description": "%configuration.completion.emmet.description%",
+                    "type": "boolean",
+                    "default": false
+                },
                 "svg.preview.autoShow": {
                     "title": "Auto Show Preview",
                     "description": "Auto show preview on side when a SVG document open",

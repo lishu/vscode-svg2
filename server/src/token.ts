@@ -46,7 +46,7 @@ let endTagRegex = /^>/;
 let simpleEndTagRegex = /^\/>/;
 let startEndTagRegex = /^<\//;
 let equalRegex = /^=/;
-let stringRegex = /^".*?"/;
+let stringRegex = /^".*?"/s;
 
 
 function getTokens(connection: Connection, content:string) {
@@ -75,6 +75,15 @@ function getTokens(connection: Connection, content:string) {
         }
         return false;
     };
+    let getLastTokenNoWitespace = () => {
+        let idx = tokens.length;
+        while(idx > 0) {
+            idx--;
+            if(tokens[idx].type != TokenType.Whitespace) {
+                return tokens[idx];
+            }
+        }
+    };
     let nameTest = (reg:RegExp)=> {
         let lifeContent = content.substring(pos);
         let r = lifeContent.match(nameRegex);
@@ -82,11 +91,12 @@ function getTokens(connection: Connection, content:string) {
             let startIndex = pos;
             pos = startIndex + r[0].length;
             let tokenType = TokenType.Name;
-            if(lastToken) {
+            let lt = getLastTokenNoWitespace();
+            if(lastToken && lt) {
                 if(lastToken.type == TokenType.StartTag || lastToken.type == TokenType.StartEndTag) {
                     tokenType = TokenType.TagName;
                 }
-                else if(lastToken.type == TokenType.String || lastToken.type == TokenType.Whitespace) {
+                else if(lt.type == TokenType.String || lt.type == TokenType.TagName) {
                     tokenType = TokenType.AttributeName;
                 }
             }
@@ -129,6 +139,8 @@ export interface IActiveToken {
     all: Array<Token>;
     prevToken?: Token;
     token?: Token;
+    /** 活动的 Token，活动点 == endIndex */
+    activeEndToken?: Token;
     index: number;
 }
 
@@ -226,13 +238,17 @@ export function buildActiveToken(connection: Connection, doc: TextDocument, cont
         tokenCaches[doc.uri] = {version: doc.version, tokens: tokens};
     }
     let index = 0;
-
+    let activeEndToken : Token | undefined = undefined;
     for(let index = 0; index < tokens.length; index ++) {
         let token = tokens[index];
+        if(token.endIndex == activeOffset) {
+            activeEndToken = token;
+        }
         if(token.endIndex > activeOffset && token.startIndex <= activeOffset) {
             return {
                 all: tokens,
                 index: index,
+                activeEndToken,
                 prevToken: index > 0 ? tokens[index - 1] : undefined,
                 token: token
             };
@@ -248,6 +264,7 @@ export function buildActiveToken(connection: Connection, doc: TextDocument, cont
         else if(token.startIndex > activeOffset) {
             return {
                 all: tokens,
+                activeEndToken,
                 index: -1,
                 prevToken: index > 0 ? tokens[index - 1] : undefined,
             };
@@ -263,6 +280,7 @@ export function buildActiveToken(connection: Connection, doc: TextDocument, cont
     }
     return {
         all: tokens,
+        activeEndToken,
         index: -1
     };
 }
