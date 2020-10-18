@@ -784,7 +784,7 @@ function appendCompletion(doc: TextDocument, offset: number, document: string, i
 		// delete completionItem.insertText;
 		// delete completionItem.textEdit;
 		completionItem.command = Command.create('Show Suggest', 'editor.action.triggerSuggest');		
-		console.debug(JSON.stringify(completionItem));
+		// console.debug(JSON.stringify(completionItem));
 	}
 	items.push(completionItem);
 }
@@ -810,10 +810,11 @@ connection.onCompletion(async e => {
 		let token = buildActiveToken(connection, doc, content, offset);
 		let mean = fastGetCompletionMean(token, content, offset);
 		if (mean) {
-			console.debug(`mean ${JSON.stringify(mean)}`);
+			// console.debug(`mean ${JSON.stringify(mean)}`);
 			switch (mean.type) {
 				case CompletionMeanType.Element:
 					if (mean.parent) {
+						isIncomplete = false;
 						let parentElement = svg.elements[mean.parent];
 						if (parentElement && parentElement.subElements) {
 							for (var name of parentElement.subElements) {
@@ -859,6 +860,7 @@ connection.onCompletion(async e => {
 					break;
 				case CompletionMeanType.Attribute:
 					if (mean.parent) {
+						isIncomplete = false;
 						let parent = svg.elements[mean.parent];
 						if (parent && parent.attributes) {
 							for (let attr of parent.attributes) {
@@ -889,6 +891,7 @@ connection.onCompletion(async e => {
 					break;
 				case CompletionMeanType.Value:
 					if (mean.parent) {
+						isIncomplete = false;
 						let attr = svg.attributes[mean.parent];
 						if (attr) {
 							if (attr.enum) {

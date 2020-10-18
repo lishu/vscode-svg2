@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.3.12 - 2020-10-18
+- Emmet-Style auto complete has support full 2.0 definions.
+
 ### 1.3.11 - 2020-10-11
 - Add svg elements & attributes to HTML Language Service Custom Data.
 - Experimental add emmet-style auto complete, If you want to try this feature, configure 'svg.completion.emmet' to 'true'.
@@ -76,9 +79,6 @@ SVG Version 2.0 is not included.
 
 ### 1.3.8 - 2020-08-01
 - Fixed top bar on svg preview covers top of preview
-
-### 1.3.7 - 2020-07-26
-- Change default format to html base
 
 ### [MORE](Changelog.md)
 

@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.3.12 - 2020-10-18
+### Changed
+- Emmet-Style auto complete has support full 2.0 definions.
 
 ## 1.3.11 - 2020-10-11
 ### Added

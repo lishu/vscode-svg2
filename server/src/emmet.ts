@@ -17,6 +17,7 @@ export function doComplete(doc: TextDocument, position: Position, lang: string, 
         for(let match of matches) {
             if(match.index < position.character && match.endIndex >= position.character) {
                 const eb = new ENodeBuilder(svginfo);
+                eb.defaultTagUseTree = true;
                 if(eb.parse(match.texts)){
                     const code = eb.toCode();
                     const label = match.texts.join('');

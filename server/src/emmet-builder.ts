@@ -15,6 +15,7 @@ interface ENode {
     chilren: Array<ENode>;
     textContent?: string;
     attributes: any;
+    attribute_defaults?: Array<string>;
 }
 
 interface IMatchInfo {
@@ -79,9 +80,18 @@ export function execAll(input: string) : Array<IMatchInfo> {
 }
 
 export class ENodeBuilder {
+    /** 调试模式 */
     debug = false;
+    /**
+     * 默认顶层标签
+     */
     defaultTagName = "svg";
+    /** 使用标签树关系过滤下层可用标签 */
     defaultTagUseTree = false;
+    /**
+     * 是否生成 Snippet 变量参数
+     */
+    useSnippet = true;
     root!: ENode;
     current!: ENode;
     elementNames: Array<string>;
@@ -346,6 +356,21 @@ export class ENodeBuilder {
         return null;
     }
 
+    private snippetIndex = 0;
+    private snippetOutputIndex = 0;
+    private lastSnippetValued = false;
+
+    newSnippetAttribute(builder: TagBuilder, value?: string) {
+        this.snippetIndex++;
+        this.snippetOutputIndex = builder.output.length;
+        if(value) {
+            this.lastSnippetValued = true;
+            return `$\{${this.snippetIndex}:${value}\}`;
+        }
+        this.lastSnippetValued = false;
+        return `$${this.snippetIndex}`;
+    }
+
     buildNode(outputs: TagBuilder, node: ENode, indentLevel: number = 0, contextNumber: number = 1, contextCount: number = 1, inline = false) {
         let startNumber = 1;
         let endNumber = 1;
@@ -385,7 +410,13 @@ export class ENodeBuilder {
                             continue;
                         }
                         // outputs.addAttribute(attrname, node.element.defaultAttributes[attrname]);
-                        outputs.addAttribute(attrname, '');
+                        if(this.useSnippet) {
+                            outputs.addAttribute(attrname, this.newSnippetAttribute(outputs, node.element.defaultAttributes[attrname]));
+                        }
+                        else
+                        {
+                            outputs.addAttribute(attrname, '');
+                        }
                     }
                 }
                 if(node.attributes) {
@@ -404,6 +435,10 @@ export class ENodeBuilder {
                 for(var child of node.chilren) {
                     this.buildNode(outputs, child, childrenlevel, currentNumber, 1, nodeInline);
                 }
+            } else {
+                if(this.useSnippet && !node.is_group && !inline) {
+                    outputs.addText(this.newSnippetAttribute(outputs));
+                }
             }
 
             if(currentTagStart) {
@@ -415,10 +450,26 @@ export class ENodeBuilder {
     private replace_index = 0;
 
     toCode(): string {
+        this.snippetIndex = 0;
+        this.snippetOutputIndex = 0;
+        this.lastSnippetValued = false;
         const builder = new TagBuilder();
         builder.indent = this.indent;
         this.replace_index = 0;
         this.buildNode(builder, this.root);
+        if(this.useSnippet) {
+            if(this.snippetIndex > 0) {
+                if(this.lastSnippetValued) {
+                    return builder.toString() + '$0';
+                }
+                for(var i=this.snippetOutputIndex;i<builder.output.length;i++) {
+                    if(builder.output[i].includes('$' + this.snippetIndex)){
+                        builder.output[i] = builder.output[i].replace('$' + this.snippetIndex, '$0');
+                        break;
+                    }
+                }
+            }
+        }
         return builder.toString();
     }
 }
