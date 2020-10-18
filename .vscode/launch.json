@@ -34,6 +34,17 @@
 				"${workspaceRoot}/client/testFixture"
 			],
 			"outFiles": ["${workspaceRoot}/client/out/test/**/*.js"]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Debug Emmit Test",
+			"outFiles": ["${workspaceRoot}/server/out/**/*.js"],
+			"args": ["${workspaceRoot}/server/test/emmet.test.js"],
+			"preLaunchTask": {
+				"type": "npm",
+				"script": "watch"
+			}
 		}
 	],
 	"compounds": [

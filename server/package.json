@@ -16,7 +16,11 @@
 		"vscode-html-languageservice": "^3.1.0",
 		"vscode-languageserver": "^5.2.1"
 	},
+	"devDependencies": {
+		"jest": "26.4.2"
+	},
 	"scripts": {
-		"vscode:prepublish": "webpack --mode production"
+		"vscode:prepublish": "webpack --mode production",
+		"test": "jest"
 	}
 }

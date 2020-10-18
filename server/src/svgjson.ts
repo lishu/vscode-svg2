@@ -75,6 +75,8 @@ export interface ISvgJsonElements {
 }
 
 export interface ISvgJson {
+    elementNameMap : {[alias: string]: string};
+    attributeNameMap : {[alias: string]: string};
     elements: ISvgJsonElements;
     categories: ISvgJsonCategories;
     attributes: ISvgJsonAttributes;

@@ -23,6 +23,18 @@ export interface ISvgLanguageJson {
 
 export function getSvgJson(language: string): ISvgJsonRoot {
     let svg :ISvgJson = {
+        "elementNameMap": {
+            "p": "path",
+            "pg": "polygon",
+            "pl": "polyline",
+            "r": "rect",
+            "c": "circle",
+            "e": "ellipse",
+            "l": "line",
+        },
+        "attributeNameMap": {
+
+        },
         "elements": {
             "a": {
                 "documentation": "The <a> SVG element defines a hyperlink.",
