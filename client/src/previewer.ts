@@ -436,6 +436,12 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                     vscode.window.showErrorMessage(e.msg);
                 }
                 break;
+            case 'cross':
+                this.showCrossLine = !!e.value;
+                break;
+            case 'ruler':
+                this.showRuler = !!e.value;
+                break;
             case 'selectcss':
                 this.selectCss();
                 break;
@@ -471,6 +477,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             case 'unlock':
                 this.isLocked = false;
                 this.webviewPanel.webview.postMessage({action: 'changeLock', value: false});
+                break;
+            case 'log':
+                console.log(...e.data);
                 break;
             default:
                 console.warn(`unknown action message ${e.action}`);
@@ -531,6 +540,17 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         this.webviewPanel.webview.html = this.createHtml(doc, this.webviewPanel.webview);
     }
 
+    showRuler : boolean | undefined = undefined;
+    showCrossLine : boolean | undefined = undefined;
+
+    private getDefined<T>(...options: Array<T | undefined>) : T {
+        for(let item of options) {
+            if(typeof(item) !== 'undefined') {
+                return item;
+            }
+        }
+    }
+
     private createHtml(doc: vscode.TextDocument, webivew: vscode.Webview):string
     {
         // console.debug('create preview html');
@@ -540,6 +560,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         let bg = (saveTo == 'NoSave' && this.noSaveBackground) || cfg.get<string>('background') || 'transparent';
         let bgCustom = cfg.get<string>('backgroundCustom') || '#eee';
         let viewMode = cfg.get<ViewMode>('viewMode', 'onlyOne');
+        let showRuler = this.getDefined(this.showRuler, cfg.get<boolean>('showRuler', false));
+        let showCrossLine = this.getDefined(this.showCrossLine, cfg.get<boolean>('showCrossLine', false));
         let mode = cfg.get<string>('mode', 'svg');
         let svg = doc.getText();
 
@@ -634,6 +656,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             color: #ccc;
             font-weight: bold;
         }
+        .btn>svg {
+            vertical-align: middle;
+        }
         #__toolbar>.btn-group>.label{
             position:relative;
             padding:0 2px;
@@ -645,9 +670,15 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         #__svg{
             transform-origin:top left;
             transform:scale(${this.scale});
+            line-height: 0;
+        }
+        body.with-ruler #__host {
+            left: 12px;
+            top: 12px;
         }
         #__host{
             position:relative;
+            line-height: 0;
         }
         #__host>.--pixel-grid{
             position: absolute;
@@ -655,6 +686,11 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             top:0;
             background-repeat: repeat;
             background-position: left top;
+        }
+        #__rulerHost {
+            position: fixed;
+            left:0;
+            top:0;
         }
         .locked svg{
             transform: rotate(-45deg);
@@ -690,7 +726,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push('</div>');
         html.push('<div id="__host" tabindex="0"}><div id="__svg">');
         html.push(svg);
-        html.push('</div><div class="--pixel-grid"></div></div>');
+        html.push('</div><div class="--pixel-grid"></div><div id="__rulerHost"></div></div>');
         html.push(`<script>
         var mode = '${mode}'; 
         var scale = ${this.scale}; 
@@ -699,6 +735,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         var isRootLocked = ${this.isRootLocked?'true':'false'};
         var isLocked = ${this.isLocked?'true':'false'};
         var customCssFiles = ${customCssFiles.length};
+        var showRuler = ${showRuler};
+        var showCrossLine = ${showCrossLine};
         </script>`);
         html.push('<script src="${vscode-resource}/pv.js"></script>');
         html.push(`</body>`);

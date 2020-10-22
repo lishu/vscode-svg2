@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.0 - 2020-10-22
+### Add
+- Editor add `Copy as Image Data Uri` command in Context Menu, now you can copy svg add parse it to `<img src="|" />` direct.
+- Preview how can show `Crossline`.
+- Preview how can show `Ruler`.
+
 ## 1.3.12 - 2020-10-18
 ### Changed
 - Emmet-Style auto complete has support full 2.0 definions.

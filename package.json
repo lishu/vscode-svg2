@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.3.12",
+    "version": "1.4.0",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.40.0"
@@ -57,7 +57,14 @@
             {
                 "command": "svg.showAllSvg",
                 "title": "Preview All Svg",
+                "category": "SVG",
                 "enablement": "workbenchState != empty"
+            },
+            {
+                "command": "svg.copyDataUri",
+                "title": "Copy as Image Data Uri",
+                "category": "SVG",
+                "enablement": "editorLangId == svg"
             }
         ],
         "menus": {
@@ -73,6 +80,11 @@
                     "command": "_svg.minifySvg",
                     "when": "editorLangId == svg",
                     "group": "2"
+                },
+                {
+                    "command": "svg.copyDataUri",
+                    "group": "2",
+                    "when": "resourceLangId == svg"
                 }
             ],
             "explorer/context": [
@@ -426,6 +438,18 @@
                     "type": "string",
                     "default": "#eee",
                     "description": "%configuration.preview.backgroundCustom.description%"
+                },
+                "svg.preview.showRuler": {
+                    "title": "Show Ruler",
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Preview show ruler by default, you can switch it from toolbar"
+                },
+                "svg.preview.showCrossLine": {
+                    "title": "Show Crossline",
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Preview show cross line (will hide mouse pointer) by default, you can switch it from toolbar"
                 }
             }
         },

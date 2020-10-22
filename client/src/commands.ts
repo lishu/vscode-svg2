@@ -1,6 +1,6 @@
 import SVGO = require("svgo");
 import fs = require('fs');
-import { window, TextDocument, FormattingOptions, CancellationToken, ProviderResult, Range, TextEdit, DocumentFormattingEditProvider, Position, TextEditor, TextEditorEdit, Uri, workspace } from "vscode";
+import { window, TextDocument, FormattingOptions, CancellationToken, ProviderResult, Range, TextEdit, DocumentFormattingEditProvider, Position, TextEditor, TextEditorEdit, Uri, workspace, env } from "vscode";
 import { changeName } from "./unit";
 
 const formatPlugins: Array<SVGO.PluginConfig> = [{
@@ -223,6 +223,21 @@ function createMinifySVGO() {
     return new SVGO({
         plugins
     });
+}
+
+export function copyDataUri(textEditor: TextEditor, edit: TextEditorEdit) {
+    if (textEditor.document.languageId == 'svg') {
+        let svgo = createMinifySVGO();
+        svgo.optimize(textEditor.document.getText()).then(r => {
+            if (r.data) {
+                // 转换为 base64
+                let s = 'data:image/svg+xml;base64,' + Buffer.from(r.data).toString('base64');
+                env.clipboard.writeText(s);
+            }
+        }).catch(reason => {
+            window.showErrorMessage('Failed to minify the document.\n' + reason);
+        });
+    }
 }
 
 export function svgMinify(textEditor: TextEditor, edit: TextEditorEdit) {
