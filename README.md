@@ -63,6 +63,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.1 - 2020-11-02
+- Fix IntelliSense enum options not correct after last complete rewrite.
+- Add `vector-effect` attribute to `Presentation` category.
+
 ### 1.4.0 - 2020-10-22
 - Editor add `Copy as Image Data Uri` command in Context Menu, now you can copy svg add parse it to `<img src="|" />` direct.
 - Preview how can show `Crossline`.

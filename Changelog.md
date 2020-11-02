@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.1 - 2020-11-02
+### Fixed
+- IntelliSense enum options not correct after last complete rewrite.
+### Added
+- `vector-effect` attribute to `Presentation` category.
+
 ## 1.4.0 - 2020-10-22
 ### Add
 - Editor add `Copy as Image Data Uri` command in Context Menu, now you can copy svg add parse it to `<img src="|" />` direct.
