@@ -569,6 +569,8 @@ interface CompletionMean {
 	startOffset: number;
 	endOffset: number;
 	parent?: string | null;
+	/** Current tag for completion, only for `CompletionMeanType.Value` */
+	tag?: string | null;
 	hasAttributes?: Array<string>;
 }
 
@@ -696,7 +698,8 @@ function fastGetCompletionMean(token: IActiveToken, content: string, offset: num
 				end: content.substring(offset, inToken.endIndex),
 				startOffset: inToken.startIndex,
 				endOffset: inToken.endIndex,
-				parent: getMeanAttributeName(token, content, inToken.index)
+				parent: getMeanAttributeName(token, content, inToken.index),
+				tag: getMeanParentTagName(token, content, inToken.index)
 			};
 		}
 		if(inToken.type == TokenType.Equal) {
@@ -706,7 +709,8 @@ function fastGetCompletionMean(token: IActiveToken, content: string, offset: num
 				end,
 				startOffset,
 				endOffset,
-				parent: getMeanAttributeName(token, content, inToken.index)
+				parent: getMeanAttributeName(token, content, inToken.index),
+				tag: getMeanParentTagName(token, content, inToken.index)
 			};
 		}
 	}
@@ -787,6 +791,24 @@ function appendCompletion(doc: TextDocument, offset: number, document: string, i
 		// console.debug(JSON.stringify(completionItem));
 	}
 	items.push(completionItem);
+}
+
+function getLocalOrGlobalAttr(mean: CompletionMean) : ISvgJsonAttribute | undefined {
+	if(mean && mean.parent) {
+		// global attr
+		let attr = svg.attributes[mean.parent]; 
+		// try get local attr
+		if(mean.tag && svg.elements[mean.tag]) {
+			const ele = svg.elements[mean.tag];
+			if(ele.attributes) {
+				const localAttr = <ISvgJsonAttribute | undefined>ele.attributes.find(p=>typeof p !== 'string' && p.name == mean.parent);
+				if(localAttr) {
+					return localAttr;
+				}
+			}
+		}
+		return attr;
+	}
 }
 
 connection.onCompletion(async e => {
@@ -892,7 +914,7 @@ connection.onCompletion(async e => {
 				case CompletionMeanType.Value:
 					if (mean.parent) {
 						isIncomplete = false;
-						let attr = svg.attributes[mean.parent];
+						let attr = getLocalOrGlobalAttr(mean);
 						if (attr) {
 							if (attr.enum) {
 								for (var a of attr.enum) {
