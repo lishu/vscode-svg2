@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.2 - 2020-12-11
+### Fixed
+- `HTML Custom Data` for html document addition data
+
 ## 1.4.1 - 2020-11-02
 ### Fixed
 - IntelliSense enum options not correct after last complete rewrite.

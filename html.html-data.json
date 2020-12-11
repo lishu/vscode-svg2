@@ -824,14 +824,6 @@
       ]
     },
     {
-      "name": "audio",
-      "description": "🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/audio)"
-    },
-    {
-      "name": "canvas",
-      "description": "🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/canvas)"
-    },
-    {
       "name": "circle",
       "description": "Create circles based on a center point and a radius.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle)",
       "attributes": [
@@ -1836,6 +1828,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -2903,6 +2916,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -4004,6 +4038,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -5151,6 +5206,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -6255,6 +6331,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -7352,6 +7449,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -8427,6 +8545,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -9574,6 +9713,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -10708,6 +10868,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -11812,6 +11993,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -12959,6 +13161,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -14088,6 +14311,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -15139,6 +15383,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -16445,6 +16710,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -17520,6 +17806,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -18579,6 +18886,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -19744,6 +20072,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -20827,6 +21176,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -21964,6 +22334,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -23109,6 +23500,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -24196,6 +24608,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -25315,6 +25748,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -26366,6 +26820,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -27441,6 +27916,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -28496,6 +28992,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -29531,6 +30048,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -30578,6 +31116,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -31617,6 +32176,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -31682,10 +32262,6 @@
           "description": "The style attribute specifies style information for its element. It functions identically to the style attribute in HTML.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/style)"
         }
       ]
-    },
-    {
-      "name": "iframe",
-      "description": "🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/iframe)"
     },
     {
       "name": "image",
@@ -32704,6 +33280,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -33787,6 +34384,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -34866,6 +35484,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -35957,6 +36596,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -36014,26 +36674,6 @@
           ]
         }
       ]
-    },
-    {
-      "name": "mask",
-      "description": "In SVG, you can specify that any other graphics object or <g> element can be used as an alpha mask for compositing the current object into the background. A mask is defined with the <mask> element. A mask is used/referenced using the mask property.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/mask)"
-    },
-    {
-      "name": "mesh",
-      "description": "🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/mesh)"
-    },
-    {
-      "name": "meshgradient",
-      "description": "🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/meshgradient)"
-    },
-    {
-      "name": "meshpatch",
-      "description": "🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/meshpatch)"
-    },
-    {
-      "name": "meshrow",
-      "description": "🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/meshrow)"
     },
     {
       "name": "metadata",
@@ -37120,6 +37760,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -38231,6 +38892,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -39298,6 +39980,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -40353,6 +41056,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -41444,6 +42168,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -42531,6 +43276,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -42799,10 +43565,6 @@
       ]
     },
     {
-      "name": "solidcolor",
-      "description": "The <solidColor> SVG element lets authors define a single color for use in multiple places in an SVG document.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/solidcolor)"
-    },
-    {
       "name": "stop",
       "description": "The <stop> SVG element defines the ramp of colors to use on a gradient, which is a child element to either the <linearGradient> or the <radialGradient> element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/stop)",
       "attributes": [
@@ -42813,6 +43575,10 @@
         {
           "name": "style",
           "description": "The style attribute specifies style information for its element. It functions identically to the style attribute in HTML.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/style)"
+        },
+        {
+          "name": "offset",
+          "description": "This attribute defines where the gradient stop is placed along the gradient vector.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/offset)"
         },
         {
           "name": "stop-color",
@@ -43775,6 +44541,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -44918,6 +45705,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -45973,6 +46781,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -47024,6 +47853,27 @@
             },
             {
               "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
             }
           ]
         },
@@ -48103,6 +48953,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -49158,6 +50029,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -49265,14 +50157,6 @@
           "description": "The tabindex SVG attribute allows you to control whether an element is focusable and to define the relative order of the element for the purposes of sequential focus navigation.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/tabindex)"
         }
       ]
-    },
-    {
-      "name": "tspan",
-      "description": "Within a <text> element, text and font properties and the current text position can be adjusted with absolute or relative coordinate values by including a <tspan> element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/tspan)"
-    },
-    {
-      "name": "unknown",
-      "description": "🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/unknown)"
     },
     {
       "name": "use",
@@ -50291,6 +51175,27 @@
           ]
         },
         {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
           "name": "visibility",
           "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
           "values": [
@@ -50356,10 +51261,6 @@
           "description": "This attribute is provided for backwards compatibility with SVG 1.1. It provides documentation to XLink-aware processors. In case of a conflict, the target attribute has priority, since it can express a wider range of values.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/xlink:show)"
         }
       ]
-    },
-    {
-      "name": "video",
-      "description": "🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/video)"
     },
     {
       "name": "view",

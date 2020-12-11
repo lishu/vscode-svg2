@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.2 - 2020-12-11
+- Fix `HTML Custom Data` for html document addition data;
+
 ### 1.4.1 - 2020-11-02
 - Fix IntelliSense enum options not correct after last complete rewrite.
 - Add `vector-effect` attribute to `Presentation` category.
@@ -81,13 +84,6 @@ SVG Version 2.0 is not included.
 
 ### 1.3.10 - 2020-09-17
 - Fixed write top level comment has error message in output.
-
-### 1.3.9 - 2020-09-04
-- The previewer now supports up to 64x scaling.
-- After 16x zoom, the pixel grid is automatically displayed.
-
-### 1.3.8 - 2020-08-01
-- Fixed top bar on svg preview covers top of preview
 
 ### [MORE](Changelog.md)
 
