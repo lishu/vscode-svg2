@@ -5,6 +5,7 @@ import * as fs from 'fs';
 
 import { changeName, writeB64ToFile } from './unit';
 import { utils } from 'mocha';
+import { assert } from 'console';
 
 let previewers: {[pn: string]: SvgPreviwerContentProvider} = {};
 
@@ -349,13 +350,20 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
 
     onDidChangeTextDocument(e: vscode.TextDocumentChangeEvent): any {
         if(this.isLocked) {
+            // 锁定模式显示 SVG 文档
             if(e.document.uri.toString() == this.previewUri) {
                 this.showDocument(e.document);
             }
             return;
         }
         if(this.isSvgDocument(e.document)) {
+            // 显示活动的 SVG 文档
             this.showDocument(e.document);
+            return;
+        }
+        if(customCssFiles && customCssFiles.length && customCssFiles.includes(e.document.uri.toString())) {
+            // 自定义 CSS 文件内容发生变化
+            this.reshow();
         }
     }
 
@@ -515,6 +523,13 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
 
     isSvgDocument(document:vscode.TextDocument): boolean {
         return document && (/\.svg$/i.test(document.uri.path) || document.languageId == 'svg' || document.languageId == 'xml' && /^<svg\b/.test(document.getText()));
+    }
+
+    private reshow() {
+        assert(this.previewUri != null, "Use reshow() required previewUri is not null.");
+        vscode.workspace.openTextDocument(vscode.Uri.parse(this.previewUri)).then(doc=>{
+            this.showDocument(doc);
+        });
     }
 
     private showUri(uri : vscode.Uri) {
@@ -701,7 +716,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         if(mode == 'svg' && customCssFiles.length) {
             for(let cssUri of customCssFiles){
                 try{
-                    html.push(`<link crossorigin="anonymous" media="all" rel="stylesheet" href="${this.webviewPanel.webview.asWebviewUri(vscode.Uri.parse(cssUri))}" />`);
+                    html.push(`<link crossorigin="anonymous" media="all" rel="stylesheet" href="${this.webviewPanel.webview.asWebviewUri(vscode.Uri.parse(cssUri))}?_=${Math.random()}" />`);
                 }
                 catch{}
             }
