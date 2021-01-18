@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.4 - 2021-01-18
+- Preview add `Dark Transparent Background` option.
+
 ### 1.4.3 - 2020-12-26
 - Preview now support css file change auto update (after css file saved).
 
@@ -75,8 +78,8 @@ SVG Version 2.0 is not included.
 
 ### 1.4.0 - 2020-10-22
 - Editor add `Copy as Image Data Uri` command in Context Menu, now you can copy svg add parse it to `<img src="|" />` direct.
-- Preview how can show `Crossline`.
-- Preview how can show `Ruler`.
+- Preview now can show `Crossline`.
+- Preview now can show `Ruler`.
 
 ### 1.3.12 - 2020-10-18
 - Emmet-Style auto complete has support full 2.0 definions.

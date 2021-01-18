@@ -356,7 +356,7 @@ function sizeUiFromSvg() {
 }
 
 function changeBgClass(bg: string) {
-    document.body.classList.remove('bg-trans', 'bg-white', 'bg-black', 'bg-custom');
+    document.body.classList.remove('bg-trans', 'bg-dark-trans', 'bg-white', 'bg-black', 'bg-custom');
     document.body.classList.add(bg);
 }
 
@@ -395,6 +395,11 @@ function init() {
     });
     btnBg.title = 'Use Transparent Background';
     btnBg.className = 'btn-bg bg-trans';
+    btnBg = createButton(groupBackground, null, e=>{
+        changeBgClass('bg-dark-trans');vscode.postMessage({action:'bg', color:'transparent'});
+    });
+    btnBg.title = 'Use Dark Transparent Background';
+    btnBg.className = 'btn-bg bg-dark-trans';
     btnBg = createButton(groupBackground, null, e=>{changeBgClass('bg-white');vscode.postMessage({action:'bg', color:'white'});});
     btnBg.title = 'Use White Background';
     btnBg.className = 'btn-bg bg-white';

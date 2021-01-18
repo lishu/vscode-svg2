@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.4 - 2021-01-18
+### Added
+- Preview add `Dark Transparent Background` option.
+
 ## 1.4.3 - 2020-12-26
 ### Added
 - Preview now support css file change auto update (after css file saved).

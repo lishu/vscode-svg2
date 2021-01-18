@@ -426,9 +426,17 @@
                     "type": "string",
                     "enum": [
                         "transparent",
+                        "dark-transparent",
                         "white",
                         "black",
                         "custom"
+                    ],
+                    "enumDescriptions": [
+                        "Transparent",
+                        "Dark Transparent",
+                        "White",
+                        "Black",
+                        "Custom"
                     ],
                     "default": "transparent",
                     "description": "%configuration.preview.background.description%"
