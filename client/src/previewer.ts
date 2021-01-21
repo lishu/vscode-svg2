@@ -571,6 +571,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         // console.debug('create preview html');
         let cfg = vscode.workspace.getConfiguration('svg.preview');
         let saveTo = cfg.get<string>('backgroundSaveTo', 'Workspace');
+        let toolbarSize = cfg.get<string>('toolbarSize', 'mini');
         let path = webivew.asWebviewUri(this.resPath).toString();
         let bg = (saveTo == 'NoSave' && this.noSaveBackground) || cfg.get<string>('background') || 'transparent';
         let bgCustom = cfg.get<string>('backgroundCustom') || '#eee';
@@ -654,6 +655,27 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             color: var(--vscode-descriptionforeground);
             /* welcomePage.buttonBackground: */
             background-color: var(--vscode-welcomepage-buttonBackground);
+        }
+        .__toolbar_middle>.btn-group>.btn{
+            font-size: 14px !important;
+            line-height: 20px !important;
+            height: 23px !important;
+        }
+        .__toolbar_middle>.btn-group>.label{
+            font-size: 12px !important;
+        }
+        .__toolbar_large>.btn-group>.btn{
+            font-size: 16px !important;
+            line-height: 22px !important;
+            height: 25px !important;
+        }
+        .__toolbar_large>.btn-group>.label{
+            font-size: 14px !important;
+        }
+        .__toolbar_large>.btn-group>.btn-bg {
+            margin-top: 2px !important;
+            width: 19px !important;
+            height: 19px !important;
         }
         #__toolbar>.btn-group>.btn:hover,
         #__toolbar>.btn-group>.btn.active{
@@ -743,7 +765,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 break;
         }
         html.push('<div id="__toolbar_parent">');
-        html.push('<div id="__toolbar"></div>');
+        html.push('<div id="__toolbar" class="__toolbar_' + toolbarSize + '"></div>');
         html.push('</div>');
         html.push('<div id="__host" tabindex="0"}><div id="__svg">');
         html.push(svg);

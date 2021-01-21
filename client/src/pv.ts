@@ -412,7 +412,6 @@ function init() {
 
     var groupZoom = createButtonGroup();
     labelZoom = document.createElement('span');
-    labelZoom.style.fontSize = "10px";
     labelZoom.className = 'label';
     showZoom();
     groupZoom.appendChild(labelZoom);

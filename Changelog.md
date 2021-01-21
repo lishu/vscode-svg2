@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.5 - 2021-01-21
+### Added
+- Preview add `Toolbar Size` option.
+
 ## 1.4.4 - 2021-01-18
 ### Added
 - Preview add `Dark Transparent Background` option.

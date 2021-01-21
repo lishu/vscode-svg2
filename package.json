@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.4",
+    "version": "1.4.5",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.40.0"
@@ -420,6 +420,17 @@
                         "Save new background in your workspace",
                         "Only temporarily changed, configuration will not be saved"
                     ]
+                },
+                "svg.preview.toolbarSize": {
+                    "title": "Toolbar Size",
+                    "description": "This SVG preview toolbar size",
+                    "type": "string",
+                    "enum": [
+                        "mini",
+                        "middle",
+                        "large"
+                    ],
+                    "default": "mini"
                 },
                 "svg.preview.background": {
                     "title": "%configuration.preview.background.title%",

@@ -63,6 +63,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.5 - 2021-01-21
+- Add preview `Toolbar Size` option.
+
 ### 1.4.4 - 2021-01-18
 - Preview add `Dark Transparent Background` option.
 
@@ -75,14 +78,6 @@ SVG Version 2.0 is not included.
 ### 1.4.1 - 2020-11-02
 - Fix IntelliSense enum options not correct after last complete rewrite.
 - Add `vector-effect` attribute to `Presentation` category.
-
-### 1.4.0 - 2020-10-22
-- Editor add `Copy as Image Data Uri` command in Context Menu, now you can copy svg add parse it to `<img src="|" />` direct.
-- Preview now can show `Crossline`.
-- Preview now can show `Ruler`.
-
-### 1.3.12 - 2020-10-18
-- Emmet-Style auto complete has support full 2.0 definions.
 
 ### [MORE](Changelog.md)
 
