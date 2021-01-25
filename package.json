@@ -430,7 +430,7 @@
                         "middle",
                         "large"
                     ],
-                    "default": "mini"
+                    "default": "middle"
                 },
                 "svg.preview.background": {
                     "title": "%configuration.preview.background.title%",
