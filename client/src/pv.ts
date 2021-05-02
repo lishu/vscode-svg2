@@ -1,5 +1,6 @@
 // Previewer in webviewPanel script
 
+
 const SVGNS = 'http://www.w3.org/2000/svg';
 const RULER_SIZE = 12;
 
@@ -365,17 +366,17 @@ function init() {
     _host = <HTMLDivElement>document.getElementById('__host');
     _pixelGrid = <HTMLDivElement>document.querySelector('#__host>.--pixel-grid');
     rulerHost = <HTMLDivElement>document.getElementById('__rulerHost');
-    let currentSvg = getCurrentSvg();
-    if(currentSvg) {
-        // @ts-ignore:disable-next-line
-        let resizeObserver = new ResizeObserver(entries => {
-            if('getScreenCTM' in currentSvg) {
-                // log('svg viewbox', JSON.stringify(currentSvg.viewBox.baseVal));
-                // log(`svg client {left: ${currentSvg.clientLeft}, top: ${currentSvg.clientTop}, width: ${currentSvg.clientWidth}, height: ${currentSvg.clientHeight} }`);
-            }
-        });
-        resizeObserver.observe(currentSvg);
-    }
+    // let currentSvg = getCurrentSvg();
+    // if(currentSvg) {
+    //     // @ts-ignore:disable-next-line
+    //     let resizeObserver = new ResizeObserver(entries => {
+    //         if('getScreenCTM' in currentSvg) {
+    //             // log('svg viewbox', JSON.stringify(currentSvg.viewBox.baseVal));
+    //             // log(`svg client {left: ${currentSvg.clientLeft}, top: ${currentSvg.clientTop}, width: ${currentSvg.clientWidth}, height: ${currentSvg.clientHeight} }`);
+    //         }
+    //     });
+    //     resizeObserver.observe(currentSvg);
+    // }
     
     if(!isRootLocked) {
         groupPrefix = createButtonGroup();

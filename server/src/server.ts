@@ -1,7 +1,6 @@
 import {
 	createConnection,
 	TextDocuments,
-	TextDocument,
 	ProposedFeatures,
 	InitializeParams,
 	DidChangeConfigurationNotification,
@@ -20,9 +19,13 @@ import {
 	ColorPresentation,
 	Color,
 	ColorInformation,
-	CompletionContext,
+	TextDocumentSyncKind,
 	MarkupKind
-} from "vscode-languageserver";
+} from "vscode-languageserver/node";
+
+import {
+	TextDocument
+} from 'vscode-languageserver-textdocument';
 
 import { CompletionList, InsertTextFormat, Position } from 'vscode-languageserver-types';
 import * as emmet from './emmet';
@@ -217,7 +220,7 @@ let documentSettings: Map<string, Thenable<SVGSettings>> = new Map();
 
 let connection = createConnection(ProposedFeatures.all);
 
-let documents: TextDocuments = new TextDocuments();
+let documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
 
 let hasConfigurationCapability: boolean = false;
 let hasWorkspaceFolderCapability: boolean = false;
@@ -234,7 +237,7 @@ connection.onInitialize((params: InitializeParams) => {
 
 	return {
 		capabilities: {
-			textDocumentSync: documents.syncKind,
+			textDocumentSync: TextDocumentSyncKind.Incremental,
 			completionProvider: {
 				triggerCharacters: '<|.| |=|"|}|0|1|2|3|4|5|6|7|8|9|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z'.split('|'),
 				resolveProvider: false

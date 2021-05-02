@@ -24,7 +24,7 @@ import {
 	LanguageClientOptions,
 	ServerOptions,
 	TransportKind
-} from 'vscode-languageclient';
+} from 'vscode-languageclient/node';
 import { /*SvgFormattingProvider, */copyDataUri, svgMinify, svgMinifyToFile } from './commands';
 import { registerPathDataHightlightProvider } from './pdl';
 

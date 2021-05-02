@@ -5,7 +5,7 @@
     "version": "1.4.6",
     "publisher": "jock",
     "engines": {
-        "vscode": "^1.50.0"
+        "vscode": "^1.43.0"
     },
     "icon": "images/svglogo.png",
     "galleryBanner": {
@@ -505,7 +505,9 @@
             }
         ],
         "html": {
-            "customData": ["./html.html-data.json"]
+            "customData": [
+                "./html.html-data.json"
+            ]
         }
     },
     "license": "MIT",
@@ -514,7 +516,7 @@
         "url": "https://github.com/lishu/vscode-svg2.git"
     },
     "scripts": {
-        "vscode:prepublish": "cd client && npm run update-vscode && npm run vscode:prepublish && cd ../server && npm run vscode:prepublish",
+        "vscode:prepublish": "cd client && npm run vscode:prepublish && cd ../server && npm run vscode:prepublish",
         "compile": "tsc -b",
         "watch": "tsc -b -w",
         "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
@@ -525,7 +527,7 @@
         "@types/node": "^8.0.0",
         "ts-loader": "^6.0.4",
         "tslint": "^5.16.0",
-        "typescript": "^3.5.1",
+        "typescript": "^4.2.2",
         "webpack": "^4.39.3",
         "webpack-cli": "^3.3.8"
     }

@@ -10,7 +10,7 @@
 		"url": "https://github.com/lishu/vscode-svg2.git"
 	},
 	"engines": {
-        "vscode": "^1.50.0"
+		"vscode": "^1.50.0"
 	},
 	"scripts": {
 		"vscode:prepublish": "webpack --mode production && webpack --config webpack.pv.config.js --mode production",
@@ -18,16 +18,16 @@
 		"compile:pv": "webpack --config webpack.pv.config.js --mode development",
 		"compile": "npm run compile:pv && npm run compile:client",
 		"test-compile": "tsc -p ./",
-		"update-vscode": "vscode-install",
-		"postinstall": "vscode-install"
+		"update-vscode": "vscode-install"
 	},
 	"dependencies": {
 		"svgo": "^1.3.2",
-		"vscode-languageclient": "^5.2.1"
+		"vscode-languageclient": "^7.0.0"
 	},
 	"devDependencies": {
 		"@types/svgo": "^1.3.0",
 		"concurrently": "^4.1.2",
-		"vscode": "^1.1.35"
+		"@types/vscode": "1.52.0",
+		"vscode-test": "1.5.2"
 	}
 }

@@ -456,7 +456,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 break;
             case 'export': {
                 if(e.b64) {
-                    let b = <Blob>e.blob;
+                    // let b = <Blob>e.blob;
                     let uri = vscode.Uri.parse(<string>e.uri);
                     let newUri = changeName(uri, (n,e)=>n+'.png');
                     vscode.window.showSaveDialog({
