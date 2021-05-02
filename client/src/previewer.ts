@@ -202,6 +202,7 @@ export class AllSvgPreviwerContentProvider implements vscode.Disposable
         right:0;
         top:0;
         bottom:0;
+        overflow: auto;
     }
     .svg-icon{
         display: flex;

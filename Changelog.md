@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.6 - 2021-05-02
+### Changed
+- Activation event for speed up startup of VSCode.
+### Fixed
+- `Preview All SVG` UI not scrollbar.
+
 ## 1.4.5 - 2021-01-21
 ### Added
 - Preview add `Toolbar Size` option.

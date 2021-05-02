@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.5",
+    "version": "1.4.6",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.40.0"
@@ -23,7 +23,13 @@
         "Other"
     ],
     "activationEvents": [
-        "*"
+        "onLanguage:svg",
+        "onCommand:_svg.showSvg",
+        "onCommand:_svg.showSvgByUri",
+        "onCommand:_svg.minifySvg",
+        "onCommand:_svg.minifySvgToFile",
+        "onCommand:svg.showAllSvg",
+        "onCommand:svg.copyDataUri"
     ],
     "main": "./client/out/extension.js",
     "contributes": {

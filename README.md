@@ -65,6 +65,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.6 - 2021-05-02
+- Change activation event for speed up startup of VSCode.
+- Fixed `Preview All SVG` UI not scrollbar.
+
 ### 1.4.5 - 2021-01-21
 - Add preview `Toolbar Size` option.
 
