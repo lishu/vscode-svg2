@@ -10,7 +10,7 @@
 		"url": "https://github.com/lishu/vscode-svg2.git"
 	},
 	"engines": {
-		"vscode": "^1.40.0"
+        "vscode": "^1.50.0"
 	},
 	"scripts": {
 		"vscode:prepublish": "webpack --mode production && webpack --config webpack.pv.config.js --mode production",
