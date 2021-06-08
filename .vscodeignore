@@ -2,3 +2,5 @@
 **/tsconfig.json
 **/node_modules
 build/*
+images/*.gif
+**/*.js.map
