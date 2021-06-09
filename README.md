@@ -65,6 +65,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.7 - 2021-06-09
+- Clean release package.
+
 ### 1.4.6 - 2021-05-02
 - Change activation event for speed up startup of VSCode.
 - Fixed `Preview All SVG` UI not scrollbar.

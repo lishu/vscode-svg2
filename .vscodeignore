@@ -3,4 +3,5 @@
 **/node_modules
 build/*
 images/*.gif
+images/*.svg
 **/*.js.map

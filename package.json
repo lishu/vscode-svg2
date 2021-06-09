@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.6",
+    "version": "1.4.7",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.43.0"
@@ -37,18 +37,12 @@
             {
                 "command": "_svg.showSvg",
                 "title": "%svg.showSvg.title%",
-                "icon": {
-                    "dark": "./images/Preview_inverse.svg",
-                    "light": "./images/Preview.svg"
-                }
+                "icon": "$(open-preview)"
             },
             {
                 "command": "_svg.showSvgByUri",
                 "title": "%svg.showSvg.title%",
-                "icon": {
-                    "dark": "./images/Preview_inverse.svg",
-                    "light": "./images/Preview.svg"
-                }
+                "icon": "$(open-preview)"
             },
             {
                 "command": "_svg.minifySvg",

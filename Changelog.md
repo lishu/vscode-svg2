@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.7 - 2021-06-09
+- Clean release package.
+
 ## 1.4.6 - 2021-05-02
 ### Changed
 - Activation event for speed up startup of VSCode.
