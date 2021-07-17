@@ -203,6 +203,7 @@ interface SVGSettings {
 		showAdvanced: boolean;
 		showDeprecated: boolean;
 		emmet: boolean;
+		elementsActionAsSimple: string[];
 	};
 }
 
@@ -210,7 +211,8 @@ const defaultSettings: SVGSettings = {
 	completion: {
 		showAdvanced: false,
 		showDeprecated: false,
-		emmet: false
+		emmet: false,
+		elementsActionAsSimple: []
 	}
 };
 let langauge: string = '';
@@ -862,7 +864,7 @@ connection.onCompletion(async e => {
 										output.push(` ${pn}="$\{${inputIndex++}:${element.defaultAttributes[pn]}\}"`);
 									}
 								}
-								if (element.simple) {
+								if (element.simple || globalSettings.completion.elementsActionAsSimple.includes(name)) {
 									output.push(`$0 />`);
 								}
 								else if (element.inline) {

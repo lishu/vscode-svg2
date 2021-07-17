@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.8 - 2021-07-17
+### Added
+- `Simple Elements` completion configuration. This will change completion action result to `<simple />`.
+
 ## 1.4.7 - 2021-06-09
 - Clean release package.
 

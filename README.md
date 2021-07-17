@@ -65,6 +65,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.8 - 2021-07-17
+- Add `Simple Elements` completion configuration. This will change completion action result to `<simple />`.
+
 ### 1.4.7 - 2021-06-09
 - Clean release package.
 
@@ -77,16 +80,6 @@ SVG Version 2.0 is not included.
 
 ### 1.4.4 - 2021-01-18
 - Preview add `Dark Transparent Background` option.
-
-### 1.4.3 - 2020-12-26
-- Preview now support css file change auto update (after css file saved).
-
-### 1.4.2 - 2020-12-11
-- Fix `HTML Custom Data` for html document addition data;
-
-### 1.4.1 - 2020-11-02
-- Fix IntelliSense enum options not correct after last complete rewrite.
-- Add `vector-effect` attribute to `Presentation` category.
 
 ### [MORE](Changelog.md)
 

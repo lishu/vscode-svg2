@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.7",
+    "version": "1.4.8",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.43.0"
@@ -114,6 +114,17 @@
                     "description": "%configuration.completion.showDeprecated.description%",
                     "type": "boolean",
                     "default": false
+                },
+                "svg.completion.elementsActionAsSimple": {
+                    "title": "Simple Elements",
+                    "description": "Custom elements completion action as simple like `<feTurbulence />`, one item to one name",
+                    "type": "array",
+                    "default": [],
+                    "items": {
+                        "type": "string",
+                        "title": "Element name",
+                        "pattern": "^[a-z]([a-zA-Z0-9-]*)$"
+                    }
                 },
                 "svg.completion.emmet": {
                     "title": "%configuration.completion.emmet.title%",
