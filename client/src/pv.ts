@@ -23,6 +23,9 @@ declare var customCssFiles: number;
 declare var showRuler : boolean;
 declare var showCrossLine : boolean;
 
+// 当前高亮边框效果所在的 SVG 图形
+let activeSvgSharp : SVGGraphicsElement;
+
 const bg = getVsCodeColor('--vscode-tab-activeBackground', '#333');
 const numberColor = getVsCodeColor('--vscode-editorLineNumber-activeForeground', '#fff');
 const lineColor = getVsCodeColor('--vscode-editorLineNumber-foreground', '#ccc');
@@ -337,6 +340,61 @@ function applyRuler() {
     }
 }
 
+function findInspectElement(e: MouseEvent) : SVGGraphicsElement | null
+{
+    const findGrapics = (target) => {
+        if(target instanceof SVGGraphicsElement && 'inspectLine' in target.dataset) {
+            return target;
+        }
+        if(target.parentElement instanceof Element) {
+            if(target.parentElement === target) {
+                return null;
+            }
+            return findGrapics(target.parentElement);
+        }
+    }
+    return findGrapics(e.target);
+}
+
+function activeInspect(newElement: SVGGraphicsElement | null) {
+    if(activeSvgSharp) {
+        activeSvgSharp.classList.remove('__active_svg_sharp__');
+    }
+    activeSvgSharp = newElement;
+    if(activeSvgSharp) {
+        activeSvgSharp.classList.add('__active_svg_sharp__');
+    }
+}
+
+function applyInspectBind() {
+    const svgRoot = document.getElementById('__svg');
+    svgRoot.addEventListener('mouseenter', e => {
+        // console.log(e);
+        const inElement = findInspectElement(e);
+        if(inElement) {
+            activeInspect(inElement);
+        }
+    }, { capture: true, passive: true });
+    svgRoot.addEventListener('mouseleave', e => {
+        // console.log(e);
+        const inElement = findInspectElement(e);
+        if(inElement && inElement === activeSvgSharp) {
+            activeInspect(null);
+        }
+    }, { capture: true, passive: true });
+    svgRoot.addEventListener('click', e => {
+        // console.log(e);
+        const inElement = findInspectElement(e);
+        if(inElement && 'inspectLine' in inElement.dataset) {
+            vscode.postMessage({
+                action:'toLine', 
+                line:inElement.dataset.inspectLine,
+                column:inElement.dataset.inspectColumn,
+            })
+        }
+    }, { capture: true, passive: true });
+}
+
 function sizeUiFromSvg() {
     let currentSvg = getCurrentSvg();
     _pixelGrid.style.left = `${12 / scale}px`;
@@ -489,6 +547,7 @@ function init() {
 
     applyCross();
     applyRuler();
+    applyInspectBind();
 }
 
 function onScroll() {

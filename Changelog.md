@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.9 - 2021-07-18
+### Added
+- Preview `<svg>` mode will show active graphics shape and click to source code position.
+
 ## 1.4.8 - 2021-07-17
 ### Added
 - `Simple Elements` completion configuration. This will change completion action result to `<simple />`.

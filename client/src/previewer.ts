@@ -91,6 +91,18 @@ export function registerPreviewer() {
     );
 }
 
+function getOrCreateDocumentEditor(uri: vscode.Uri, options: vscode.TextDocumentShowOptions) {
+    const editor = vscode.window.visibleTextEditors.find(e => e.document.uri.toString() === uri.toString());
+    if(editor) {
+        if(options && options.selection) {
+            editor.selection = new vscode.Selection(options.selection.start, options.selection.end);
+            editor.revealRange(editor.selection, vscode.TextEditorRevealType.InCenterIfOutsideViewport);
+        }
+        return Promise.resolve(editor)
+    }
+    return vscode.window.showTextDocument(uri, options);
+}
+
 export class AllSvgPreviwerContentProvider implements vscode.Disposable
 {
     private subdisposed : Array<vscode.Disposable> = [];
@@ -487,6 +499,18 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 this.isLocked = false;
                 this.webviewPanel.webview.postMessage({action: 'changeLock', value: false});
                 break;
+            case 'toLine':
+                // TODO: toLine
+                {
+                    const docUrl = vscode.Uri.parse(this.previewUri);
+                    const position = new vscode.Position(parseInt(e.line), parseInt(e.column));
+                    getOrCreateDocumentEditor(docUrl, {
+                        viewColumn: vscode.ViewColumn.Beside, 
+                        preserveFocus: true,
+                        selection: new vscode.Range(position, position)
+                    });
+                }
+                break;
             case 'log':
                 console.log(...e.data);
                 break;
@@ -567,6 +591,26 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         }
     }
 
+    private converToInspectSvg(doc: vscode.TextDocument): string {
+        const source = doc.getText();
+        try {
+            let line = 0;
+            let lineStartOffset = 0;
+            return source.replace(/\n|\<(circle|ellipse|image|line|path|polygon|polyline|rect|text)\s/g, (s, name, offset) => {
+                if(s === '\n') {
+                    line++;
+                    lineStartOffset = offset + 1;
+                } else {
+                    return `<${name} data-inspect-line="${line}" data-inspect-column="${offset - lineStartOffset}"`
+                }
+                return s;
+            })
+        } catch(e) {
+            console.error(e);
+            return source;
+        }
+    }
+
     private createHtml(doc: vscode.TextDocument, webivew: vscode.Webview):string
     {
         // console.debug('create preview html');
@@ -580,7 +624,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         let showRuler = this.getDefined(this.showRuler, cfg.get<boolean>('showRuler', false));
         let showCrossLine = this.getDefined(this.showCrossLine, cfg.get<boolean>('showCrossLine', false));
         let mode = cfg.get<string>('mode', 'svg');
-        let svg = doc.getText();
+        // let svg = doc.getText();
+        let svg = mode === 'img' ? doc.getText() : this.converToInspectSvg(doc);
 
         if(mode == 'img') {
             // 尝试使用 img + data 提供 svg 非嵌入格式支持
@@ -735,6 +780,11 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         }
         .locked svg{
             transform: rotate(-45deg);
+        }
+
+        .__active_svg_sharp__ {
+            stroke-width: 1%!important;
+            stroke: var(--vscode-textLink-activeForeground)!important;
         }
         </style>`);
 

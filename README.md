@@ -65,6 +65,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.9 - 2021-07-18
+- Preview `<svg>` mode will show active graphics shape and click to source code position.
+
 ### 1.4.8 - 2021-07-17
 - Add `Simple Elements` completion configuration. This will change completion action result to `<simple />`.
 
@@ -77,9 +80,6 @@ SVG Version 2.0 is not included.
 
 ### 1.4.5 - 2021-01-21
 - Add preview `Toolbar Size` option.
-
-### 1.4.4 - 2021-01-18
-- Preview add `Dark Transparent Background` option.
 
 ### [MORE](Changelog.md)
 
