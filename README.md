@@ -65,6 +65,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.10 - 2021-09-18
+- Add `Disable Preview` configuration. Just for who don't like this extension's preview.
+
 ### 1.4.9 - 2021-07-18
 - Preview `<svg>` mode will show active graphics shape and click to source code position.
 

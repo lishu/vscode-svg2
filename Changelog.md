@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 1.4.10 - 2021-09-18
+### Added 
+- Preview `Disable Preview` configuration. Just for who don't like this extension's preview.
+
 ## 1.4.9 - 2021-07-18
 ### Added
 - Preview `<svg>` mode will show active graphics shape and click to source code position.

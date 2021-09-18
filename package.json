@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.9",
+    "version": "1.4.10",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.43.0"
@@ -37,12 +37,14 @@
             {
                 "command": "_svg.showSvg",
                 "title": "%svg.showSvg.title%",
-                "icon": "$(open-preview)"
+                "icon": "$(open-preview)",
+                "enablement": "!config.svg.preview.disable"
             },
             {
                 "command": "_svg.showSvgByUri",
                 "title": "%svg.showSvg.title%",
-                "icon": "$(open-preview)"
+                "icon": "$(open-preview)",
+                "enablement": "!config.svg.preview.disable"
             },
             {
                 "command": "_svg.minifySvg",
@@ -71,7 +73,7 @@
             "editor/title": [
                 {
                     "command": "_svg.showSvg",
-                    "when": "editorLangId == svg",
+                    "when": "editorLangId == svg && !config.svg.preview.disable",
                     "group": "navigation"
                 }
             ],
@@ -90,12 +92,12 @@
             "explorer/context": [
                 {
                     "command": "_svg.showSvgByUri",
-                    "when": "resourceLangId == svg",
+                    "when": "resourceLangId == svg && !config.svg.preview.disable",
                     "group": "navigation"
                 },
                 {
                     "command": "_svg.minifySvgToFile",
-                    "when": "resourceLangId == svg",
+                    "when": "resourceLangId == svg && !config.svg.preview.disable",
                     "group": "1_modification"
                 }
             ]
@@ -129,6 +131,12 @@
                 "svg.completion.emmet": {
                     "title": "%configuration.completion.emmet.title%",
                     "description": "%configuration.completion.emmet.description%",
+                    "type": "boolean",
+                    "default": false
+                },
+                "svg.preview.disable": {
+                    "title": "Disable Preview",
+                    "description": "If you just want use other previewer",
                     "type": "boolean",
                     "default": false
                 },
