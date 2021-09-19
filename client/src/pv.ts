@@ -1,6 +1,5 @@
 // Previewer in webviewPanel script
 
-
 const SVGNS = 'http://www.w3.org/2000/svg';
 const RULER_SIZE = 12;
 
@@ -17,6 +16,7 @@ let btnLocked : HTMLButtonElement;
 let btnCross : HTMLButtonElement;
 let btnRuler : HTMLButtonElement;
 let rulerHost : HTMLDivElement;
+declare var debug: boolean;
 declare var isRootLocked: boolean;
 declare var isLocked : boolean;
 declare var customCssFiles: number;
@@ -41,13 +41,18 @@ function createButtonGroup(){
     return group;
 }
 
-function createButton(parent, content, handler) {
+function createButton(parent, content, handler, attributes?: Record<string, string>) {
     var btn = document.createElement('button');
     btn.type = 'button';
     parent.appendChild(btn);
     btn.onclick = handler;
     if(content) {
         btn.innerHTML = content;
+    }
+    if(attributes) {
+        for(let pn in attributes) {
+            btn.setAttribute(pn, attributes[pn]);
+        }
     }
     return btn;
 }
@@ -419,6 +424,30 @@ function changeBgClass(bg: string) {
     document.body.classList.add(bg);
 }
 
+function doResetZoom() {
+    scale = 1;
+    showZoom();
+    document.getElementById('__svg').style.transform = 'scale('+scale+')';
+    vscode.postMessage({action: 'scale', scale: scale});
+    sizeUiFromSvg();
+}
+
+function doZoomIn() {
+    scale*=2;
+    normalScale();
+    document.getElementById('__svg').style.transform = 'scale('+scale+')';
+    vscode.postMessage({action: 'scale', scale: scale});
+    sizeUiFromSvg();
+}
+
+function doZoomOut() {
+    scale/=2;
+    normalScale();
+    document.getElementById('__svg').style.transform = 'scale('+scale+')';
+    vscode.postMessage({action: 'scale', scale: scale});
+    sizeUiFromSvg();
+}
+
 function init() {
     _toolbar = <HTMLDivElement>document.getElementById('__toolbar');
     _host = <HTMLDivElement>document.getElementById('__host');
@@ -438,24 +467,29 @@ function init() {
     
     if(!isRootLocked) {
         groupPrefix = createButtonGroup();
-        btnLocked = createButton(groupPrefix, `<svg viewBox="0 0 1024 1024" width="16" height="16" style="background-color:transparent">
-        <path d="M989.57691363 296.58232795L715.22421854 22.2296339c-28.45139082-28.45139082-73.16071896-28.45139082-101.61210978 0s-28.45139082 73.16071896 0 101.61210876l14.22569592 14.22569489-329.22323431 217.44991448-10.16121107-10.16121109c-28.45139082-28.45139082-73.16071896-28.45139082-101.61210876 0s-28.45139082 73.16071896 0 101.61210875l146.32143689 146.32143793L32.39084396 894.0615311c-28.45139082 28.45139082-28.45139082 75.19296036 0 103.64435118 28.45139082 28.45139082 75.19296036 28.45139082 103.6443522 0L436.80703964 694.90179638l128.03125716 128.03125819c28.45139082 28.45139082 73.16071896 28.45139082 101.61210876 0s28.45139082-73.16071896 0-101.61210979l-10.16121005-10.16121108 215.41767101-331.2554757 14.22569593 14.22569489c28.45139082 28.45139082 73.16071896 28.45139082 101.61210875 0 28.45139082-24.38690598 28.45139082-69.09623412 2.03224243-97.54762494z" p-id="4526" fill="currentColor"></path>
-        </svg>`, e=>switchViewMode());
+        btnLocked = createButton(groupPrefix, `<i class="codicon codicon-pin"></i>`, e=>switchViewMode());
         btnLocked.className = 'btn';
         btnLocked.title = 'Locked or Unlocked SVG document';
         if(isLocked) {
-            btnLocked.classList.add('locked');
+            btnLocked.firstElementChild.classList.remove('codicon-pin');
+            btnLocked.firstElementChild.classList.add('codicon-pinned');
+            btnLocked.classList.add('active');
         }
     }
 
     groupBackground = createButtonGroup();
     var btnBg = createButton(groupBackground, null, e=>{
+        changeBgClass('bg-editor');vscode.postMessage({action:'bg', color:'editor'});
+    });
+    btnBg.title = 'Use Editor Background';
+    btnBg.className = 'btn-bg bg-editor';
+    btnBg = createButton(groupBackground, null, e=>{
         changeBgClass('bg-trans');vscode.postMessage({action:'bg', color:'transparent'});
     });
     btnBg.title = 'Use Transparent Background';
     btnBg.className = 'btn-bg bg-trans';
     btnBg = createButton(groupBackground, null, e=>{
-        changeBgClass('bg-dark-trans');vscode.postMessage({action:'bg', color:'transparent'});
+        changeBgClass('bg-dark-trans');vscode.postMessage({action:'bg', color:'dark-transparent'});
     });
     btnBg.title = 'Use Dark Transparent Background';
     btnBg.className = 'btn-bg bg-dark-trans';
@@ -474,27 +508,9 @@ function init() {
     labelZoom.className = 'label';
     showZoom();
     groupZoom.appendChild(labelZoom);
-    createButton(groupZoom, '100%', ()=>{
-        scale = 1;
-        showZoom();
-        document.getElementById('__svg').style.transform = 'scale('+scale+')';
-        vscode.postMessage({action: 'scale', scale: scale});
-        sizeUiFromSvg();
-    }).className = 'btn';
-    createButton(groupZoom, 'Zoom In', ()=>{
-        scale*=2;
-        normalScale();
-        document.getElementById('__svg').style.transform = 'scale('+scale+')';
-        vscode.postMessage({action: 'scale', scale: scale});
-        sizeUiFromSvg();
-    }).className = 'btn';
-    createButton(groupZoom, 'Zoom Out', ()=>{
-        scale/=2;
-        normalScale();
-        document.getElementById('__svg').style.transform = 'scale('+scale+')';
-        vscode.postMessage({action: 'scale', scale: scale});
-        sizeUiFromSvg();
-    }).className = 'btn';
+    createButton(groupZoom, '100%', doResetZoom).className = 'btn';
+    createButton(groupZoom, '<i class="codicon codicon-zoom-in"></i>', doZoomIn, { title: 'Zoom In' }).className = 'btn';
+    createButton(groupZoom, '<i class="codicon codicon-zoom-out"></i>', doZoomOut, { title: 'Zoom Out' }).className = 'btn';
 
     var groupView = createButtonGroup();
     btnCross = createButton(groupView, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12">
@@ -527,15 +543,35 @@ function init() {
 
     if(mode == 'svg') {
         var groupCss = createButtonGroup();
-        var btnSelectCss = createButton(groupCss, 'CSS' + (customCssFiles > 0 ? `<span class="label">${customCssFiles}</span>` : ''), e=>selectCss());
+        var btnSelectCss = createButton(groupCss, '<i class="codicon codicon-files"></i>' + (customCssFiles > 0 ? `<span class="label">${customCssFiles}</span>` : ''), e=>selectCss());
         btnSelectCss.title = 'Select CSS Files for preview SVG';
         btnSelectCss.className = 'btn';
     }
     
     var groupTools = createButtonGroup();
-    createButton(groupTools, 'Export PNG', ()=>{
+    createButton(groupTools, '<i class="codicon codicon-export"></i>', ()=>{
         exportPng();
+    }, {
+        title: 'Export PNG'
     }).className = 'btn';
+
+    window.addEventListener('wheel', e => {
+        console.log('window wheel', e);
+        if(e.ctrlKey || e.metaKey) {
+            if(e.deltaY < 0) {
+                doZoomIn();
+            } else if(e.deltaY > 0) {
+                doZoomOut();
+            }
+        }
+    });
+
+    window.addEventListener('keypress', e => {
+        console.log('window keypress', e);
+        if(e.ctrlKey || e.metaKey) {
+            
+        }
+    });
 
     window.addEventListener('message', onmessagein);
     window.addEventListener('resize', onResize);
@@ -664,6 +700,20 @@ const MessageData = {
     }
 };
 
+function doHotReload(id) {
+    console.log("开始热重载", id);
+    const el = document.getElementById(id) as HTMLElement;
+    if(el instanceof HTMLLinkElement) {
+        let newLink = document.createElement('link');
+        newLink.rel = "stylesheet";
+        newLink.href = el.href;
+        newLink.href += "?rand=" + Math.random().toString();
+        el.parentElement.appendChild(newLink);
+    } else {
+        console.error(`不支持对${id}的热重载`)
+    }
+}
+
 function onmessagein(e: MessageEvent) {
     if(MessageData.is(e.data)) {
         let data = e.data;
@@ -673,6 +723,9 @@ function onmessagein(e: MessageEvent) {
                 break;
             case 'changeLock':
                 onChangeLock(data.value);
+                break;
+            case 'hotReload':
+                doHotReload(data.id);
                 break;
         }
     }
@@ -691,9 +744,13 @@ function onChangeLock(locked: boolean) {
         isLocked
     });
     if(isLocked) {
-        btnLocked.classList.add('locked');
+        btnLocked.firstElementChild.classList.remove('codicon-pin');
+        btnLocked.firstElementChild.classList.add('codicon-pinned');
+        btnLocked.classList.add('active');
     } else {
-        btnLocked.classList.remove('locked');
+        btnLocked.firstElementChild.classList.remove('codicon-pinned');
+        btnLocked.firstElementChild.classList.add('codicon-pin');
+        btnLocked.classList.remove('active');
     }
 }
 

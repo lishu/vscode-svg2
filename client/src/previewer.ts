@@ -321,6 +321,7 @@ export class AllSvgPreviwerContentProvider implements vscode.Disposable
 
 export class SvgPreviwerContentProvider implements vscode.Disposable
 {
+    debug: boolean;
     webviewPanel : vscode.WebviewPanel;
     // d0: vscode.Disposable;
     // d1: vscode.Disposable;
@@ -332,6 +333,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     isLocked: boolean = false;
     scale: number = 1;
     resPath: vscode.Uri;
+    codiconUri: vscode.Uri;
+    styleUri: vscode.Uri;
     // path: vscode.Uri;
     noSaveBackground: string = null;
 	static $context: vscode.ExtensionContext;
@@ -342,12 +345,30 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
      */
     constructor() {
         // this.path = vscode.Uri.file(context.asAbsolutePath('./client/out')).with({scheme: 'vscode-resource'});
+        this.debug = SvgPreviwerContentProvider.$context.extensionMode === vscode.ExtensionMode.Development;
         this.resPath = vscode.Uri.file(SvgPreviwerContentProvider.$context.asAbsolutePath('./client/out'));
+        this.codiconUri = vscode.Uri.joinPath(SvgPreviwerContentProvider.$context.extensionUri, 'client', 'node_modules', '@vscode/codicons', 'dist', 'codicon.css');
+        this.styleUri = vscode.Uri.joinPath(SvgPreviwerContentProvider.$context.extensionUri, 'client', 'style', 'pv.css');
         // this.d0 =  vscode.commands.registerTextEditorCommand('_svg.showSvg', ()=>this.show());
         // this.d1 =  vscode.commands.registerCommand('_svg.showSvgByUri', uri=>this.show(uri));
         this.d2 = vscode.workspace.onDidChangeTextDocument(e=>this.onDidChangeTextDocument(e));
         // this.d3 = vscode.window.onDidChangeActiveTextEditor(e=>this.onDidChangeActiveTextEditor(e));
-        // this.d4 = vscode.window.onDidChangeTextEditorSelection(e=>this.onDidChangeTextEditorSelection(e));        
+        // this.d4 = vscode.window.onDidChangeTextEditorSelection(e=>this.onDidChangeTextEditorSelection(e)); 
+        
+        if(this.debug) {
+            // 调试时自动热加载 pv.css 文件
+            console.debug("尝试使用自动热加载")
+            import('fs')
+                .then(fs => {
+                    const filepath = path.resolve(__dirname, '../style/pv.css');
+                    let reloadTimer : NodeJS.Timer;
+                    console.log('自动热加载侦听', filepath);
+                    fs.watchFile(filepath, curr => {
+                        reloadTimer && clearTimeout(reloadTimer);
+                        reloadTimer = setTimeout(()=>this.webviewPanel.webview.postMessage({action: 'hotReload', id: '__link_stylePath'}), 1000);
+                    });
+                });
+        }
     }
 
     onDidChangeTextEditorSelection(e: vscode.TextEditorSelectionChangeEvent): any {
@@ -618,6 +639,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         let saveTo = cfg.get<string>('backgroundSaveTo', 'Workspace');
         let toolbarSize = cfg.get<string>('toolbarSize', 'mini');
         let path = webivew.asWebviewUri(this.resPath).toString();
+        let iconPath = webivew.asWebviewUri(this.codiconUri);
+        let stylePath = webivew.asWebviewUri(this.styleUri);
         let bg = (saveTo == 'NoSave' && this.noSaveBackground) || cfg.get<string>('background') || 'transparent';
         let bgCustom = cfg.get<string>('backgroundCustom') || '#eee';
         let viewMode = cfg.get<ViewMode>('viewMode', 'onlyOne');
@@ -638,153 +661,16 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push(`<head>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' vscode-resource: https: data:;">
 </head>`);
+        html.push(`<link href="${iconPath}" rel="stylesheet" />`);
+        html.push(`<link id="__link_stylePath" href="${stylePath}" rel="stylesheet" />`);
         html.push(`<style type="text/css">
-        html, body {
-            font: var(--vscode-editor-font-weight) var(--vscode-editor-font-size) var(--vscode-editor-font-family);
-        }
-        *:focus {
-            outline: none 0;
-        }
-        .bg-trans {
-            background: url(data:image/gif;base64,R0lGODlhEAAQAIAAAP///8zMzCH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxMzggNzkuMTU5ODI0LCAyMDE2LzA5LzE0LTAxOjA5OjAxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxNyAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTI0NUU1RTAzNzdFMTFFNzk2QkFDN0I4QUEyNzlDQkQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTI0NUU1RTEzNzdFMTFFNzk2QkFDN0I4QUEyNzlDQkQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFMjQ1RTVERTM3N0UxMUU3OTZCQUM3QjhBQTI3OUNCRCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFMjQ1RTVERjM3N0UxMUU3OTZCQUM3QjhBQTI3OUNCRCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PgH//v38+/r5+Pf29fTz8vHw7+7t7Ovq6ejn5uXk4+Lh4N/e3dzb2tnY19bV1NPS0dDPzs3My8rJyMfGxcTDwsHAv769vLu6ubi3trW0s7KxsK+urayrqqmop6alpKOioaCfnp2cm5qZmJeWlZSTkpGQj46NjIuKiYiHhoWEg4KBgH9+fXx7enl4d3Z1dHNycXBvbm1sa2ppaGdmZWRjYmFgX15dXFtaWVhXVlVUU1JRUE9OTUxLSklIR0ZFRENCQUA/Pj08Ozo5ODc2NTQzMjEwLy4tLCsqKSgnJiUkIyIhIB8eHRwbGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEAACH5BAAAAAAALAAAAAAQABAAAAIfhG+hq4jM3IFLJhoswNly/XkcBpIiVaInlLJr9FZWAQA7);
-        }
-        .bg-dark-trans {
-            background: url(data:image/gif;base64,R0lGODlhEAAQAIAAADMzM0BAQCH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjQyM0E4RTcyNTk3RTExRUI5MjAzQ0M1MEJGOUIzQTdCIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjQyM0E4RTczNTk3RTExRUI5MjAzQ0M1MEJGOUIzQTdCIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NDIzQThFNzA1OTdFMTFFQjkyMDNDQzUwQkY5QjNBN0IiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NDIzQThFNzE1OTdFMTFFQjkyMDNDQzUwQkY5QjNBN0IiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9eXVxbWllYV1ZVVFNSUVBPTk1MS0pJSEdGRURDQkFAPz49PDs6OTg3NjU0MzIxMC8uLSwrKikoJyYlJCMiISAfHh0cGxoZGBcWFRQTEhEQDw4NDAsKCQgHBgUEAwIBAAAh+QQAAAAAACwAAAAAEAAQAAACH4xvoKuIzNyBSyYKbMDZcv15HAaSIlWiJ5Sya/RWVgEAOw==);
-        }
-        .bg-white {
-            background: white;
-        }
-        .bg-black {
-            background: black;
-        }
         .bg-custom{
             background: ${bgCustom};
-        }
-        body{
-            margin:0;
-            padding:0;            
-        }
-        #__toolbar{
-            position: fixed;
-            box-sizing: border-box;
-            top:0;
-            min-height: 24px;
-            padding-bottom: 1px;
-            width: 100%;
-            z-index: 10000;
-            background: var(--vscode-tab-activeBackground);
-            border-bottom: solid 1px var(--vscode-tab-activeBorder);
-        }
-
-        #__toolbar>.btn-group {
-            display:inline-block;
-            margin: 0 4px;
-        }
-        #__toolbar>.btn-group>.btn-bg{
-            margin-top: 3px;
-            width: 17px;
-            height: 17px;
-            border: solid 1px #eee;
-        }
-        #__toolbar>.btn-group>.btn{
-            position:relative;
-            top: -3px;
-            font-size: 10px;
-            height: 19px;
-            line-height: 16px;
-            vertical-align: middle;
-            /* editorGroupHeader.tabsBackground */
-            border-style: solid;
-            border-width: 1px;
-            border-color: var(--vscode-editorGroupHeader-tabsBackground);
-            /* descriptionForeground */
-            color: var(--vscode-descriptionforeground);
-            /* welcomePage.buttonBackground: */
-            background-color: var(--vscode-welcomepage-buttonBackground);
-        }
-        .__toolbar_middle>.btn-group>.btn{
-            font-size: 14px !important;
-            line-height: 20px !important;
-            height: 23px !important;
-        }
-        .__toolbar_middle>.btn-group>.label{
-            font-size: 12px !important;
-        }
-        .__toolbar_large>.btn-group>.btn{
-            font-size: 16px !important;
-            line-height: 22px !important;
-            height: 25px !important;
-        }
-        .__toolbar_large>.btn-group>.label{
-            font-size: 14px !important;
-        }
-        .__toolbar_large>.btn-group>.btn-bg {
-            margin-top: 2px !important;
-            width: 19px !important;
-            height: 19px !important;
-        }
-        #__toolbar>.btn-group>.btn:hover,
-        #__toolbar>.btn-group>.btn.active{
-            /* welcomePage.buttonHoverBackground: */
-            /* background-color: var(--vscode-list-hoverBackground); */
-            /* menu.selectionBackground */
-            background-color: var(--vscode-menu-selectionBackground);
-            color: var(--vscode-menu-selectionForeground);
-        }
-        .btn>.label {
-            display: inline-block;
-            padding-left:0.5em;
-            padding-right:0.5em;
-            margin-left: 0.5em;
-            margin-right: 0.5em;
-            border-radius: 1em;
-            background: #090;
-            color: #ccc;
-            font-weight: bold;
-        }
-        .btn>svg {
-            vertical-align: middle;
-        }
-        #__toolbar>.btn-group>.label{
-            position:relative;
-            padding:0 2px;
-            top: -2px;
-            font-size: 10px;
-            height: 17px;
-            cursor: default;
         }
         #__svg{
             transform-origin:top left;
             transform:scale(${this.scale});
             line-height: 0;
-        }
-        body.with-ruler #__host {
-            left: 12px;
-            top: 12px;
-        }
-        #__host{
-            position:relative;
-            line-height: 0;
-        }
-        #__host>.--pixel-grid{
-            position: absolute;
-            left:0;
-            top:0;
-            background-repeat: repeat;
-            background-position: left top;
-        }
-        #__rulerHost {
-            position: fixed;
-            left:0;
-            top:0;
-        }
-        .locked svg{
-            transform: rotate(-45deg);
-        }
-
-        .__active_svg_sharp__ {
-            stroke-width: 1%!important;
-            stroke: var(--vscode-textLink-activeForeground)!important;
         }
         </style>`);
 
@@ -801,7 +687,6 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         switch (bg) {
             case 'white':
                 html.push('<body class="bg-white">');
-                break;
             case 'black':
                 html.push('<body class="bg-black">');
                 break;
@@ -811,8 +696,11 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             case 'dark-transparent':
                 html.push('<body class="bg-dark-trans">');
                 break;
-            default:
+            case 'transparent':
                 html.push('<body class="bg-trans">');
+                break;
+            default:
+                html.push('<body class="bg-editor">');
                 break;
         }
         html.push('<div id="__toolbar_parent">');
@@ -822,6 +710,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push(svg);
         html.push('</div><div class="--pixel-grid"></div><div id="__rulerHost"></div></div>');
         html.push(`<script>
+        var debug = ${this.debug};
         var mode = '${mode}'; 
         var scale = ${this.scale}; 
         var uri = '${doc.uri}'; 

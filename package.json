@@ -455,6 +455,7 @@
                     "title": "%configuration.preview.background.title%",
                     "type": "string",
                     "enum": [
+                        "editor",
                         "transparent",
                         "dark-transparent",
                         "white",
@@ -462,6 +463,7 @@
                         "custom"
                     ],
                     "enumDescriptions": [
+                        "Editor Background",
                         "Transparent",
                         "Dark Transparent",
                         "White",
