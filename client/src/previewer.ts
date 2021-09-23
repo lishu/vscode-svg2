@@ -596,15 +596,14 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         try {
             let line = 0;
             let lineStartOffset = 0;
-            return source.replace(/\n|\<(circle|ellipse|image|line|path|polygon|polyline|rect|text)\s/g, (s, name, offset) => {
+            return source.replace(/\n|<(circle|ellipse|image|line|path|polygon|polyline|rect|text|use)(?=\s)/g, (s, name, offset) => {
                 if(s === '\n') {
                     line++;
                     lineStartOffset = offset + 1;
-                } else {
-                    return `<${name} data-inspect-line="${line}" data-inspect-column="${offset - lineStartOffset}"`
+                    return s;
                 }
-                return s;
-            })
+                return `<${name} data-inspect-line="${line}" data-inspect-column="${offset - lineStartOffset}"`
+            });
         } catch(e) {
             console.error(e);
             return source;
