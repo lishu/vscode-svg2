@@ -347,7 +347,10 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         // this.path = vscode.Uri.file(context.asAbsolutePath('./client/out')).with({scheme: 'vscode-resource'});
         this.debug = SvgPreviwerContentProvider.$context.extensionMode === vscode.ExtensionMode.Development;
         this.resPath = vscode.Uri.file(SvgPreviwerContentProvider.$context.asAbsolutePath('./client/out'));
-        this.codiconUri = vscode.Uri.joinPath(SvgPreviwerContentProvider.$context.extensionUri, 'client', 'node_modules', '@vscode/codicons', 'dist', 'codicon.css');
+        this.codiconUri = this.debug ?
+         vscode.Uri.joinPath(SvgPreviwerContentProvider.$context.extensionUri, 'client', 'node_modules', '@vscode/codicons', 'dist', 'codicon.css') :
+         vscode.Uri.joinPath(SvgPreviwerContentProvider.$context.extensionUri, 'client', 'out', 'codicons', 'dist', 'codicon.css')
+         ;
         this.styleUri = vscode.Uri.joinPath(SvgPreviwerContentProvider.$context.extensionUri, 'client', 'style', 'pv.css');
         // this.d0 =  vscode.commands.registerTextEditorCommand('_svg.showSvg', ()=>this.show());
         // this.d1 =  vscode.commands.registerCommand('_svg.showSvgByUri', uri=>this.show(uri));

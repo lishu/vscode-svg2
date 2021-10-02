@@ -3,6 +3,7 @@
 'use strict';
 
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**@type {import('webpack').Configuration} */
 const config = {
@@ -11,6 +12,14 @@ const config = {
     entry: {
         'extension': './src/extension.ts'
     },
+    plugins: [
+        new CopyWebpackPlugin([
+            { 
+                from: 'node_modules/@vscode/codicons',
+                to: './codicons'
+            }
+        ])
+    ],
     output: {
         path: path.resolve(__dirname, 'out'),
         filename: '[name].js',
