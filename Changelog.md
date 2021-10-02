@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.11 - 2021-10-02
+### Added
+- Preview has new default `FIT` mode.
+### Changed
+- More Preview bug fix
+
 ### 1.4.10 - 2021-09-18
 ### Added 
 - Preview `Disable Preview` configuration. Just for who don't like this extension's preview.

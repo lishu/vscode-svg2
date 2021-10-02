@@ -40,11 +40,7 @@ Cursor in Tag Name or Id Attribute or url(#id) Hit F2(Windows) Key, Rename it!
 Hot Ctrl Key and Move mouse to a url(#id), That it!
 
 ### SVG Format Support
-~~Formatting support using SVGO, which can prettify SVGs and sort tag attributes.
-SVGO works as a group of plugins that can be activated or desactivated (which is default for most in this extension).
-Information on the plugins can be found [here](https://www.npmjs.com/package/svgo).~~
-
-Formatting support now is replace to HTML Language Serivce for compatible with complex svg content
+Default formatting support is HTML Language Serivce for compatible with complex svg content
 
 ### Minify SVG with SVGO
 
@@ -58,12 +54,17 @@ Open the **Command Palette** (`⇧⌘P` on Mac and `Ctrl+Shift+P` on Win/Linux) 
 * [Evan Demaris](https://github.com/evandemaris)
 * [Trevor Burnham](https://github.com/TrevorBurnham)
 * [Philipp Kief](https://github.com/PKief)
+* [rioj7](https://github.com/rioj7)
 
 ## Known Issues
 
 SVG Version 2.0 is not included.
 
 ## Changelog
+
+### 1.4.11 - 2021-10-02
+- Preview Added has new default `FIT` mode.
+- More Preview bug fix
 
 ### 1.4.10 - 2021-09-18
 - Add `Disable Preview` configuration. Just for who don't like this extension's preview.
@@ -76,13 +77,6 @@ SVG Version 2.0 is not included.
 
 ### 1.4.7 - 2021-06-09
 - Clean release package.
-
-### 1.4.6 - 2021-05-02
-- Change activation event for speed up startup of VSCode.
-- Fixed `Preview All SVG` UI not scrollbar.
-
-### 1.4.5 - 2021-01-21
-- Add preview `Toolbar Size` option.
 
 ### [MORE](Changelog.md)
 
