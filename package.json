@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.10",
+    "version": "1.4.11",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.43.0"
@@ -470,7 +470,7 @@
                         "Black",
                         "Custom"
                     ],
-                    "default": "transparent",
+                    "default": "editor",
                     "description": "%configuration.preview.background.description%"
                 },
                 "svg.preview.backgroundCustom": {
@@ -490,6 +490,12 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Preview show cross line (will hide mouse pointer) by default, you can switch it from toolbar"
+                },
+                "svg.preview.autoFit": {
+                    "title": "Auto Fit",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Preview show fit mode at startup"
                 }
             }
         },

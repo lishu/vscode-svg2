@@ -5,6 +5,7 @@ const RULER_SIZE = 12;
 
 let _toolbar : HTMLDivElement;
 let _host : HTMLDivElement;
+let _svgContainer : HTMLDivElement;
 let _pixelGrid : HTMLDivElement;
 let groupPrefix : HTMLDivElement;
 let groupBackground : HTMLDivElement;
@@ -15,16 +16,20 @@ let btnImg : HTMLButtonElement;
 let btnLocked : HTMLButtonElement;
 let btnCross : HTMLButtonElement;
 let btnRuler : HTMLButtonElement;
-let rulerHost : HTMLDivElement;
+let btnZoomIn : HTMLButtonElement;
+let btnZoomOut : HTMLButtonElement;
 declare var debug: boolean;
 declare var isRootLocked: boolean;
 declare var isLocked : boolean;
 declare var customCssFiles: number;
 declare var showRuler : boolean;
 declare var showCrossLine : boolean;
+declare var autoFit: boolean;
 
 // 当前高亮边框效果所在的 SVG 图形
 let activeSvgSharp : SVGGraphicsElement;
+let svgSize : ISvgSize = null;
+let fitMode = false;
 
 const bg = getVsCodeColor('--vscode-tab-activeBackground', '#333');
 const numberColor = getVsCodeColor('--vscode-editorLineNumber-activeForeground', '#fff');
@@ -73,7 +78,7 @@ if(vsstate && 'isLocked' in vsstate) {
 var minScale = 0.08;
 var maxScale = 64;
 var pixelGridScale = 12;
-declare var scale : number;
+declare var scale : number ;
 declare var uri : string;
 declare var mode : string;
 type ViewMode = 'onlyOne' | 'oneByOne';
@@ -272,7 +277,21 @@ function normalScale() {
     showZoom();
 }
 
+function exitFitMode() {
+    const svg = getCurrentSvg();
+    btnZoomIn.style.display = '';
+    btnZoomOut.style.display = '';
+    svg.style.transform = '';
+    svg.style.transformOrigin = '';
+    svg.style.width = `${svgSize.width}px`;
+    svg.style.height = `${svgSize.height}px`
+    fitMode = false;
+}
+
 function showZoom(){
+    if(fitMode) {
+        exitFitMode();
+    }
     labelZoom.innerText = (scale * 100).toFixed(0) + '%';
     requestAnimationFrame(()=>{
         if(scale < pixelGridScale) {
@@ -295,9 +314,99 @@ function switchViewMode() {
     }
 }
 
+function getSvgUnitTypeName(unitType: number) {
+    switch(unitType) {
+        case 1:
+            return '';
+        case 2:
+            return '%';
+        case 3:
+            return 'ems';
+        case 4:
+            return 'exs';
+        case 5:
+            return 'px';
+        case 6:
+            return 'cm';
+        case 7:
+            return 'mm';
+        case 8:
+            return 'in';
+        case 9:
+            return 'pt';
+        case 10:
+            return 'pc';
+        default:
+            return 'auto';
+    }
+}
+
+interface ISvgSize {
+    width: number | SVGLength,
+    height: number | SVGLength,
+    viewBox?: DOMRect,
+    bbox?: DOMRect,
+    canFit: boolean,
+    canZoom: boolean
+}
+
+function tryGetSvgSize() : ISvgSize | null {
+    const svg = getCurrentSvg();
+    if(svg) {
+        if(svg instanceof HTMLImageElement) {
+            return {
+                width: svg.naturalWidth,
+                height: svg.naturalHeight,
+                canFit: true,
+                canZoom: true,
+            }
+        }
+        if(svg instanceof SVGSVGElement) {
+            const s : ISvgSize = {
+                width: svg.width?.baseVal,
+                height: svg.height?.baseVal,
+                viewBox: svg.viewBox?.baseVal,
+                bbox: svg.getBBox(),
+                canFit: svg.width?.baseVal?.unitType<2 && svg.height?.baseVal?.unitType<2,
+                canZoom: svg.width?.baseVal?.unitType > 0,
+            }
+            if(s.viewBox.width && s.viewBox.height) {
+                s.width = s.viewBox.width;
+                s.height = s.viewBox.height;
+                s.canFit = true;
+                s.canZoom = true;
+            }
+            return s;
+        }
+        console.warn("Not Found SVG element");
+    }
+    return null;
+}
+
+function showSvg(show: boolean = true) {
+    const svg = getCurrentSvg();
+    if(svg) {
+        svg.style.visibility = show ? 'visible' : 'hidden';
+    }
+}
+
+let canZoom = true;
+function setCanZoom(can: boolean) {
+    canZoom = can;
+    btnZoomIn.style.display = canZoom ? '' : 'none';
+    btnZoomOut.style.display = canZoom ? '' : 'none';
+    showSvg();
+}
+
 function onResize() {
-    document.body.style.marginTop = _toolbar.offsetHeight + 'px';
-    rulerHost.style.top = _toolbar.offsetHeight + 'px';
+    if(!svgSize) {
+        svgSize = tryGetSvgSize();
+    }
+    if(fitMode) {
+        applyFitLayout();
+    } else {
+        setCanZoom(svgSize?.canZoom || false);
+    }
 }
 
 function crossSwitch() {
@@ -322,13 +431,11 @@ var rulerY : RulerLine;
 function updateRuler() {
     if(!rulerX) {
         rulerX = new RulerLine(RulerOrientation.Horizontal);
-        rulerX.canvas.style.cssText = `position:absolute;left:${RULER_SIZE}px;`;
-        rulerHost.appendChild(rulerX.canvas);
+        document.getElementById('__rule_h_host').appendChild(rulerX.canvas);
     }
     if(!rulerY) {
         rulerY = new RulerLine(RulerOrientation.Vertical);
-        rulerY.canvas.style.cssText = `position:absolute;top:0px;`;
-        rulerHost.appendChild(rulerY.canvas);
+        document.getElementById('__rule_v_host').appendChild(rulerY.canvas);
     }
 }
 
@@ -336,12 +443,10 @@ function applyRuler() {
     if(showRuler) {
         btnRuler.classList.add('active');
         document.body.classList.add('with-ruler');
-        rulerHost.style.display = '';
         updateRuler();
     } else {
         btnRuler.classList.remove('active');
         document.body.classList.remove('with-ruler');
-        rulerHost.style.display = 'none';
     }
 }
 
@@ -424,15 +529,63 @@ function changeBgClass(bg: string) {
     document.body.classList.add(bg);
 }
 
+function applyFitLayout() {
+    const cw = innerWidth - _svgContainer.offsetLeft;
+    const ch = innerHeight - _svgContainer.offsetTop;
+    const cp = cw / ch;
+    const sw = typeof(svgSize.width) === 'number' ? svgSize.width : svgSize.width?.value;
+    const sh = typeof(svgSize.height) === 'number' ? svgSize.height : svgSize.height?.value;
+    const sp = sw / sh;
+    const wm = sp > cp;
+    const padding = 20; // 保留边距
+    const waitScale = wm ? ((cw - padding * 2) / sw) : ((ch - padding * 2) / sh);
+    const svg = getCurrentSvg();
+    const tl = (cw - padding * 2 - waitScale * sw) / 2;
+    const tt = (ch - padding * 2 - waitScale * sh) / 2;
+    console.log('fit scale', waitScale, tl + padding, tt + padding, cw, ch, sw, sh);
+    svg.style.transformOrigin = 'left top';
+    svg.style.width = `${sw}px`;
+    svg.style.height = `${sh}px`;
+    svg.style.transform = `translate(${tl + padding}px, ${tt + padding}px) scale(${waitScale})`;
+}
+
+function enterFitMode() {
+    if(scale !== 1) {
+        doResetZoom();
+    }
+    fitMode = true;
+    btnZoomIn.style.display = 'none';
+    btnZoomOut.style.display = 'none';
+    labelZoom.innerText = "FIT";
+    applyFitLayout();
+}
+
+function doFit() {
+    document.getElementById('__svg').style.transform = '';
+    if(svgSize?.canFit) {
+        if(!fitMode) {
+            enterFitMode();
+        }
+    } else {
+        console.warn("Can not Fit");
+    }
+}
+
 function doResetZoom() {
+    if(!svgSize.canZoom) {
+        return;
+    }
     scale = 1;
     showZoom();
-    document.getElementById('__svg').style.transform = 'scale('+scale+')';
+    document.getElementById('__svg').style.transform = 'scale('+scale+')';;
     vscode.postMessage({action: 'scale', scale: scale});
     sizeUiFromSvg();
 }
 
 function doZoomIn() {
+    if(!svgSize.canZoom) {
+        return;
+    }
     scale*=2;
     normalScale();
     document.getElementById('__svg').style.transform = 'scale('+scale+')';
@@ -441,6 +594,9 @@ function doZoomIn() {
 }
 
 function doZoomOut() {
+    if(!svgSize.canZoom) {
+        return;
+    }
     scale/=2;
     normalScale();
     document.getElementById('__svg').style.transform = 'scale('+scale+')';
@@ -451,8 +607,8 @@ function doZoomOut() {
 function init() {
     _toolbar = <HTMLDivElement>document.getElementById('__toolbar');
     _host = <HTMLDivElement>document.getElementById('__host');
-    _pixelGrid = <HTMLDivElement>document.querySelector('#__host>.--pixel-grid');
-    rulerHost = <HTMLDivElement>document.getElementById('__rulerHost');
+    _svgContainer = <HTMLDivElement>document.getElementById('__svg_container');
+    _pixelGrid = <HTMLDivElement>document.querySelector('#__host .--pixel-grid');
     // let currentSvg = getCurrentSvg();
     // if(currentSvg) {
     //     // @ts-ignore:disable-next-line
@@ -508,19 +664,16 @@ function init() {
     labelZoom.className = 'label';
     showZoom();
     groupZoom.appendChild(labelZoom);
-    createButton(groupZoom, '100%', doResetZoom).className = 'btn';
-    createButton(groupZoom, '<i class="codicon codicon-zoom-in"></i>', doZoomIn, { title: 'Zoom In' }).className = 'btn';
-    createButton(groupZoom, '<i class="codicon codicon-zoom-out"></i>', doZoomOut, { title: 'Zoom Out' }).className = 'btn';
+    createButton(groupZoom, '<i class="codicon codicon-screen-normal"></i>', doResetZoom, { title: 'Zoom To 100%', 'class': 'btn'});
+    createButton(groupZoom, '<i class="codicon codicon-screen-full"></i>', doFit, { title: 'Fit'}).className = 'btn';
+    btnZoomIn = createButton(groupZoom, '<i class="codicon codicon-zoom-in"></i>', doZoomIn, { title: 'Zoom In', 'class': 'btn' });
+    btnZoomOut = createButton(groupZoom, '<i class="codicon codicon-zoom-out"></i>', doZoomOut, { title: 'Zoom Out', 'class': 'btn' });
 
     var groupView = createButtonGroup();
-    btnCross = createButton(groupView, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12">
-    <path d="M5.5,4.5h2v2h-2z M6.5,0v3M6.5,8v3M1,5.5h3M9,5.5h3" stroke-width="1" stroke="currentcolor" />
-</svg>`, crossSwitch);
+    btnCross = createButton(groupView, `<i class="codicon codicon-add"></i>`, crossSwitch);
     btnCross.title = 'Show Crossline';
     btnCross.className='btn';
-    btnRuler = createButton(groupView, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12">
-    <path d="M0,4.5h12M4.5,0v12M7.5,4v-2M10.5,4v-3M4,7.5h-2M4,10.5h-3" stroke-width="1" stroke="currentcolor" />
-</svg>`, rulerSwitch);
+    btnRuler = createButton(groupView, `<i class="codicon codicon-symbol-ruler"></i>`, rulerSwitch);
     btnRuler.title = 'Show Ruler';
     btnRuler.className='btn';
     if(showRuler) {
@@ -574,12 +727,21 @@ function init() {
     });
 
     window.addEventListener('message', onmessagein);
-    window.addEventListener('resize', onResize);
+    // window.addEventListener('resize', onResize);
     _host.addEventListener('mouseenter', showCross);
     _host.addEventListener('mousemove', showCross);
     _host.addEventListener('mouseleave', hideCross);
-    window.addEventListener('scroll', onScroll);
+    _svgContainer.addEventListener('scroll', onScroll);
     onResize();
+    if(svgSize.canFit && autoFit) {
+        fitMode = true;
+        enterFitMode();
+    }
+
+    const observer = new ResizeObserver(es => {
+        onResize();
+    });
+    observer.observe(_svgContainer);
 
     applyCross();
     applyRuler();
@@ -589,10 +751,10 @@ function init() {
 function onScroll() {
     // log('scroll', document.body.scrollLeft, document.documentElement.scrollTop);
     if(rulerX) {
-        rulerX.start = document.documentElement.scrollLeft;
+        rulerX.start = _svgContainer.scrollLeft;
     }
     if(rulerY) {
-        rulerY.start = document.documentElement.scrollTop;
+        rulerY.start = _svgContainer.scrollTop;
     }
 }
 
@@ -704,11 +866,9 @@ function doHotReload(id) {
     console.log("开始热重载", id);
     const el = document.getElementById(id) as HTMLElement;
     if(el instanceof HTMLLinkElement) {
-        let newLink = document.createElement('link');
-        newLink.rel = "stylesheet";
-        newLink.href = el.href;
-        newLink.href += "?rand=" + Math.random().toString();
-        el.parentElement.appendChild(newLink);
+        const href = new URL(el.href);
+        href.searchParams.set('rand', Math.random().toString());
+        el.setAttribute('href', href.href);
     } else {
         console.error(`不支持对${id}的热重载`)
     }

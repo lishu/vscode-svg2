@@ -30,6 +30,19 @@ body {
 body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
+}
+
+#__root {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+#__toolbar_parent {
+    flex: 0 0 auto;
 }
 
 #__toolbar {
@@ -37,7 +50,6 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    position: fixed;
     box-sizing: border-box;
     top: 0;
     min-height: 24px;
@@ -79,6 +91,12 @@ body {
     align-items: center;
 }
 
+#__toolbar>.btn-group>.btn:disabled {
+    opacity: 0.5;
+    user-select: none;
+    pointer-events: none;
+}
+
 .__toolbar_middle>.btn-group>.btn {
     font-size: 14px !important;
     height: 23px !important;
@@ -98,7 +116,6 @@ body {
 }
 
 .__toolbar_large>.btn-group>.btn-bg {
-    margin-top: 2px !important;
     width: 19px !important;
     height: 19px !important;
 }
@@ -133,28 +150,51 @@ body {
     cursor: default;
 }
 
-body.with-ruler #__host {
-    left: 12px;
-    top: 12px;
-}
-
 #__host {
     position: relative;
-    line-height: 0;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
 }
 
-#__host>.--pixel-grid {
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-repeat: repeat;
-    background-position: left top;
+#__rule_h_host,
+#__rule_v_host {
+    flex: 0 0 auto;
+    display: none;
+}
+
+
+#__svg_container {
+    flex: 1 1 auto;
+    overflow: auto;
+    max-width: 100vw;
+    max-height: 100vh;
+}
+
+.with-ruler #__rule_h_host,
+.with-ruler #__rule_v_host
+{
+    display: flex;
+}
+
+#__host_h {
+    flex: 1 1 auto;
+    display: flex;
+}
+
+#__host_v {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#__svg {
+    flex: 1 1 auto;
+    display: inline-flex;
 }
 
 #__rulerHost {
-    position: fixed;
-    left: 0;
-    top: 0;
+    position: absolute;
 }
 
 .locked svg {
@@ -164,4 +204,8 @@ body.with-ruler #__host {
 .__active_svg_sharp__ {
     stroke-width: 1% !important;
     stroke: var(--vscode-textLink-activeForeground) !important;
+}
+
+#__svg {
+    object-fit: contain;
 }

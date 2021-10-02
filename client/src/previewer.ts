@@ -360,13 +360,18 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             console.debug("尝试使用自动热加载")
             import('fs')
                 .then(fs => {
-                    const filepath = path.resolve(__dirname, '../style/pv.css');
+                    const filepath = path.resolve(__dirname, '../');
                     let reloadTimer : NodeJS.Timer;
                     console.log('自动热加载侦听', filepath);
-                    fs.watchFile(filepath, curr => {
-                        reloadTimer && clearTimeout(reloadTimer);
-                        reloadTimer = setTimeout(()=>this.webviewPanel.webview.postMessage({action: 'hotReload', id: '__link_stylePath'}), 1000);
+                    const watcher = fs.watch(filepath).addListener('change', (e, fn) => {
+                        if(typeof fn === 'string' && /\.(css|js)$/.test(fn)) {
+                            this.reshow();
+                        }
+                        // console.log('change', fn);
+                        // reloadTimer && clearTimeout(reloadTimer);
+                        // reloadTimer = setTimeout(()=>this.webviewPanel?.webview?.postMessage({action: 'hotReload', id: '__link_stylePath'}), 1000);
                     });
+                    this.webviewPanel.onDidDispose(()=>watcher.close());
                 });
         }
     }
@@ -638,6 +643,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         let cfg = vscode.workspace.getConfiguration('svg.preview');
         let saveTo = cfg.get<string>('backgroundSaveTo', 'Workspace');
         let toolbarSize = cfg.get<string>('toolbarSize', 'mini');
+        let autoFit = cfg.get<boolean>("autoFit", true);
         let path = webivew.asWebviewUri(this.resPath).toString();
         let iconPath = webivew.asWebviewUri(this.codiconUri);
         let stylePath = webivew.asWebviewUri(this.styleUri);
@@ -703,14 +709,26 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 html.push('<body class="bg-editor">');
                 break;
         }
+        html.push('<div id="__root">')
         html.push('<div id="__toolbar_parent">');
         html.push('<div id="__toolbar" class="__toolbar_' + toolbarSize + '"></div>');
         html.push('</div>');
-        html.push('<div id="__host" tabindex="0"}><div id="__svg">');
-        html.push(svg);
-        html.push('</div><div class="--pixel-grid"></div><div id="__rulerHost"></div></div>');
+        html.push(`<div id="__host" tabindex="0"}>
+    <div id="__rule_v_host"></div>
+    <div id="__host_v"> 
+        <div id="__rule_h_host"></div>
+        <div id="__svg_container">
+            <div class="--pixel-grid"></div>
+            <div id="__svg">
+                ${svg}
+            </div>
+        </div>
+    </div>
+</div>`);
+        html.push('</div>');
         html.push(`<script>
         var debug = ${this.debug};
+        var autoFit = ${autoFit};
         var mode = '${mode}'; 
         var scale = ${this.scale}; 
         var uri = '${doc.uri}'; 
