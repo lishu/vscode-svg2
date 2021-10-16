@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.13 - 2021-10-16
+### Fixed
+- Preview pixel grid broken.
+
 ## 1.4.11 - 2021-10-02
 ### Added
 - Preview has new default `FIT` mode.

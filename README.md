@@ -62,6 +62,9 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.13 - 2021-10-16
+- Fixed pixel grid broken.
+
 ### 1.4.11 - 2021-10-02
 - Preview Added has new default `FIT` mode.
 - More Preview bug fix
