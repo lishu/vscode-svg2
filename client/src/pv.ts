@@ -298,8 +298,8 @@ function showZoom(){
             _pixelGrid.style.width = '0px';
             _pixelGrid.style.height = '0px';
         } else {
-            _pixelGrid.style.width = `${_host.scrollWidth}px`;
-            _pixelGrid.style.height = `${_host.scrollHeight}px`;
+            _pixelGrid.style.width = `${_svgContainer.scrollWidth}px`;
+            _pixelGrid.style.height = `${_svgContainer.scrollHeight}px`;
             let pgSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${scale}" height="${scale}" viewBox="0 0 ${scale} ${scale}"><path d="M${scale} 0v${scale}h-${scale}" stroke="#808080" stroke-opacity=".5" fill-opacity="0" /></svg>`;
             _pixelGrid.style.backgroundImage = `url(data:image/svg+xml;base64,${btoa(pgSvg)})`;
         }
@@ -507,8 +507,8 @@ function applyInspectBind() {
 
 function sizeUiFromSvg() {
     let currentSvg = getCurrentSvg();
-    _pixelGrid.style.left = `${12 / scale}px`;
-    _pixelGrid.style.top = `${12 / scale}px`;
+    // _pixelGrid.style.left = `${12 / scale}px`;
+    // _pixelGrid.style.top = `${12 / scale}px`;
     if(currentSvg) {
         let rect = currentSvg.getBoundingClientRect();
         // _host.style.minWidth = `${rect.width}px`;
@@ -756,6 +756,7 @@ function onScroll() {
     if(rulerY) {
         rulerY.start = _svgContainer.scrollTop;
     }
+    _pixelGrid.style.transform = `translate(${-_svgContainer.scrollLeft}px, ${-_svgContainer.scrollTop}px)`;
 }
 
 let crossXElement : HTMLElement | null = null;

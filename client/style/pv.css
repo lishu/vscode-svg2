@@ -177,6 +177,15 @@ body {
     display: flex;
 }
 
+.--pixel-grid {
+    position: absolute;
+}
+
+.with-ruler .--pixel-grid {
+    left: 12px;
+    top: 12px;   
+}
+
 #__host_h {
     flex: 1 1 auto;
     display: flex;
