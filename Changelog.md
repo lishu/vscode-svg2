@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.14 - 2021-11-08
+### Changed
+- Language grammars scopes to `text.xml.svg`
+### Added
+- Enter rules for auto indent
+
 ## 1.4.13 - 2021-10-16
 ### Fixed
 - Preview pixel grid broken.

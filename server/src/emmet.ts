@@ -4,10 +4,17 @@ import { TextDocument, Position, CompletionList, CompletionItem, Range, Completi
 import { ISvgJsonElement, ISvgJsonRoot } from "./svgjson";
 import { ENodeBuilder, execAll } from './emmet-builder';
 
+function createRange(start: Position, end: Position) : Range {
+    return {
+        start,
+        end
+    };
+}
+
 export function doComplete(doc: TextDocument, position: Position, lang: string, svginfo: ISvgJsonRoot) : CompletionList {
     const items : Array<CompletionItem> = [];
     try {
-        const lineRange = Range.create(Position.create(position.line, 0), Position.create(position.line + 1, -1));
+        const lineRange = createRange(Position.create(position.line, 0), Position.create(position.line + 1, -1));
         const line = doc.getText(lineRange);
         if(line.includes('<')) {
             // 只要本行内有这个字符就不应该处理
@@ -35,7 +42,7 @@ ${code.replace('$0', '|')}
 `
                         },
                         insertTextFormat: InsertTextFormat.Snippet,
-                        textEdit: TextEdit.replace(Range.create(startPosition, endPosition), code),
+                        textEdit: TextEdit.replace(createRange(startPosition, endPosition), code),
                         commitCharacters: ['\t']
                     };
                     items.push(completionItem);

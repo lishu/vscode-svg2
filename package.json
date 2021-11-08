@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.13",
+    "version": "1.4.14",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.43.0"
@@ -518,7 +518,7 @@
         "grammars": [
             {
                 "language": "svg",
-                "scopeName": "text.svg",
+                "scopeName": "text.xml.svg",
                 "path": "./syntaxes/svg.json",
                 "embeddedLanguages": {
                     "meta.embedded.block.css": "css"

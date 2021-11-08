@@ -62,6 +62,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.14 - 2021-11-08
+- Changed language grammars scopes to `text.xml.svg`
+- Add enter rules for auto indent
+
 ### 1.4.13 - 2021-10-16
 - Fixed pixel grid broken.
 
@@ -74,12 +78,6 @@ SVG Version 2.0 is not included.
 
 ### 1.4.9 - 2021-07-18
 - Preview `<svg>` mode will show active graphics shape and click to source code position.
-
-### 1.4.8 - 2021-07-17
-- Add `Simple Elements` completion configuration. This will change completion action result to `<simple />`.
-
-### 1.4.7 - 2021-06-09
-- Clean release package.
 
 ### [MORE](Changelog.md)
 
