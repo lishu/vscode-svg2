@@ -5,6 +5,9 @@
 A Powerful SVG Language Support Extension.
 Almost all the features you need to handle SVG.
 
+## Caution
+**There have been multiple reports that the minimization feature may break your SVG, and we are still looking for a better library replacement for SVGO, so back up your SVG documentation when using the minimize feature.**
+
 ## Features
 
 ### SVG Full Auto Completion.
