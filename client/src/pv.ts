@@ -18,6 +18,7 @@ let btnCross : HTMLButtonElement;
 let btnRuler : HTMLButtonElement;
 let btnZoomIn : HTMLButtonElement;
 let btnZoomOut : HTMLButtonElement;
+let btnCodeInteractive : HTMLButtonElement;
 declare var debug: boolean;
 declare var isRootLocked: boolean;
 declare var isLocked : boolean;
@@ -30,6 +31,7 @@ declare var autoFit: boolean;
 let activeSvgSharp : SVGGraphicsElement;
 let svgSize : ISvgSize = null;
 let fitMode = false;
+let codeInteractive = !!sessionStorage.getItem('codeInteractive');
 
 const bg = getVsCodeColor('--vscode-tab-activeBackground', '#333');
 const numberColor = getVsCodeColor('--vscode-editorLineNumber-activeForeground', '#fff');
@@ -409,6 +411,16 @@ function onResize() {
     }
 }
 
+function switchCodeInteractive() {
+    codeInteractive = !codeInteractive;
+    if(codeInteractive) {
+        btnCodeInteractive.classList.add('active');
+    } else {
+        btnCodeInteractive.classList.remove('active');
+    }
+    sessionStorage.setItem('codeInteractive', codeInteractive ? 'YES' : '');
+}
+
 function crossSwitch() {
     showCrossLine = !showCrossLine;
     applyCross();
@@ -480,6 +492,9 @@ function applyInspectBind() {
     const svgRoot = document.getElementById('__svg');
     svgRoot.addEventListener('mouseenter', e => {
         // console.log(e);
+        if(!codeInteractive) {
+            return;
+        }
         const inElement = findInspectElement(e);
         if(inElement) {
             activeInspect(inElement);
@@ -494,6 +509,9 @@ function applyInspectBind() {
     }, { capture: true, passive: true });
     svgRoot.addEventListener('click', e => {
         // console.log(e);
+        if(!codeInteractive) {
+            return;
+        }
         const inElement = findInspectElement(e);
         if(inElement && 'inspectLine' in inElement.dataset) {
             vscode.postMessage({
@@ -670,6 +688,10 @@ function init() {
     btnZoomOut = createButton(groupZoom, '<i class="codicon codicon-zoom-out"></i>', doZoomOut, { title: 'Zoom Out', 'class': 'btn' });
 
     var groupView = createButtonGroup();
+    btnCodeInteractive = createButton(groupView, `<i class="codicon codicon-arrow-swap"></i>`, switchCodeInteractive, {
+        class: 'btn' + (codeInteractive ? ' active' : ''),
+        title: 'Code interactive'
+    });
     btnCross = createButton(groupView, `<i class="codicon codicon-add"></i>`, crossSwitch);
     btnCross.title = 'Show Crossline';
     btnCross.className='btn';

@@ -2,10 +2,10 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.14",
+    "version": "1.4.15",
     "publisher": "jock",
     "engines": {
-        "vscode": "^1.43.0"
+        "vscode": "^1.50.0"
     },
     "icon": "images/svglogo.png",
     "galleryBanner": {

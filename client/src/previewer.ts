@@ -43,6 +43,7 @@ interface TextEditorLike {
 let customCssFiles = [];
 
 function onDidChangeActiveTextEditor(e:TextEditorLike, show?: boolean) {
+    console.debug('onDidChangeActiveTextEditor', e, show);
     if(e && e.document && e.document.languageId == 'svg'){
         let previewer = getProviderBy(e.document.uri);
         let cfg = vscode.workspace.getConfiguration('svg').get<ISVGPreviewConfiguration>('preview');
@@ -64,7 +65,14 @@ function onDidChangeActiveTextEditor(e:TextEditorLike, show?: boolean) {
             if(cfg.autoShow || e.document.uri.toString() != previewer.previewUri) {
                 previewer.show(e.document.uri);
             } else {
-                previewer.webviewPanel.reveal(null, true);
+                const visibleTextEditor = vscode.window.visibleTextEditors.find(te => te.document.uri.toString() === e.document.uri.toString());
+                if (visibleTextEditor) {
+                    console.debug('visibleTextEditor.viewColumn, webviewPanel.viewColumn', visibleTextEditor.viewColumn, previewer.webviewPanel.viewColumn);
+                } 
+                else 
+                {
+                    previewer.webviewPanel.reveal(null, true);
+                }
             }
         }
     }

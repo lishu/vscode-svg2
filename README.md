@@ -65,6 +65,11 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.15 - 2021-12-22
+- Fix Previewr Focus Unexception.
+- Add Warring for `Minify`.
+- Add `Code Interactive` Button in Preview toolbar.
+
 ### 1.4.14 - 2021-11-08
 - Changed language grammars scopes to `text.xml.svg`
 - Add enter rules for auto indent

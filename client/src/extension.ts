@@ -32,14 +32,13 @@ let client: LanguageClient;
 let language = env.language;
 
 export function activate(context: ExtensionContext) {
-	console.log(__dirname, context.globalStoragePath);
 	SvgPreviwerContentProvider.$context = context;	
 	registerPreviewer();
 	context.subscriptions.push(
 		// languages.registerDocumentFormattingEditProvider(SVG_MODE, new SvgFormattingProvider()),
-		commands.registerTextEditorCommand('_svg.minifySvg', svgMinify),
+		commands.registerTextEditorCommand('_svg.minifySvg', (textEditor, edit) => svgMinify(context, textEditor, edit)),
 		commands.registerTextEditorCommand('svg.copyDataUri', copyDataUri),
-		commands.registerCommand('_svg.minifySvgToFile', uri=>svgMinifyToFile(uri)),
+		commands.registerCommand('_svg.minifySvgToFile', uri=>svgMinifyToFile(context, uri)),
 		registerPathDataHightlightProvider()
 	);
 

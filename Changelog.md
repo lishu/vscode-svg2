@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.15 - 2021-12-22
+### Fixed 
+- Previewr Focus Unexception.
+### Added
+- Warring for `Minify`.
+- `Code Interactive` Button in Preview toolbar.
+
 ## 1.4.14 - 2021-11-08
 ### Changed
 - Language grammars scopes to `text.xml.svg`

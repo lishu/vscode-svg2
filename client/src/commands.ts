@@ -1,6 +1,6 @@
 import SVGO = require("svgo");
 import fs = require('fs');
-import { window, TextDocument, FormattingOptions, CancellationToken, ProviderResult, Range, TextEdit, DocumentFormattingEditProvider, Position, TextEditor, TextEditorEdit, Uri, workspace, env } from "vscode";
+import { window, TextDocument, FormattingOptions, CancellationToken, ProviderResult, Range, TextEdit, DocumentFormattingEditProvider, Position, ExtensionContext, TextEditor, TextEditorEdit, Uri, workspace, env, ConfigurationTarget } from "vscode";
 import { changeName } from "./unit";
 
 const formatPlugins: Array<SVGO.PluginConfig> = [{
@@ -187,25 +187,27 @@ function getFullRange(doc: TextDocument) {
     return new Range(new Position(0, 0), doc.positionAt(length));
 }
 
-export function svgMinifyToFile(uri: Uri) {
+export function svgMinifyToFile(context: ExtensionContext, uri: Uri) {
     if (uri && uri.fsPath) {
-        let newUri = changeName(uri, (n, e) => n + '.min' + e);
-        fs.readFile(uri.fsPath, { encoding: 'utf8' }, (e, data) => {
-            if (data) {
-                let svgo = createMinifySVGO();
-                svgo.optimize(data)
-                    .then(r => {
-                        if (r.data) {
-                            fs.writeFile(newUri.fsPath, r.data, { encoding: 'utf8' }, err => {
-                                if (!err) {
-                                    workspace.openTextDocument(newUri).then(doc => {
-                                        window.showTextDocument(doc);
-                                    });
-                                }
-                            });
-                        }
-                    });
-            }
+        showMinifyWarning(context, ()=>{
+            let newUri = changeName(uri, (n, e) => n + '.min' + e);
+            fs.readFile(uri.fsPath, { encoding: 'utf8' }, (e, data) => {
+                if (data) {
+                    let svgo = createMinifySVGO();
+                    svgo.optimize(data)
+                        .then(r => {
+                            if (r.data) {
+                                fs.writeFile(newUri.fsPath, r.data, { encoding: 'utf8' }, err => {
+                                    if (!err) {
+                                        workspace.openTextDocument(newUri).then(doc => {
+                                            window.showTextDocument(doc);
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                }
+            });
         });
     }
 }
@@ -240,15 +242,42 @@ export function copyDataUri(textEditor: TextEditor, edit: TextEditorEdit) {
     }
 }
 
-export function svgMinify(textEditor: TextEditor, edit: TextEditorEdit) {
-    if (textEditor.document.languageId == 'svg') {
-        let svgo = createMinifySVGO();
-        svgo.optimize(textEditor.document.getText()).then(r => {
-            if (r.data) {
-                textEditor.edit(edit => edit.replace(getFullRange(textEditor.document), r.data));
+declare module 'vscode' {
+    interface MessageOptions {
+        detail?: string;
+    }
+}
+
+function showMinifyWarning(context: ExtensionContext, fn: Function) {
+    if(context.workspaceState.get('svg.skipMinifyWarning', false)) {
+        fn();
+        return;
+    }
+    window.showWarningMessage('[SVG] Irreversibly broken warning, Backup your svg!', {
+        modal: true,
+        detail: 'There have been multiple reports that the minimization feature may break your SVG, and we are still looking for a better library replacement for SVGO, so back up your SVG documentation when using the minimize feature.'
+    }, {title: 'OK'}, {title: 'OK, Needless to say'}, {title: 'Cancel', isCloseAffordance: true})
+    .then(r => {
+        if(r.title.startsWith("OK")) {
+            if(r.title === 'OK, Needless to say') {
+                context.workspaceState.update('svg.skipMinifyWarning', true);
             }
-        }).catch(reason => {
-            window.showErrorMessage('Failed to minify the document.\n' + reason);
+            fn();
+        }
+    })
+}
+
+export function svgMinify(context: ExtensionContext, textEditor: TextEditor, edit: TextEditorEdit) {
+    if (textEditor.document.languageId == 'svg') {
+        showMinifyWarning(context, ()=>{
+            let svgo = createMinifySVGO();
+            svgo.optimize(textEditor.document.getText()).then(r => {
+                if (r.data) {
+                    textEditor.edit(edit => edit.replace(getFullRange(textEditor.document), r.data));
+                }
+            }).catch(reason => {
+                window.showErrorMessage('Failed to minify the document.\n' + reason);
+            });
         });
     }
 }
