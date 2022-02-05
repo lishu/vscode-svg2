@@ -141,7 +141,7 @@ export interface PathDataCommandItem {
 function buildAst(tokens: Array<PathDataToken>) {
     let i = 0;
     let items : Array<PathDataCommandItem> = [];
-    let command: PathDataToken = null;
+    let command: PathDataToken | null = null;
     let args: Array<PathDataToken> = [];
     let bads: Array<PathDataToken> = [];
     for(;i<tokens.length;i++) {

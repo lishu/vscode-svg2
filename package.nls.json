@@ -12,6 +12,8 @@
     "configuration.completion.emmet.description": "Indicates whether the Completion List of Emmet-styles is enabled.",
     "configuration.minifyPlugins.title": "SVGO plugins use by minify",
     "configuration.minifyPlugins.description": "Each items corresponds to a plugin that should be enabled, the rest is disabled.",
+    "configuration.preview.translateExternalAddress.title": "Svg Preview Translate URI",
+    "configuration.preview.translateExternalAddress.description": "Svg Preview Auto Translate the external address to the Data URI, This option let Preview can show CROS content, but will not change real situation.",
     "configuration.preview.background.title": "Svg Preview Background",
     "configuration.preview.background.description": "Specifies the Svg Preview Background",
     "configuration.preview.backgroundCustom.title": "Svg Preview Custom Background",

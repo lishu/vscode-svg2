@@ -258,7 +258,7 @@ function showMinifyWarning(context: ExtensionContext, fn: Function) {
         detail: 'There have been multiple reports that the minimization feature may break your SVG, and we are still looking for a better library replacement for SVGO, so back up your SVG documentation when using the minimize feature.'
     }, {title: 'OK'}, {title: 'OK, Needless to say'}, {title: 'Cancel', isCloseAffordance: true})
     .then(r => {
-        if(r.title.startsWith("OK")) {
+        if(r && r.title.startsWith("OK")) {
             if(r.title === 'OK, Needless to say') {
                 context.workspaceState.update('svg.skipMinifyWarning', true);
             }
@@ -284,6 +284,9 @@ export function svgMinify(context: ExtensionContext, textEditor: TextEditor, edi
 
 export class SvgFormattingProvider implements DocumentFormattingEditProvider {
     provideDocumentFormattingEdits(document: TextDocument, options: FormattingOptions, token: CancellationToken): ProviderResult<TextEdit[]> {
+        if(!window.activeTextEditor) {
+            return null;
+        }
         let svgo = new SVGO({
             full: false,
             plugins: formatPlugins,

@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.15",
+    "version": "1.4.16",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.50.0"
@@ -131,6 +131,12 @@
                 "svg.completion.emmet": {
                     "title": "%configuration.completion.emmet.title%",
                     "description": "%configuration.completion.emmet.description%",
+                    "type": "boolean",
+                    "default": false
+                },
+                "svg.preview.translateExternalAddress": {
+                    "title": "%configuration.preview.translateExternalAddress.title%",
+                    "description": "%configuration.preview.translateExternalAddress.description%",
                     "type": "boolean",
                     "default": false
                 },

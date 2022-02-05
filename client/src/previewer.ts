@@ -2,6 +2,8 @@ import * as vscode from 'vscode';
 
 import * as path from 'path';
 import * as fs from 'fs';
+import * as http from 'http';
+import * as https from 'https';
 
 import { changeName, writeB64ToFile } from './unit';
 import { utils } from 'mocha';
@@ -40,13 +42,13 @@ interface TextEditorLike {
     readonly document : vscode.TextDocument;
 }
 
-let customCssFiles = [];
+let customCssFiles: string[] = [];
 
-function onDidChangeActiveTextEditor(e:TextEditorLike, show?: boolean) {
+function onDidChangeActiveTextEditor(e?:TextEditorLike, show?: boolean) {
     console.debug('onDidChangeActiveTextEditor', e, show);
     if(e && e.document && e.document.languageId == 'svg'){
         let previewer = getProviderBy(e.document.uri);
-        let cfg = vscode.workspace.getConfiguration('svg').get<ISVGPreviewConfiguration>('preview');
+        let cfg = vscode.workspace.getConfiguration('svg').get<ISVGPreviewConfiguration>('preview', { autoShow: false, viewMode: 'onlyOne'});
         if(!previewer) {
             let unlockedPreviewer = getUnlockedProvider();
             if(cfg.viewMode == 'oneByOne' || !unlockedPreviewer) {
@@ -67,11 +69,11 @@ function onDidChangeActiveTextEditor(e:TextEditorLike, show?: boolean) {
             } else {
                 const visibleTextEditor = vscode.window.visibleTextEditors.find(te => te.document.uri.toString() === e.document.uri.toString());
                 if (visibleTextEditor) {
-                    console.debug('visibleTextEditor.viewColumn, webviewPanel.viewColumn', visibleTextEditor.viewColumn, previewer.webviewPanel.viewColumn);
+                    console.debug('visibleTextEditor.viewColumn, webviewPanel.viewColumn', visibleTextEditor.viewColumn, previewer.webviewPanel!.viewColumn);
                 } 
                 else 
                 {
-                    previewer.webviewPanel.reveal(null, true);
+                    previewer.webviewPanel!.reveal(undefined, true);
                 }
             }
         }
@@ -87,7 +89,9 @@ function show(e?: any) {
         return;
     }
     var editor = vscode.window.activeTextEditor;
-    onDidChangeActiveTextEditor(editor, true);
+    if (editor) {
+        onDidChangeActiveTextEditor(editor, true);
+    }
 }
 
 export function registerPreviewer() {
@@ -115,7 +119,7 @@ export class AllSvgPreviwerContentProvider implements vscode.Disposable
 {
     private subdisposed : Array<vscode.Disposable> = [];
 
-    webviewPanel : vscode.WebviewPanel;
+    webviewPanel? : vscode.WebviewPanel;
 
     constructor() {
         this.subdisposed.push(
@@ -192,12 +196,12 @@ export class AllSvgPreviwerContentProvider implements vscode.Disposable
                 }
             }
             items = items.sort((a,b) => a.name.localeCompare(b.name));
-            this.webviewPanel.webview.postMessage({action : 'items', items});
+            this.webviewPanel!.webview.postMessage({action : 'items', items});
         });
     }
 
     onWebViewPanelDispose(): any {
-        this.webviewPanel = null;
+        this.webviewPanel = undefined;
     }
 
     createHtml(): string {
@@ -330,13 +334,13 @@ export class AllSvgPreviwerContentProvider implements vscode.Disposable
 export class SvgPreviwerContentProvider implements vscode.Disposable
 {
     debug: boolean;
-    webviewPanel : vscode.WebviewPanel;
+    webviewPanel? : vscode.WebviewPanel | null;
     // d0: vscode.Disposable;
     // d1: vscode.Disposable;
     d2: vscode.Disposable;
     // d3: vscode.Disposable;
     // d4: vscode.Disposable;
-    previewUri: string;
+    previewUri?: string;
     isRootLocked: boolean = false;
     isLocked: boolean = false;
     scale: number = 1;
@@ -344,7 +348,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     codiconUri: vscode.Uri;
     styleUri: vscode.Uri;
     // path: vscode.Uri;
-    noSaveBackground: string = null;
+    noSaveBackground: string | null = null;
 	static $context: vscode.ExtensionContext;
     //lastDocument: vscode.TextDocument;
 
@@ -382,7 +386,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                         // reloadTimer && clearTimeout(reloadTimer);
                         // reloadTimer = setTimeout(()=>this.webviewPanel?.webview?.postMessage({action: 'hotReload', id: '__link_stylePath'}), 1000);
                     });
-                    this.webviewPanel.onDidDispose(()=>watcher.close());
+                    this.webviewPanel!.onDidDispose(()=>watcher.close());
                 });
         }
     }
@@ -391,7 +395,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         if(this.isActiveBy(e.textEditor.document) && e.selections.length == 1){
             let selection = e.selections[0];
             let offset = e.textEditor.document.offsetAt(selection.active);
-            this.webviewPanel.webview.postMessage({
+            this.webviewPanel!.webview.postMessage({
                 action: 'selection',
                 offset
             });
@@ -447,7 +451,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         if(!this.webviewPanel.visible) {
             this.webviewPanel.reveal(vscode.ViewColumn.Three, true);
         }
-        let docUri: vscode.Uri = null;
+        let docUri: vscode.Uri | null = null;
         if(e instanceof vscode.Uri) {
             docUri = e;
         }
@@ -461,7 +465,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     }
 
     onWebViewPanelDispose() {
-        delete previewers[this.previewUri];
+        delete previewers[this.previewUri!];
         this.webviewPanel = null;
     }
 
@@ -483,7 +487,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 break;
             case 'mode':
                 vscode.workspace.getConfiguration('svg.preview').update('mode', e.mode, vscode.ConfigurationTarget.Global).then(()=>{
-                    this.showUri(vscode.Uri.parse(this.previewUri));
+                    this.showUri(vscode.Uri.parse(this.previewUri!));
                 });
                 break;
             case 'scale':
@@ -530,16 +534,16 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 break;
             case 'lock':
                 this.isLocked = true;
-                this.webviewPanel.webview.postMessage({action: 'changeLock', value: true});
+                this.webviewPanel!.webview.postMessage({action: 'changeLock', value: true});
                 break;
             case 'unlock':
                 this.isLocked = false;
-                this.webviewPanel.webview.postMessage({action: 'changeLock', value: false});
+                this.webviewPanel!.webview.postMessage({action: 'changeLock', value: false});
                 break;
             case 'toLine':
                 // TODO: toLine
                 {
-                    const docUrl = vscode.Uri.parse(this.previewUri);
+                    const docUrl = vscode.Uri.parse(this.previewUri!);
                     const position = new vscode.Position(parseInt(e.line), parseInt(e.column));
                     getOrCreateDocumentEditor(docUrl, {
                         viewColumn: vscode.ViewColumn.Beside, 
@@ -567,7 +571,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             });
             vscode.window.showQuickPick(options, {canPickMany: true}).then(selectedCssUris=>{
                 if(selectedCssUris){
-                    let docUri = vscode.Uri.parse(this.previewUri);
+                    let docUri = vscode.Uri.parse(this.previewUri!);
                     customCssFiles = selectedCssUris.map(cu=>cu.label);
                     this.showUri(docUri);
                 }
@@ -589,7 +593,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
 
     private reshow() {
         assert(this.previewUri != null, "Use reshow() required previewUri is not null.");
-        vscode.workspace.openTextDocument(vscode.Uri.parse(this.previewUri)).then(doc=>{
+        vscode.workspace.openTextDocument(vscode.Uri.parse(this.previewUri!)).then(doc=>{
             this.showDocument(doc);
         });
     }
@@ -600,27 +604,27 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         });
     }
 
-    private showDocument(doc: vscode.TextDocument) {
+    private async showDocument(doc: vscode.TextDocument) {
         if(!this.webviewPanel){
             return;
         }
         if(this.previewUri != doc.uri.toString())
         {
             // this.lastDocument = doc;
-            if(previewers[this.previewUri] == this) {
-                delete previewers[this.previewUri];
+            if(previewers[this.previewUri!] == this) {
+                delete previewers[this.previewUri!];
             }
             this.previewUri = doc.uri.toString();
             previewers[this.previewUri] = this;
             this.webviewPanel.title = path.basename(doc.uri.fsPath) + '[Preview]';
         }
-        this.webviewPanel.webview.html = this.createHtml(doc, this.webviewPanel.webview);
+        this.webviewPanel.webview.html = await this.createHtml(doc, this.webviewPanel.webview);
     }
 
     showRuler : boolean | undefined = undefined;
     showCrossLine : boolean | undefined = undefined;
 
-    private getDefined<T>(...options: Array<T | undefined>) : T {
+    private getDefined<T>(...options: Array<T | undefined>) : T | undefined {
         for(let item of options) {
             if(typeof(item) !== 'undefined') {
                 return item;
@@ -647,13 +651,14 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         }
     }
 
-    private createHtml(doc: vscode.TextDocument, webivew: vscode.Webview):string
+    private async createHtml(doc: vscode.TextDocument, webivew: vscode.Webview): Promise<string>
     {
         // console.debug('create preview html');
         let cfg = vscode.workspace.getConfiguration('svg.preview');
         let saveTo = cfg.get<string>('backgroundSaveTo', 'Workspace');
         let toolbarSize = cfg.get<string>('toolbarSize', 'mini');
         let autoFit = cfg.get<boolean>("autoFit", true);
+        let translateExternalAddress = cfg.get<boolean>("translateExternalAddress", false);
         let path = webivew.asWebviewUri(this.resPath).toString();
         let iconPath = webivew.asWebviewUri(this.codiconUri);
         let stylePath = webivew.asWebviewUri(this.styleUri);
@@ -665,6 +670,61 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         let mode = cfg.get<string>('mode', 'svg');
         // let svg = doc.getText();
         let svg = mode === 'img' ? doc.getText() : this.converToInspectSvg(doc);
+        let domains : string[] = [];
+        let imageHrefs = [];
+        let imageHrefReg = /\<(fe)?image([^>]*)href=\"(https?:\/\/[^\"]*)\"/gi;
+        let imageHrefMatch = null;
+        try{
+            const translateImageMaps : Record<string, string> = {};
+            while(imageHrefMatch = imageHrefReg.exec(svg)) {
+                const imageHref = imageHrefMatch[3];
+                const origin = new URL(imageHref).origin.toUpperCase();
+                imageHrefs.push(imageHref);
+                if(!domains.includes(origin)) {
+                    domains.push(origin);
+                }
+                if(translateExternalAddress) {
+                    try{
+                        const contentBytes = await new Promise<string>((resolve, reject) => {
+                            (/^https/i.test(imageHref) ? https : http).get(imageHref, res => {                            
+                                const { statusCode, statusMessage } = res;
+                                const contentType = res.headers['content-type'];
+                                const isText = /^text/.test(contentType || '');
+                                const all : Array<string|Buffer> = []
+                                if (statusCode === 200) {
+                                    if(isText) {
+                                        res.setEncoding('utf8');
+                                    }
+                                    res.on('data', chunk => {
+                                        all.push(chunk);
+                                    });
+                                    res.on('end', () => {
+                                        const buffer = isText ? Buffer.from(all.join('')) : Buffer.concat(all as Buffer[]);
+                                        resolve(`data:${contentType};base64,${buffer.toString('base64')}`);
+                                    });
+                                } else {
+                                    reject(new Error(statusMessage));
+                                }
+                            })
+                        });
+                        if (contentBytes) {
+                            translateImageMaps[imageHref] = contentBytes;
+                        }
+                    }
+                    catch {}
+                }
+            }
+            if(translateExternalAddress) {
+                svg = svg.replace(imageHrefReg, ($0, $1, $2, $3)=> {
+                    if($3 in translateImageMaps) {
+                        return $0.replace($3, translateImageMaps[$3]);
+                    }
+                    return $0;
+                });
+            }
+        } catch(e) {
+            console.error(e);
+        }
 
         if(mode == 'img') {
             // 尝试使用 img + data 提供 svg 非嵌入格式支持
@@ -675,7 +735,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push('<!DOCTYPE html>\n');
         html.push('<html>');
         html.push(`<head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' vscode-resource: https: data:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' vscode-resource: https: data: ${domains.join(' ')};">
 </head>`);
         html.push(`<link href="${iconPath}" rel="stylesheet" />`);
         html.push(`<link id="__link_stylePath" href="${stylePath}" rel="stylesheet" />`);
@@ -694,7 +754,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         if(mode == 'svg' && customCssFiles.length) {
             for(let cssUri of customCssFiles){
                 try{
-                    html.push(`<link crossorigin="anonymous" media="all" rel="stylesheet" href="${this.webviewPanel.webview.asWebviewUri(vscode.Uri.parse(cssUri))}?_=${Math.random()}" />`);
+                    html.push(`<link crossorigin="anonymous" media="all" rel="stylesheet" href="${this.webviewPanel!.webview.asWebviewUri(vscode.Uri.parse(cssUri))}?_=${Math.random()}" />`);
                 }
                 catch{}
             }
@@ -748,6 +808,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         var customCssFiles = ${customCssFiles.length};
         var showRuler = ${showRuler};
         var showCrossLine = ${showCrossLine};
+        var domains = ${JSON.stringify(domains)};
         </script>`);
         html.push('<script src="${vscode-resource}/pv.js"></script>');
         html.push(`</body>`);

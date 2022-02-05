@@ -91,6 +91,12 @@ body {
     align-items: center;
 }
 
+.btn-label-error {
+    border: none 0;
+    background-color: var(--vscode-welcomepage-buttonBackground);
+    color: var(--vscode-editorWarning-foreground);
+}
+
 #__toolbar>.btn-group>.btn:disabled {
     opacity: 0.5;
     user-select: none;

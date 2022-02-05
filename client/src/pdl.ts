@@ -3,7 +3,7 @@
 import { window, Range, TextDocument, TextEditorDecorationType, Disposable, workspace, Position, TextEditor, DecorationRangeBehavior, OverviewRulerLane, TextDocumentChangeEvent, ConfigurationChangeEvent } from 'vscode';
 import { parsePath, PathDataToken, PathDataTokenType, PathDataCommand, PathDataCommandItem } from './path-grammar';
 
-let PathCommandType, PathStopPointType : TextEditorDecorationType;
+let PathCommandType: TextEditorDecorationType, PathStopPointType : TextEditorDecorationType;
 let disposables: Disposable[] = [];
 let pathDataHighlight : boolean | null = null;
 
@@ -47,10 +47,10 @@ function handlePathDataHightlight(editor: TextEditor) {
     }
     let content = editor.document.getText();
     let pathDataAttrRegex = /<(path|glyph|missing-glyph)[^>]*\sd\s*=\"([^\"]+)/g;
-    let r: RegExpExecArray;
+    let r: RegExpExecArray | null;
 
-    let commandRanges = [];
-    let stopRanges = [];
+    let commandRanges: Range[] = [];
+    let stopRanges: Range[] = [];
 
     while(r = pathDataAttrRegex.exec(content)) {
         if(r.length > 2) {

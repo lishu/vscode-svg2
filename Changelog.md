@@ -1,10 +1,17 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## 1.4.16 - 2022-02-05
+
+### Added
+
+* New `Translate External Address` Setting for Previewer Show `<img>` mode external url content
 
 ## 1.4.15 - 2021-12-22
 ### Fixed 

@@ -26,10 +26,11 @@ declare var customCssFiles: number;
 declare var showRuler : boolean;
 declare var showCrossLine : boolean;
 declare var autoFit: boolean;
+declare var domains: string[];
 
 // 当前高亮边框效果所在的 SVG 图形
-let activeSvgSharp : SVGGraphicsElement;
-let svgSize : ISvgSize = null;
+let activeSvgSharp : SVGGraphicsElement | null;
+let svgSize : ISvgSize | null = null;
 let fitMode = false;
 let codeInteractive = !!sessionStorage.getItem('codeInteractive');
 
@@ -48,7 +49,7 @@ function createButtonGroup(){
     return group;
 }
 
-function createButton(parent, content, handler, attributes?: Record<string, string>) {
+function createButton(parent: HTMLElement, content: string | null, handler: (e:MouseEvent)=>void, attributes?: Record<string, string>) {
     var btn = document.createElement('button');
     btn.type = 'button';
     parent.appendChild(btn);
@@ -65,8 +66,8 @@ function createButton(parent, content, handler, attributes?: Record<string, stri
 }
 
 declare function acquireVsCodeApi() : {
-    postMessage(obj:any);
-    setState(obj:any);
+    postMessage(obj:any):any;
+    setState(obj:any):any;
     getState():any;
 };
 
@@ -104,7 +105,7 @@ class RulerLine {
         } else {
             this.canvas.width = RULER_SIZE;
         }
-        this.cxt = this.canvas.getContext('2d');
+        this.cxt = this.canvas.getContext('2d')!;
         this.resize();
         window.addEventListener('resize', ()=>this.resize());
     }
@@ -265,7 +266,7 @@ class RulerLine {
 }
 
 function getCurrentSvg() : SVGSVGElement | HTMLImageElement {
-    return _host.querySelector('#__svg>svg') || _host.querySelector('#__svg>img');
+    return _host.querySelector('#__svg>svg') || _host.querySelector('#__svg>img')!;
 }
 
 function normalScale() {
@@ -285,8 +286,10 @@ function exitFitMode() {
     btnZoomOut.style.display = '';
     svg.style.transform = '';
     svg.style.transformOrigin = '';
-    svg.style.width = `${svgSize.width}px`;
-    svg.style.height = `${svgSize.height}px`
+    if(svgSize) {
+        svg.style.width = `${svgSize.width}px`;
+        svg.style.height = `${svgSize.height}px`
+    }
     fitMode = false;
 }
 
@@ -372,7 +375,7 @@ function tryGetSvgSize() : ISvgSize | null {
                 canFit: svg.width?.baseVal?.unitType<2 && svg.height?.baseVal?.unitType<2,
                 canZoom: svg.width?.baseVal?.unitType > 0,
             }
-            if(s.viewBox.width && s.viewBox.height) {
+            if(s.viewBox && s.viewBox.width && s.viewBox.height) {
                 s.width = s.viewBox.width;
                 s.height = s.viewBox.height;
                 s.canFit = true;
@@ -433,7 +436,7 @@ function rulerSwitch() {
     vscode.postMessage({action: 'ruler', value: showRuler});
 }
 
-function log(...data) {
+function log(...data: any) {
     console.log(...data);
     vscode.postMessage({action: 'log', data});
 }
@@ -443,11 +446,11 @@ var rulerY : RulerLine;
 function updateRuler() {
     if(!rulerX) {
         rulerX = new RulerLine(RulerOrientation.Horizontal);
-        document.getElementById('__rule_h_host').appendChild(rulerX.canvas);
+        document.getElementById('__rule_h_host')!.appendChild(rulerX.canvas);
     }
     if(!rulerY) {
         rulerY = new RulerLine(RulerOrientation.Vertical);
-        document.getElementById('__rule_v_host').appendChild(rulerY.canvas);
+        document.getElementById('__rule_v_host')!.appendChild(rulerY.canvas);
     }
 }
 
@@ -464,17 +467,18 @@ function applyRuler() {
 
 function findInspectElement(e: MouseEvent) : SVGGraphicsElement | null
 {
-    const findGrapics = (target) => {
+    const findGrapics = (target: Node | EventTarget | null): SVGGraphicsElement | null => {
         if(target instanceof SVGGraphicsElement && 'inspectLine' in target.dataset) {
             return target;
         }
-        if(target.parentElement instanceof Element) {
+        if(target instanceof Node && target.parentElement instanceof Element) {
             if(target.parentElement === target) {
                 return null;
             }
             return findGrapics(target.parentElement);
         }
-    }
+        return null;
+    };
     return findGrapics(e.target);
 }
 
@@ -489,7 +493,7 @@ function activeInspect(newElement: SVGGraphicsElement | null) {
 }
 
 function applyInspectBind() {
-    const svgRoot = document.getElementById('__svg');
+    const svgRoot = document.getElementById('__svg')!;
     svgRoot.addEventListener('mouseenter', e => {
         // console.log(e);
         if(!codeInteractive) {
@@ -548,6 +552,9 @@ function changeBgClass(bg: string) {
 }
 
 function applyFitLayout() {
+    if(!svgSize) {
+        return;
+    }
     const cw = innerWidth - _svgContainer.offsetLeft;
     const ch = innerHeight - _svgContainer.offsetTop;
     const cp = cw / ch;
@@ -579,7 +586,7 @@ function enterFitMode() {
 }
 
 function doFit() {
-    document.getElementById('__svg').style.transform = '';
+    document.getElementById('__svg')!.style.transform = '';
     if(svgSize?.canFit) {
         if(!fitMode) {
             enterFitMode();
@@ -590,34 +597,34 @@ function doFit() {
 }
 
 function doResetZoom() {
-    if(!svgSize.canZoom) {
+    if(!svgSize!.canZoom) {
         return;
     }
     scale = 1;
     showZoom();
-    document.getElementById('__svg').style.transform = 'scale('+scale+')';;
+    document.getElementById('__svg')!.style.transform = 'scale('+scale+')';;
     vscode.postMessage({action: 'scale', scale: scale});
     sizeUiFromSvg();
 }
 
 function doZoomIn() {
-    if(!svgSize.canZoom) {
+    if(!svgSize!.canZoom) {
         return;
     }
     scale*=2;
     normalScale();
-    document.getElementById('__svg').style.transform = 'scale('+scale+')';
+    document.getElementById('__svg')!.style.transform = 'scale('+scale+')';
     vscode.postMessage({action: 'scale', scale: scale});
     sizeUiFromSvg();
 }
 
 function doZoomOut() {
-    if(!svgSize.canZoom) {
+    if(!svgSize!.canZoom) {
         return;
     }
     scale/=2;
     normalScale();
-    document.getElementById('__svg').style.transform = 'scale('+scale+')';
+    document.getElementById('__svg')!.style.transform = 'scale('+scale+')';
     vscode.postMessage({action: 'scale', scale: scale});
     sizeUiFromSvg();
 }
@@ -645,8 +652,8 @@ function init() {
         btnLocked.className = 'btn';
         btnLocked.title = 'Locked or Unlocked SVG document';
         if(isLocked) {
-            btnLocked.firstElementChild.classList.remove('codicon-pin');
-            btnLocked.firstElementChild.classList.add('codicon-pinned');
+            btnLocked.firstElementChild!.classList.remove('codicon-pin');
+            btnLocked.firstElementChild!.classList.add('codicon-pinned');
             btnLocked.classList.add('active');
         }
     }
@@ -730,6 +737,13 @@ function init() {
         title: 'Export PNG'
     }).className = 'btn';
 
+    if(domains.length) {
+        createButton(_toolbar, '<i class="codicon codicon-warning"></i>', () => {}, {
+            class: 'btn-label-error',
+            title: `Has ${domains.length} domains maybe cause CORS:\n` + domains.map(d => d.toLowerCase()).join('\n')
+        });
+    }
+
     window.addEventListener('wheel', e => {
         console.log('window wheel', e);
         if(e.ctrlKey || e.metaKey) {
@@ -755,7 +769,7 @@ function init() {
     _host.addEventListener('mouseleave', hideCross);
     _svgContainer.addEventListener('scroll', onScroll);
     onResize();
-    if(svgSize.canFit && autoFit) {
+    if(svgSize!.canFit && autoFit) {
         fitMode = true;
         enterFitMode();
     }
@@ -833,7 +847,7 @@ function showCross(e: MouseEvent) {
 function hideCross(e?: MouseEvent) {
     if(crossXElement){
         crossXElement.style.display = 'none';
-        crossYElement.style.display = 'none';
+        crossYElement!.style.display = 'none';
     }
 }
 
@@ -885,7 +899,7 @@ const MessageData = {
     }
 };
 
-function doHotReload(id) {
+function doHotReload(id: string) {
     console.log("开始热重载", id);
     const el = document.getElementById(id) as HTMLElement;
     if(el instanceof HTMLLinkElement) {
@@ -927,19 +941,19 @@ function onChangeLock(locked: boolean) {
         isLocked
     });
     if(isLocked) {
-        btnLocked.firstElementChild.classList.remove('codicon-pin');
-        btnLocked.firstElementChild.classList.add('codicon-pinned');
+        btnLocked.firstElementChild!.classList.remove('codicon-pin');
+        btnLocked.firstElementChild!.classList.add('codicon-pinned');
         btnLocked.classList.add('active');
     } else {
-        btnLocked.firstElementChild.classList.remove('codicon-pinned');
-        btnLocked.firstElementChild.classList.add('codicon-pin');
+        btnLocked.firstElementChild!.classList.remove('codicon-pinned');
+        btnLocked.firstElementChild!.classList.add('codicon-pin');
         btnLocked.classList.remove('active');
     }
 }
 
-function exportImg(img) {
+function exportImg(img: HTMLImageElement) {
     let canvas = new OffscreenCanvas(img.naturalWidth, img.naturalHeight);
-    let cxt = canvas.getContext('2d');
+    let cxt = canvas.getContext('2d')!;
     cxt.drawImage(img, 0, 0);
     canvas.convertToBlob({type: 'image/png'}).then(blob=>{
         var reader = new FileReader();
@@ -954,9 +968,9 @@ function exportImg(img) {
 
 function exportPng(){
     try{
-        let svgParent = document.getElementById('__svg');
+        let svgParent = document.getElementById('__svg')!;
         if(mode == 'img') {
-            exportImg(svgParent.querySelector('img'));
+            exportImg(svgParent.querySelector('img')!);
             return;
         }
         let svg = svgParent.innerHTML;
