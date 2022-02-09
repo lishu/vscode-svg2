@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.16",
+    "version": "1.4.17",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.50.0"

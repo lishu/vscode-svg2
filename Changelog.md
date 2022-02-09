@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.17 - 2022-02-09
+
+### Changed
+
+* Preview min Zoom will auto change for big size svg.
+
 ## 1.4.16 - 2022-02-05
 
 ### Added

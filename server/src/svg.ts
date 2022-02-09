@@ -1595,6 +1595,7 @@ export function getSvgJson(language: string): ISvgJsonRoot {
             "accent-height": {
                 "name": "accent-height",
                 "type": "number",
+                "deprecated": true,
                 "documentation": "Defines the distance from the origin to the top of accent characters, measured by a distance within the font coordinate system."
             },
             "accumulate": {
@@ -1623,6 +1624,7 @@ export function getSvgJson(language: string): ISvgJsonRoot {
             },
             "attributeType": {
                 name: "attributeType",
+                deprecated: true,
                 documentation: "This attribute specifies the namespace in which the target attribute and its associated values are defined. ",
                 enum: "CSS | XML | auto".split(' | ')
             },
@@ -1656,12 +1658,19 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                 documentation: "This attribute specifies the interpolation mode for the animation. The default mode is linear, however if the attribute does not support linear interpolation (e.g. for strings), the calcMode attribute is ignored and discrete interpolation is used.",
                 enum: "discrete | linear | paced | spline".split(' | ')
             },
+            "cap-height": {
+                name: "cap-height",
+                deprecated: true,
+                documentation: "This attribute defines the height of uppercase glyphs of the font within the font coordinate system.",
+                type: "number"
+            },
             "class": {
                 name: "class",
                 documentation: "Assigns a class name or set of class names to an element. You may assign the same class name or names to any number of elements. If you specify multiple class names, they must be separated by whitespace characters."
             },
             "clip": {
                 name: "clip",
+                deprecated: "This property is deprecated. Use clip-path instead.",
                 documentation: "The clip attribute has the same parameter values as defined for the css clip property. Unitless values, which indicate current user coordinates, are permitted on the coordinate values on the <shape>. The value of auto defines a clipping path along the bounds of the viewport created by the given element.",
                 enum: "auto | inherit".split(' | '),
                 type: "shape"

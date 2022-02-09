@@ -297,7 +297,11 @@ function showZoom(){
     if(fitMode) {
         exitFitMode();
     }
-    labelZoom.innerText = (scale * 100).toFixed(0) + '%';
+    if(scale < 0.01) {
+        labelZoom.innerText = (scale * 1000).toFixed(2) + '‰';
+    } else {
+        labelZoom.innerText = (scale * 100).toFixed(0) + '%';
+    }
     requestAnimationFrame(()=>{
         if(scale < pixelGridScale) {
             _pixelGrid.style.width = '0px';
@@ -568,6 +572,11 @@ function applyFitLayout() {
     const tl = (cw - padding * 2 - waitScale * sw) / 2;
     const tt = (ch - padding * 2 - waitScale * sh) / 2;
     console.log('fit scale', waitScale, tl + padding, tt + padding, cw, ch, sw, sh);
+    if(typeof sw === 'number' && sw > 0 && typeof sh === 'number' && sh > 0) {
+        minScale = Math.min(waitScale, 0.08);
+    } else {
+        minScale = 0.08;
+    }
     svg.style.transformOrigin = 'left top';
     svg.style.width = `${sw}px`;
     svg.style.height = `${sh}px`;

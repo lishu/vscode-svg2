@@ -67,6 +67,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.17 - 2022-02-09
+
+* Preview min Zoom will auto change for big size svg.
+
 ### 1.4.16 - 2022-02-05
 
 * Add `Translate External Address` Setting for Show `<img>` mode external url content
