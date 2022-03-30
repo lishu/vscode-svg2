@@ -14,8 +14,7 @@ const config = {
         path: path.resolve(__dirname, 'out'),
         filename: '[name].js',
         libraryTarget: 'this',
-        devtoolModuleFilenameTemplate: '../[resource-path]',
-        hashFunction: 'xxhash64'
+        devtoolModuleFilenameTemplate: '../[resource-path]'
     },
     devtool: 'source-map',
     resolve: {
