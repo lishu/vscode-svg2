@@ -13,12 +13,15 @@ const config = {
         'extension': './src/extension.ts'
     },
     plugins: [
-        new CopyWebpackPlugin([
-            { 
-                from: 'node_modules/@vscode/codicons',
-                to: './codicons'
-            }
-        ])
+        new CopyWebpackPlugin(
+            {
+                patterns: [
+                    {
+                        from: 'node_modules/@vscode/codicons',
+                        to: './codicons'
+                    }
+                ]
+            })
     ],
     output: {
         path: path.resolve(__dirname, 'out'),
