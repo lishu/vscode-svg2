@@ -67,6 +67,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.18 - 2022-05-14
+
+* Preview zoom level will not reset when document change.
+
 ### 1.4.17 - 2022-02-09
 
 * Preview min Zoom will auto change for big size svg.

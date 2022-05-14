@@ -16,6 +16,7 @@ let btnImg : HTMLButtonElement;
 let btnLocked : HTMLButtonElement;
 let btnCross : HTMLButtonElement;
 let btnRuler : HTMLButtonElement;
+let btnZoomFit : HTMLButtonElement;
 let btnZoomIn : HTMLButtonElement;
 let btnZoomOut : HTMLButtonElement;
 let btnCodeInteractive : HTMLButtonElement;
@@ -27,11 +28,11 @@ declare var showRuler : boolean;
 declare var showCrossLine : boolean;
 declare var autoFit: boolean;
 declare var domains: string[];
+declare var fitMode: boolean | undefined;
 
 // 当前高亮边框效果所在的 SVG 图形
 let activeSvgSharp : SVGGraphicsElement | null;
 let svgSize : ISvgSize | null = null;
-let fitMode = false;
 let codeInteractive = !!sessionStorage.getItem('codeInteractive');
 
 const bg = getVsCodeColor('--vscode-tab-activeBackground', '#333');
@@ -269,18 +270,24 @@ function getCurrentSvg() : SVGSVGElement | HTMLImageElement {
     return _host.querySelector('#__svg>svg') || _host.querySelector('#__svg>img')!;
 }
 
-function normalScale() {
-    if(scale < minScale) {
+function normalScale(updateZoom = true) {
+    if (scale === undefined) {
+        scale = 1;
+    }
+    else if(scale < minScale) {
         scale = minScale;
     }
     else if(scale > maxScale)
     {
         scale = maxScale;
     }
-    showZoom();
+    if (updateZoom) {
+        showZoom(false);
+    }
 }
 
-function exitFitMode() {
+function exitFitMode(sendToServer = true) {
+    console.debug('exitFitMode');
     const svg = getCurrentSvg();
     btnZoomIn.style.display = '';
     btnZoomOut.style.display = '';
@@ -291,10 +298,13 @@ function exitFitMode() {
         svg.style.height = `${svgSize.height}px`
     }
     fitMode = false;
+    if (sendToServer) {
+        vscode.postMessage({action: 'fitMode', fitMode});
+    }
 }
 
-function showZoom(){
-    if(fitMode) {
+function showZoom(exitFit = true){
+    if(exitFit && fitMode) {
         exitFitMode();
     }
     if(scale < 0.01) {
@@ -388,6 +398,8 @@ function tryGetSvgSize() : ISvgSize | null {
             return s;
         }
         console.warn("Not Found SVG element");
+    } else {
+        console.error('Not Found SVG element');
     }
     return null;
 }
@@ -411,11 +423,28 @@ function onResize() {
     if(!svgSize) {
         svgSize = tryGetSvgSize();
     }
+    btnZoomFit.style.display = svgSize?.canFit ? '' : 'none';
     if(fitMode) {
         applyFitLayout();
     } else {
         setCanZoom(svgSize?.canZoom || false);
     }
+}
+
+function applyScale() {
+    if(!svgSize) {
+        svgSize = tryGetSvgSize();
+    }
+    const useFit = svgSize?.canFit && fitMode;
+    if (useFit) {
+        applyFitLayout();
+    } else {
+        applyScaleLayout();
+    }
+}
+
+function applyScaleLayout() {
+    normalScale();
 }
 
 function switchCodeInteractive() {
@@ -584,10 +613,12 @@ function applyFitLayout() {
 }
 
 function enterFitMode() {
+    console.debug('enterFitMode');
     if(scale !== 1) {
         doResetZoom();
     }
     fitMode = true;
+    vscode.postMessage({action: 'fitMode', fitMode});
     btnZoomIn.style.display = 'none';
     btnZoomOut.style.display = 'none';
     labelZoom.innerText = "FIT";
@@ -611,7 +642,7 @@ function doResetZoom() {
     }
     scale = 1;
     showZoom();
-    document.getElementById('__svg')!.style.transform = 'scale('+scale+')';;
+    document.getElementById('__svg')!.style.transform = 'scale('+scale+')';
     vscode.postMessage({action: 'scale', scale: scale});
     sizeUiFromSvg();
 }
@@ -696,12 +727,13 @@ function init() {
     var groupZoom = createButtonGroup();
     labelZoom = document.createElement('span');
     labelZoom.className = 'label';
-    showZoom();
     groupZoom.appendChild(labelZoom);
     createButton(groupZoom, '<i class="codicon codicon-screen-normal"></i>', doResetZoom, { title: 'Zoom To 100%', 'class': 'btn'});
-    createButton(groupZoom, '<i class="codicon codicon-screen-full"></i>', doFit, { title: 'Fit'}).className = 'btn';
+    btnZoomFit = createButton(groupZoom, '<i class="codicon codicon-screen-full"></i>', doFit, { title: 'Fit'});
+    btnZoomFit.className = 'btn';
     btnZoomIn = createButton(groupZoom, '<i class="codicon codicon-zoom-in"></i>', doZoomIn, { title: 'Zoom In', 'class': 'btn' });
     btnZoomOut = createButton(groupZoom, '<i class="codicon codicon-zoom-out"></i>', doZoomOut, { title: 'Zoom Out', 'class': 'btn' });
+    showZoom(false);
 
     var groupView = createButtonGroup();
     btnCodeInteractive = createButton(groupView, `<i class="codicon codicon-arrow-swap"></i>`, switchCodeInteractive, {
@@ -778,9 +810,25 @@ function init() {
     _host.addEventListener('mouseleave', hideCross);
     _svgContainer.addEventListener('scroll', onScroll);
     onResize();
-    if(svgSize!.canFit && autoFit) {
+    console.debug('init svgSize', svgSize, scale);
+    if(svgSize!.canFit && autoFit && fitMode !== false) {
+        console.debug('autoFit');
         fitMode = true;
+        vscode.postMessage({action: 'fitMode', fitMode});
         enterFitMode();
+    } else {
+        console.debug('normalScale');
+        normalScale();
+        exitFitMode(false);
+        document.getElementById('__svg')!.style.transform = 'scale('+scale+')';
+        // const currentSvg = getCurrentSvg();
+        // if (currentSvg) {
+        //     currentSvg.style.width = svgSize!.width + 'px';
+        //     currentSvg.style.height = svgSize!.height + 'px';
+        // } else {
+        //     console.warn('currentSvg is null');
+        // }
+        // sizeUiFromSvg();
     }
 
     const observer = new ResizeObserver(es => {

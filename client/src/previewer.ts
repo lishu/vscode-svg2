@@ -6,10 +6,30 @@ import * as http from 'http';
 import * as https from 'https';
 
 import { changeName, writeB64ToFile } from './unit';
-import { utils } from 'mocha';
 import { assert } from 'console';
 
 let previewers: {[pn: string]: SvgPreviwerContentProvider} = {};
+
+interface PreviewerFileSetting {
+    fitMode: boolean | undefined;
+    scale: number | undefined;
+}
+
+const fileSettings: Record<string, PreviewerFileSetting> = {};
+
+function getFileSettings(uri: string) {
+    let filePath = uri;
+    if(!fileSettings[filePath]) {
+        return { fitMode: undefined, scale: undefined };
+    }
+    return fileSettings[filePath];
+}
+
+function updateFileSettings(uri: string, name: keyof PreviewerFileSetting, value: any) {
+    const fileSetting = getFileSettings(uri);
+    fileSetting[name] = value;
+    fileSettings[uri] = fileSetting;
+}
 
 type ViewMode = 'onlyOne' | 'oneByOne';
 
@@ -343,7 +363,6 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
     previewUri?: string;
     isRootLocked: boolean = false;
     isLocked: boolean = false;
-    scale: number = 1;
     resPath: vscode.Uri;
     codiconUri: vscode.Uri;
     styleUri: vscode.Uri;
@@ -491,7 +510,10 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
                 });
                 break;
             case 'scale':
-                this.scale = e.scale;
+                updateFileSettings(this.previewUri!, 'scale', e.scale);
+                break;
+            case 'fitMode':
+                updateFileSettings(this.previewUri!, 'fitMode', e.fitMode);
                 break;
             case 'action':
                 if(e.msg) {
@@ -653,7 +675,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
 
     private async createHtml(doc: vscode.TextDocument, webivew: vscode.Webview): Promise<string>
     {
-        // console.debug('create preview html');
+        const fileSettings = getFileSettings(this.previewUri!);
         let cfg = vscode.workspace.getConfiguration('svg.preview');
         let saveTo = cfg.get<string>('backgroundSaveTo', 'Workspace');
         let toolbarSize = cfg.get<string>('toolbarSize', 'mini');
@@ -745,7 +767,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         }
         #__svg{
             transform-origin:top left;
-            transform:scale(${this.scale});
+            transform:scale(1);
             line-height: 0;
         }
         </style>`);
@@ -789,7 +811,11 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         <div id="__rule_h_host"></div>
         <div id="__svg_container">
             <div class="--pixel-grid"></div>
-            <div id="__svg">
+            <div id="__svg"`);
+        // if (typeof fileSettings.scale === 'number' && fileSettings.fitMode === false) {
+        //     html.push(` style="transform:scale(${fileSettings.scale})"`);
+        // }
+        html.push(`>
                 ${svg}
             </div>
         </div>
@@ -800,7 +826,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         var debug = ${this.debug};
         var autoFit = ${autoFit};
         var mode = '${mode}'; 
-        var scale = ${this.scale}; 
+        var scale = ${fileSettings.scale}; 
+        var fitMode = ${fileSettings.fitMode};
         var uri = '${doc.uri}'; 
         var viewMode = '${viewMode}'; 
         var isRootLocked = ${this.isRootLocked?'true':'false'};

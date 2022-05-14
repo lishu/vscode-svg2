@@ -10,16 +10,28 @@ export interface DocumentRangeMode
 export function getModes(content: string) : Array<DocumentRangeMode>
 {
     let modes : Array<DocumentRangeMode> = [];
-    let styleReg = /(<style[^>]*>)([\s\S]*)(<\/style>)/gim;
+    let styleReg = /(<style[^>]*>)(<\!\[CDATA\[)?([\s\S]*)(\]\]>)?(<\/style>)/gim;
+    let scriptReg = /(<script[^>]*>)(<\!\[CDATA\[)?([\s\S]*)(\]\]>)?(<\/script>)/gim;
     let offset = 0;
     let result : RegExpExecArray | null = null;
     while(result = styleReg.exec(content))
     {
-        let blockStart = result.index + result[1].length;
-        let blockEnd = blockStart + result[2].length;
+        let blockStart = result.index + result[1].length + (result[2]?.length || 0);
+        let blockEnd = blockStart + result[3].length;
         //let styleContext = content.substring(blockStart, blockEnd);
         modes.push({
             languageId: 'css',
+            startOffset: blockStart,
+            endOffset: blockEnd
+        });
+    }
+    while(result = scriptReg.exec(content))
+    {
+        let blockStart = result.index + result[1].length + (result[2]?.length || 0);
+        let blockEnd = blockStart + result[3].length;
+        //let styleContext = content.substring(blockStart, blockEnd);
+        modes.push({
+            languageId: 'javascript',
             startOffset: blockStart,
             endOffset: blockEnd
         });

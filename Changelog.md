@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.18 - 2022-05-14
+
+### Changed
+
+* Zoom level will not reset when document change.
+
 ## 1.4.17 - 2022-02-09
 
 ### Changed

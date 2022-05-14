@@ -128,6 +128,29 @@
 			]
 		},
 		{
+			"begin": "(<)(script)([^>]*)(>)",
+			"captures": {
+				"1": {
+					"name": "punctuation.definition.tag.svg"
+				},
+				"2": {
+					"name": "entity.name.tag.svg"
+				},
+				"4": {
+					"name": "punctuation.definition.tag.svg"
+				}
+			},
+			"end": "(</)(script)(>)",
+			"name": "meta.tag.script",
+			"contentName": "meta.embedded.block.js",
+			"patterns": [
+				{
+					"name":"meta.embedded.block.js",
+					"include":"source.js"
+				}
+			]
+		},
+		{
 			"begin": "(</?)(?:([-\\w\\.]+)((:)))?([-\\w\\.:]+)",
 			"captures": {
 				"1": {
