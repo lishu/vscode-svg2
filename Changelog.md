@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.19 - 2022-07-16
+
+### Added
+
+* Part support CDATA in script/style element.
+* Add `Preview All: Exclude` Configure for `Preview All Svg` command filter files.
+
 ## 1.4.18 - 2022-05-14
 
 ### Changed

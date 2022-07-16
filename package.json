@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.18",
+    "version": "1.4.19",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.50.0"
@@ -151,6 +151,12 @@
                     "description": "Auto show preview on side when a SVG document open",
                     "type": "boolean",
                     "default": false
+                },
+                "svg.previewAll.exclude": {
+                    "title": "Preview Exclude",
+                    "description": "Exclude Glob pattern for `Preview All Svg`",
+                    "type": "string",
+                    "default": "**​/node_modules/**"
                 },
                 "svg.pathDataHighlight": {
                     "description": "Show Grammar Highlight in path data",
@@ -527,7 +533,8 @@
                 "scopeName": "text.xml.svg",
                 "path": "./syntaxes/svg.json",
                 "embeddedLanguages": {
-                    "meta.embedded.block.css": "css"
+                    "meta.embedded.block.css": "css",
+                    "meta.embedded.block.js": "javascript"
                 }
             }
         ],

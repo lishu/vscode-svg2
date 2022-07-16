@@ -4,7 +4,22 @@
 	"fileTypes": [
 		"atom"
 	],
-	"patterns": [
+	"patterns": [		
+		{
+			"begin": "<!\\[CDATA\\[",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.svg"
+				}
+			},
+			"end": "?=]]>",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.end.svg"
+				}
+			},
+			"name": "string.unquoted.cdata.svg"
+		},
 		{
 			"begin": "(<\\?)\\s*([-_a-zA-Z0-9]+)",
 			"captures": {
@@ -128,21 +143,37 @@
 			]
 		},
 		{
-			"begin": "(<)(script)([^>]*)(>)",
-			"captures": {
+			"begin": "(<)(script)([^>]*)(>)(\\s*?<!\\[CDATA\\[)?",
+			"beginCaptures": {
 				"1": {
-					"name": "punctuation.definition.tag.svg"
+					"name": "comment.block.cdata.start.svg"
 				},
 				"2": {
 					"name": "entity.name.tag.svg"
 				},
 				"4": {
 					"name": "punctuation.definition.tag.svg"
+				},
+				"5": {
+					"name": "punctuation.definition.string.begin.svg"
 				}
 			},
-			"end": "(</)(script)(>)",
+			"end": "(]]>\\s*?)?(?=</)(script)(>)",
+			"endCaptures": {
+				"1": {
+					"name": "comment.block.cdata.end.svg"
+				},
+				"2": {
+					"name": "punctuation.definition.tag.svg"
+				},
+				"3": {
+					"name": "entity.name.tag.svg"
+				},
+				"5": {
+					"name": "punctuation.definition.tag.svg"
+				}
+			},
 			"name": "meta.tag.script",
-			"contentName": "meta.embedded.block.js",
 			"patterns": [
 				{
 					"name":"meta.embedded.block.js",
@@ -223,21 +254,6 @@
 					"include": "source.java"
 				}
 			]
-		},
-		{
-			"begin": "<!\\[CDATA\\[",
-			"beginCaptures": {
-				"0": {
-					"name": "punctuation.definition.string.begin.svg"
-				}
-			},
-			"end": "]]>",
-			"endCaptures": {
-				"0": {
-					"name": "punctuation.definition.string.end.svg"
-				}
-			},
-			"name": "string.unquoted.cdata.svg"
 		}
 	],
 	"repository": {

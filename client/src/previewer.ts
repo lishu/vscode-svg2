@@ -199,7 +199,8 @@ export class AllSvgPreviwerContentProvider implements vscode.Disposable
     }
 
     onUpdate() {
-        vscode.workspace.findFiles('**/*.svg').then(uris=>{            
+        const exclude = vscode.workspace.getConfiguration('svg.previewAll').get('exclude', '**​/node_modules/**');
+        vscode.workspace.findFiles('**/*.svg', exclude).then(uris=>{            
             let items : Array<AllSvgItem> = [];
             let openedDocuments = vscode.workspace.textDocuments;
             for(var uri of uris)

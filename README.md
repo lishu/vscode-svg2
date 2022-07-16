@@ -67,6 +67,11 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.19 - 2022-07-16
+
+* Part support CDATA in script/style element.
+* Add `Preview All: Exclude` Configure for `Preview All Svg` command filter files.
+
 ### 1.4.18 - 2022-05-14
 
 * Preview zoom level will not reset when document change.
@@ -84,20 +89,6 @@ SVG Version 2.0 is not included.
 * Fix Previewr Focus Unexception.
 * Add Warring for `Minify`.
 * Add `Code Interactive` Button in Preview toolbar.
-
-### 1.4.14 - 2021-11-08
-
-* Changed language grammars scopes to `text.xml.svg`
-* Add enter rules for auto indent
-
-### 1.4.13 - 2021-10-16
-
-* Fixed pixel grid broken.
-
-### 1.4.11 - 2021-10-02
-
-* Preview Added has new default `FIT` mode.
-* More Preview bug fix
 
 ### [MORE](Changelog.md)
 

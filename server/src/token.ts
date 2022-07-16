@@ -113,10 +113,10 @@ function getTokens(connection: Connection, content:string) {
     };
 
     while(pos < content.length) {
-        let readed = regexTest(spaceRegex, TokenType.Whitespace) || 
+        let readed = regexTest(cdataRegex, TokenType.CDATA) ||
+            regexTest(spaceRegex, TokenType.Whitespace) || 
             regexTest(processingRegex, TokenType.ProcessingInstruction) ||
             regexTest(commentRegex, TokenType.Comment) ||
-            regexTest(cdataRegex, TokenType.CDATA) ||
             regexTest(entityRegex, TokenType.Entity) ||
             regexTest(notationRegex, TokenType.Notation) ||
             nameTest(nameRegex) ||
