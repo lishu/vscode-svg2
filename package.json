@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.4.19",
+    "version": "1.4.20",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.50.0"
@@ -133,6 +133,31 @@
                     "description": "%configuration.completion.emmet.description%",
                     "type": "boolean",
                     "default": false
+                },
+                "svg.preview.scaleZoom": {
+                    "title": "Scale Variation",
+                    "description": "The scale of change of the zoom operation",
+                    "type": "number",
+                    "default": 2,
+                    "minimum": 1.1,
+                    "maximum": 8
+                },
+                "svg.preview.zoomOptions": {
+                    "title": "Zoom Select Options",
+                    "description": "Zoom select dropdown options",
+                    "type": "array",
+                    "default": [
+                        "25%",
+                        "50%",
+                        "100%",
+                        "200%",
+                        "400%",
+                        "800%"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\d+%$"
+                    }
                 },
                 "svg.preview.translateExternalAddress": {
                     "title": "%configuration.preview.translateExternalAddress.title%",

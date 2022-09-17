@@ -1,5 +1,216 @@
 // Previewer in webviewPanel script
 
+// ZoomComboBox
+const cssStyle = `
+.wrapper {
+    position: relative;
+}
+.wrapper input {
+    width: 3.5em;
+    border: none 0;
+    background-color: var(--vscode-welcomepage-buttonBackground);
+    color: var(--vscode-input-foreground);
+    outline: none 0;
+    text-align: center;
+}
+.wrapper.active input,
+.wrapper input:hover,
+.wrapper input:focus {
+    background-color: var(--vscode-input-background);
+}
+.wrapper input::focus-visible {
+    outline: none 0;
+}
+
+.wrapper .popup {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 1000;
+    background-color: var(--vscode-dropdown-background);
+    color: var(--vscode-dropdown-foreground);
+    border: solid 1px var(--vscode-dropdown-border);
+    
+}
+.wrapper .popup .item {
+    background-color: var(--vscode-dropdown-listBackground);
+    padding: 1px 3px;
+    cursor: default;
+    text-align: right;
+}
+.wrapper .popup .item:hover {
+    background-color: var(--vscode-list-hoverBackground);
+}
+.wrapper.active .popup {
+    display: block;
+}
+`;
+
+interface ZoomComboBoxItem {
+    value: string;
+    label: string;
+}
+
+/**
+ * 提供缩放组件的编辑与选择功能
+ */
+class ZoomComboBox extends HTMLElement {
+    readonly wrapper: HTMLSpanElement;
+    readonly input : HTMLInputElement;
+    readonly popup : HTMLDivElement;
+    private inputHasFocus = false;
+    private inputValueWhenFocus: string | undefined;
+    constructor() {
+        super();
+
+        const shadow = this.attachShadow({ mode: 'open' });
+        const wrapper = document.createElement('span');
+        const input = document.createElement('input');
+        const popup = document.createElement('div');
+        const style = document.createElement('style');
+
+        wrapper.className = 'wrapper';
+
+        // input.addEventListener('input', ev => {
+        //     this.dispatchEvent(ev);
+        // });
+        input.addEventListener('focus', ev => {
+            input.select();
+            this.inputValueWhenFocus = undefined;
+            this.inputHasFocus = true;
+            this.active = true;
+        });
+        input.addEventListener('blur', () => {
+            this.inputHasFocus = false;
+            if (this.inputValueWhenFocus) {
+                this.value = this.inputValueWhenFocus
+            }
+            if (this.active) {
+                setTimeout(() => {
+                    this.active = false;
+                }, 50);
+            }
+        })
+
+        popup.className = "popup";
+
+        style.textContent = cssStyle;
+
+
+        wrapper.appendChild(input);
+        wrapper.appendChild(popup);
+        shadow.appendChild(wrapper);
+        shadow.appendChild(style);
+        this.input = input;
+        this.popup = popup;
+        this.wrapper = wrapper;
+    }
+
+    dispatchInputEvent(value: string) {
+        this.value = value;
+        const ev = new CustomEvent('input');
+        this.dispatchEvent(ev);
+    }
+
+    itemClick(e: MouseEvent) {
+        if (e.target && e.target instanceof HTMLDivElement) {
+            if(e.target.hasAttribute('value')) {
+                const value = e.target.getAttribute('value')!;
+                this.inputHasFocus = false;
+                this.dispatchInputEvent(value);
+            }
+        }
+        this.active = false;
+    }
+
+    get active() {
+        return this.wrapper.classList.contains('active');
+    }
+
+    set active(active: boolean) {
+        if (active && !this.wrapper.classList.contains('active')) {
+            this.wrapper.classList.add('active');
+        }
+        else if (!active && this.wrapper.classList.contains('active')) {
+            this.wrapper.classList.remove('active');
+        }
+    }
+
+    get value() {
+        return this.input.value;
+    }
+
+    set value(value: string) {
+        console.debug('set value', value);
+        if (this.inputHasFocus) {
+            this.inputValueWhenFocus = value;
+        } else {
+            this.input.value = value;
+        }
+    }
+
+    private _items: ZoomComboBoxItem[] = [];
+    get items () {
+        return this._items;
+    }
+    set items (items: ZoomComboBoxItem[]) {
+        this._items = items;
+        for(let index = 0; index < this._items.length; index++) {
+            const item = this._items[index];
+            if (this.popup.childElementCount > index) {
+                const el = this.popup.children.item(index) as HTMLDivElement;
+                el.innerText = item.label;
+                el.setAttribute('value', `${item.value}`);
+            }
+            else {
+                const el = document.createElement('div');
+                el.className = 'item';
+                el.innerText = item.label;
+                el.setAttribute('value', `${item.value}`);
+                el.addEventListener('mousedown', e => this.itemClick(e));
+                this.popup.appendChild(el);
+            }
+        }
+        while(this.popup.childElementCount > this._items.length) {
+            this.popup.children.item(this._items.length)?.remove();
+        }
+    }
+
+    set zoomOptions(options: string) {
+        if (options) {
+            const items: ZoomComboBoxItem[] = [];
+            for(const opt of options.split(',')) {
+                if (/^\d+%$/.test(opt)) {
+                    items.push({
+                        value: opt,
+                        label: opt
+                    })
+                } else {
+                    console.warn(`zoom option ${opt} is not match and ignore`);
+                }
+            }
+            this.items = items;
+        }
+    }
+
+    attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+        console.debug('attributeChangedCallback', name, oldValue, newValue);
+    }
+}
+
+// 注册 Web 组件
+
+declare namespace global {
+    interface Document {
+        createElement(tagName: 'zoom-combobox', options?: ElementCreationOptions): HTMLElement;
+    }
+}
+
+window.customElements.define('zoom-combobox', ZoomComboBox);
+
+// 页面功能
 const SVGNS = 'http://www.w3.org/2000/svg';
 const RULER_SIZE = 12;
 
@@ -10,7 +221,7 @@ let _pixelGrid : HTMLDivElement;
 let groupPrefix : HTMLDivElement;
 let groupBackground : HTMLDivElement;
 let groupMode : HTMLDivElement;
-let labelZoom : HTMLSpanElement;
+let zoomComboBox : ZoomComboBox;
 let btnSvg : HTMLButtonElement;
 let btnImg : HTMLButtonElement;
 let btnLocked : HTMLButtonElement;
@@ -29,6 +240,8 @@ declare var showCrossLine : boolean;
 declare var autoFit: boolean;
 declare var domains: string[];
 declare var fitMode: boolean | undefined;
+declare var scaleZoom: number;
+declare var zoomOptions: string;
 
 // 当前高亮边框效果所在的 SVG 图形
 let activeSvgSharp : SVGGraphicsElement | null;
@@ -308,9 +521,9 @@ function showZoom(exitFit = true){
         exitFitMode();
     }
     if(scale < 0.01) {
-        labelZoom.innerText = (scale * 1000).toFixed(2) + '‰';
+        zoomComboBox.value = (scale * 1000).toFixed(2) + '‰';
     } else {
-        labelZoom.innerText = (scale * 100).toFixed(0) + '%';
+        zoomComboBox.value = (scale * 100).toFixed(0) + '%';
     }
     requestAnimationFrame(()=>{
         if(scale < pixelGridScale) {
@@ -621,7 +834,7 @@ function enterFitMode() {
     vscode.postMessage({action: 'fitMode', fitMode});
     btnZoomIn.style.display = 'none';
     btnZoomOut.style.display = 'none';
-    labelZoom.innerText = "FIT";
+    zoomComboBox.value = "FIT";
     applyFitLayout();
 }
 
@@ -651,7 +864,7 @@ function doZoomIn() {
     if(!svgSize!.canZoom) {
         return;
     }
-    scale*=2;
+    scale*=scaleZoom;
     normalScale();
     document.getElementById('__svg')!.style.transform = 'scale('+scale+')';
     vscode.postMessage({action: 'scale', scale: scale});
@@ -662,11 +875,39 @@ function doZoomOut() {
     if(!svgSize!.canZoom) {
         return;
     }
-    scale/=2;
+    scale/=scaleZoom;
     normalScale();
     document.getElementById('__svg')!.style.transform = 'scale('+scale+')';
     vscode.postMessage({action: 'scale', scale: scale});
     sizeUiFromSvg();
+}
+
+function doZoomTo(newScale: number) {
+    if(!svgSize!.canZoom) {
+        return;
+    }
+    scale = newScale;
+    normalScale();
+    document.getElementById('__svg')!.style.transform = 'scale('+scale+')';
+    vscode.postMessage({action: 'scale', scale: scale});
+    sizeUiFromSvg();
+}
+
+function zoomInputHandler(e: Event) {
+    console.log('zoomInputHandler', zoomComboBox.value);
+    let zoomStr = zoomComboBox.value;
+    if (/^\d+$/.test(zoomStr)) {
+        zoomStr = zoomStr + '%';
+    }
+    if (/^\d+%$/.test(zoomStr)) {
+        let willZoomTo = Number(zoomStr.substring(0, zoomStr.length - 1)) * 0.01;
+        if (willZoomTo < minScale) {
+            willZoomTo = minScale;
+        } else if (willZoomTo > maxScale) {
+            willZoomTo = maxScale;
+        }
+        doZoomTo(willZoomTo);
+    }
 }
 
 function init() {
@@ -725,9 +966,10 @@ function init() {
     btnBg.className = 'btn-bg bg-custom';
 
     var groupZoom = createButtonGroup();
-    labelZoom = document.createElement('span');
-    labelZoom.className = 'label';
-    groupZoom.appendChild(labelZoom);
+    zoomComboBox = document.createElement('zoom-combobox') as ZoomComboBox;
+    zoomComboBox.zoomOptions = zoomOptions;
+    zoomComboBox.addEventListener('input', zoomInputHandler);
+    groupZoom.appendChild(zoomComboBox);
     createButton(groupZoom, '<i class="codicon codicon-screen-normal"></i>', doResetZoom, { title: 'Zoom To 100%', 'class': 'btn'});
     btnZoomFit = createButton(groupZoom, '<i class="codicon codicon-screen-full"></i>', doFit, { title: 'Fit'});
     btnZoomFit.className = 'btn';

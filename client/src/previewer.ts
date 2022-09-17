@@ -56,10 +56,33 @@ function getUnlockedProvider() {
 interface ISVGPreviewConfiguration {
     autoShow: boolean;
     viewMode: ViewMode;
+    scaleZoom: number;
+    zoomOptions: string[];
+}
+
+/**
+ * 默认预览器配置
+ */
+const DefaultPreviewConfig: ISVGPreviewConfiguration = {
+    autoShow: false, 
+    viewMode: 'onlyOne', 
+    scaleZoom: 2,
+    zoomOptions: [
+        "25%",
+        "50%",
+        "100%",
+        "200%",
+        "400%",
+        "800%"
+    ]
 }
 
 interface TextEditorLike {
     readonly document : vscode.TextDocument;
+}
+
+function getPreviewConfiguration() {
+    return vscode.workspace.getConfiguration('svg').get<ISVGPreviewConfiguration>('preview', DefaultPreviewConfig);
 }
 
 let customCssFiles: string[] = [];
@@ -68,7 +91,7 @@ function onDidChangeActiveTextEditor(e?:TextEditorLike, show?: boolean) {
     console.debug('onDidChangeActiveTextEditor', e, show);
     if(e && e.document && e.document.languageId == 'svg'){
         let previewer = getProviderBy(e.document.uri);
-        let cfg = vscode.workspace.getConfiguration('svg').get<ISVGPreviewConfiguration>('preview', { autoShow: false, viewMode: 'onlyOne'});
+        let cfg = getPreviewConfiguration();
         if(!previewer) {
             let unlockedPreviewer = getUnlockedProvider();
             if(cfg.viewMode == 'oneByOne' || !unlockedPreviewer) {
@@ -681,6 +704,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         let saveTo = cfg.get<string>('backgroundSaveTo', 'Workspace');
         let toolbarSize = cfg.get<string>('toolbarSize', 'mini');
         let autoFit = cfg.get<boolean>("autoFit", true);
+        let scaleZoom = cfg.get<number>("scaleZoom", DefaultPreviewConfig.scaleZoom);
+        let zoomOptions = cfg.get<string[]>("zoomOptions", DefaultPreviewConfig.zoomOptions);
         let translateExternalAddress = cfg.get<boolean>("translateExternalAddress", false);
         let path = webivew.asWebviewUri(this.resPath).toString();
         let iconPath = webivew.asWebviewUri(this.codiconUri);
@@ -825,6 +850,8 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push('</div>');
         html.push(`<script>
         var debug = ${this.debug};
+        var scaleZoom = ${scaleZoom};
+        var zoomOptions = "${zoomOptions.join()}"
         var autoFit = ${autoFit};
         var mode = '${mode}'; 
         var scale = ${fileSettings.scale}; 
@@ -838,7 +865,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         var showCrossLine = ${showCrossLine};
         var domains = ${JSON.stringify(domains)};
         </script>`);
-        html.push('<script src="${vscode-resource}/pv.js"></script>');
+        html.push('<script type="module" src="${vscode-resource}/pv.js" ></script>');
         html.push(`</body>`);
         html.push('</html>');
         let output = html.join('');

@@ -67,6 +67,11 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.20 - 2022-09-17
+
+* Add `Preview: Scale Zoom` Configure for custom the zoom scale of change of the zoom operation.
+* Add `Preview: Zoom Options` Configure for custom preview zoom dropdown options.
+
 ### 1.4.19 - 2022-07-16
 
 * Part support CDATA in script/style element.
@@ -83,12 +88,6 @@ SVG Version 2.0 is not included.
 ### 1.4.16 - 2022-02-05
 
 * Add `Translate External Address` Setting for Show `<img>` mode external url content
-
-### 1.4.15 - 2021-12-22
-
-* Fix Previewr Focus Unexception.
-* Add Warring for `Minify`.
-* Add `Code Interactive` Button in Preview toolbar.
 
 ### [MORE](Changelog.md)
 

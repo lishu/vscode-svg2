@@ -2,8 +2,8 @@
 	"compilerOptions": {
 		"strict": true,
 		"suppressImplicitAnyIndexErrors": true,
-		"module": "commonjs",
-		"target": "es2019",
+		"module": "CommonJS",
+		"target": "ES6",
 		"lib": ["ES2019", "DOM"],
 		"outDir": "out",
 		"rootDir": "src",
