@@ -22,7 +22,7 @@
 	},
 	"dependencies": {
 		"@vscode/codicons": "0.0.30",
-		"svgo": "^1.3.2",
+		"svgo": "^2.8.0",
 		"vscode-languageclient": "^7.0.0"
 	},
 	"devDependencies": {
