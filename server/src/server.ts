@@ -387,13 +387,14 @@ connection.onSignatureHelp((e) => {
 								],
 								activeSignature: 0,
 								// @ts-ignore TS2554
-								activeParameter: pos != null ? (pos.pi % tpc.parameters.length) : undefined
+								activeParameter: pos != null ? (pos.pi % tpc.parameters.length) : null
 							};
 						}
 						else {
 							return {
 								signatures: [pc.PathDataSignature],
-								activeSignature: 0
+								activeSignature: null,
+								activeParameter: null
 							};
 						}
 					}
