@@ -7,10 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.22 - 2022-10-15
+
+* FIX publish dev source brance.
+
+## 1.4.21 - 2022-10-15
+
+### Added
+
+* `<style>` css color picker support.
+
 ## 1.4.20 - 2022-09-17
 
-* Add `Preview: Scale Zoom` Configure for custom the zoom scale of change of the zoom operation.
-* Add `Preview: Zoom Options` Configure for custom preview zoom dropdown options.
+### Added
+
+* `Preview: Scale Zoom` Configure for custom the zoom scale of change of the zoom operation.
+* `Preview: Zoom Options` Configure for custom preview zoom dropdown options.
 
 ## 1.4.19 - 2022-07-16
 

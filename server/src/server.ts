@@ -357,7 +357,7 @@ function posInPath(pgs: PathDataCommandItem[], offset: number) {
 	return null;
 }
 
-connection.onSignatureHelp(e => {
+connection.onSignatureHelp((e) => {
 	let uri = e.textDocument.uri;
 	let doc = documents.get(uri);
 	if (doc) {
@@ -387,14 +387,13 @@ connection.onSignatureHelp(e => {
 								],
 								activeSignature: 0,
 								// @ts-ignore TS2554
-								activeParameter: pos != null ? (pos.pi % tpc.parameters.length) : null
+								activeParameter: pos != null ? (pos.pi % tpc.parameters.length) : undefined
 							};
 						}
 						else {
 							return {
 								signatures: [pc.PathDataSignature],
-								activeSignature: 0,
-								activeParameter: null
+								activeSignature: 0
 							};
 						}
 					}
@@ -1565,9 +1564,14 @@ function toColorString(color: Color): string {
 connection.onDocumentColor(e => {
 	let doc = documents.get(e.textDocument.uri);
 	if (doc != null) {
-		let content = doc.getText();
-		let token = buildActiveToken(connection, doc, content, 0);
 		let colors: Array<ColorInformation> = [];
+		let content = doc.getText();
+		let modes = getModes(content);
+		const cssDocument = getModeDocument(doc, content, modes, 'css');
+		const styleSheet = cssLangService.parseStylesheet(cssDocument);
+		const cssColorInformations = cssLangService.findDocumentColors(cssDocument, styleSheet);
+		colors.push(...cssColorInformations);
+		let token = buildActiveToken(connection, doc, content, 0);
 		let index = 3;
 		for (; index < token.all.length; index++) {
 			if (token.all[index].type == TokenType.String && token.all[index - 1].type == TokenType.Equal) {
