@@ -9,51 +9,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.4.22 - 2022-10-15
 
-* FIX publish dev source brance.
+* fix publish dev source branch.
 
 ## 1.4.21 - 2022-10-15
 
 ### Added
 
-* `<style>` css color picker support.
+* `<style>` CSS color picker support.
 
 ## 1.4.20 - 2022-09-17
 
 ### Added
 
-* `Preview: Scale Zoom` Configure for custom the zoom scale of change of the zoom operation.
-* `Preview: Zoom Options` Configure for custom preview zoom dropdown options.
+* `Preview: Scale Zoom` Configure custom zoom scale of change of the zoom operation.
+* `Preview: Zoom Options` Configure custom preview zoom dropdown options.
 
 ## 1.4.19 - 2022-07-16
 
 ### Added
 
-* Part support CDATA in script/style element.
-* Add `Preview All: Exclude` Configure for `Preview All Svg` command filter files.
+* Partial support for CDATA in script/style element.
+* Add `Preview All: Exclude` Config for `Preview All Svg` command filter files.
 
 ## 1.4.18 - 2022-05-14
 
 ### Changed
 
-* Zoom level will not reset when document change.
+* Zoom level will not reset when document changes.
 
 ## 1.4.17 - 2022-02-09
 
 ### Changed
 
-* Preview min Zoom will auto change for big size svg.
+* Preview min Zoom will auto-change for big size SVGs.
 
 ## 1.4.16 - 2022-02-05
 
 ### Added
 
-* New `Translate External Address` Setting for Previewer Show `<img>` mode external url content
+* New `Translate External Address` Setting for Previewer Show `<img>` mode external URL content
 
 ## 1.4.15 - 2021-12-22
 ### Fixed 
-- Previewr Focus Unexception.
+- Previewer Focus on Exception.
 ### Added
-- Warring for `Minify`.
+- Warning for `Minify`.
 - `Code Interactive` Button in Preview toolbar.
 
 ## 1.4.14 - 2021-11-08
@@ -70,7 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Preview has new default `FIT` mode.
 ### Changed
-- More Preview bug fix
+- More Preview bug fixes
 
 ### 1.4.10 - 2021-09-18
 ### Added 
@@ -78,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.4.9 - 2021-07-18
 ### Added
-- Preview `<svg>` mode will show active graphics shape and click to source code position.
+- Preview `<svg>` mode will show active graphic's shape and click to source code position.
 
 ## 1.4.8 - 2021-07-17
 ### Added
@@ -91,7 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Activation event for speed up startup of VSCode.
 ### Fixed
-- `Preview All SVG` UI not scrollbar.
+- `Preview All SVG` UI not showing the scrollbar.
 
 ## 1.4.5 - 2021-01-21
 ### Added
@@ -103,11 +103,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.4.3 - 2020-12-26
 ### Added
-- Preview now support css file change auto update (after css file saved).
+- Preview now support CSS file change auto update (after CSS file saved).
 
 ## 1.4.2 - 2020-12-11
 ### Fixed
-- `HTML Custom Data` for html document addition data
+- `HTML Custom Data` for adding HTML document additional data
 
 ## 1.4.1 - 2020-11-02
 ### Fixed
@@ -117,17 +117,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.4.0 - 2020-10-22
 ### Add
-- Editor add `Copy as Image Data Uri` command in Context Menu, now you can copy svg add parse it to `<img src="|" />` direct.
-- Preview how can show `Crossline`.
-- Preview how can show `Ruler`.
+- Editor add `Copy as Image Data Uri` command in Context Menu, now you can copy SVG add parse it to `<img src="|" />` directly.
+- Preview now shows `Crossline`.
+- Preview now shows `Ruler`.
 
 ## 1.3.12 - 2020-10-18
 ### Changed
-- Emmet-Style auto complete has support full 2.0 definions.
+- Emmet-Style auto complete, support full 2.0 definitions.
 
 ## 1.3.11 - 2020-10-11
 ### Added
-- Add svg elements & attributes to HTML Language Service Custom Data.
+- Add SVG elements & attributes to HTML Language Service Custom Data.
 - Experimental add emmet-style auto complete, If you want to try this feature, configure 'svg.completion.emmet' to 'true'.
 
 ## 1.3.10 - 2020-09-17
@@ -141,23 +141,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.3.8 - 2020-08-01
 ### Fixed
-- Fixed top bar on svg preview covers top of preview
+- Fixed top bar on SVG preview covers top of preview
 
 ## 1.3.7 - 2020-07-26
 ### Change
-- Change default format to html base
+- Change default format to HTML base
 
 ## 1.3.6 - 2020-07-19
 ### Change
-- Change format svgo configration
+- Change format SVGO configration
 
 ## 1.3.5 - 2020-06-28
 ### Added
-- Preview now can select css files.
+- Preview now can select CSS files.
 
 ## 1.3.4 - 2020-06-12
 ### Added
-- Support paint (`fill`, `stroke`) url picker for `linearGradient`/`radialGradient`/`pattern` 
+- Support paint (`fill`, `stroke`) URL picker for `linearGradient`/`radialGradient`/`pattern` 
 
 ## 1.3.3 - 2020-06-04
 ### Fixed
@@ -175,24 +175,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add `Preview All SVG` command
 - Add `svg.preview.viewMode` configuration option, so preview can show one by one
-- Add a Lock button in Previewer (show only `svg.preview.viewMode` is `onlyOne`) can lock current previewer to displayed svg document.
+- Add a Lock button in Previewer (show only `svg.preview.viewMode` is `onlyOne`) can lock current previewer to displayed SVG document.
 
 ## 1.2.0 - 2020-05-25
 ### Added
-- Add `style` css base supported
+- Add `style` CSS base supported
 
 ## 1.1.9 - 2020-05-17
 ### Change
-- Permit newlines in the comment body regex.
-- vscode Webview Outdated API Replace.
+- Permit newlines in the comment body Regex.
+- VS Code Webview Outdated API Replace.
 
 ## 1.1.8 - 2020-04-24
 ### Added
-- Preview add `svg`/`img` mode switch can show how a svg use in html or img. Show svg document can only view in img mode.
+- Preview add `svg`/`img` mode switch can show how an SVG can be used in an HTML or an IMG. Show when SVG document can only view in IMG mode.
 
 ## 1.1.7 - 2020-03-28
 ### Added
-- Add `svg.preview.backgroundSaveTo` option so prevent **preview** create `.vscode\settings.json` in workspace
+- Add `svg.preview.backgroundSaveTo` option to prevent **preview** create `.vscode\settings.json` in workspace
 
 ## 1.1.6 - 2020-03-25
 ### Fixed
@@ -230,18 +230,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fix `pathDataHighlight` does not work after VS Code restarting
 
 ## 1.0.3 & 1.0.4
-* Fix in `Untitled` file, some command no working.
+* Fix in `Untitled` file, some commands not working.
 
 ## 1.0.2
 * Add `svg.pathDataHighlight` configuration you can disable path data highlight feature
-* Fix release webpack bug `minifySvg` command no working
+* Fix release webpack bug `minifySvg` command not working
 
 ## 1.0.1
 * Fix Preview toolbar styles bug
-* Add `svg.preview.autoShow` configuration let preview auto show when a SVG document open
+* Add `svg.preview.autoShow` configuration to allow a preview to auto show when an SVG document is opened
 
 ## 1.0.0 - 2019-08-30
-* All Rewrite base langauge service protocol
+* Rewrite all base langauge service protocol
 * Add MDN doc link to hover tip and completion documentation
 * Add Export PNG in perview view
 * Remove Unnecessary configuration
@@ -250,11 +250,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * A small amount of BUG fixes.
 
 ## 0.1.5
-* Pretty SVG now set indent use editor tabSize setting.
+* Pretty SVG now set to use editor tabSize setting.
 * Update all package for Security.
 
 ## 0.1.4
-* FIX Preview Zoom Reset.
+* Fix Preview Zoom Reset.
 
 ## 0.1.3
 * Add Zoom to Preview.
@@ -291,9 +291,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.0.3
 * New Hover Info Support.
-* Improve Completion list in paint show color keywords.
-* Improve Completion list work like snipple (For base sharp). Required vscode >=1.8 .
-* The `svg.completion.showDeprecated` Configuration item is actived, will not show deprecated item in completion list by default(`false`).
+* Improve Completion list in picker show color keywords.
+* Improve Completion list work like snippet (For base sharp). Required vscode >=1.8 .
+* The `svg.completion.showDeprecated` Configuration item is activated, will not show deprecated item in completion list by default(`false`).
 
 ## 0.0.2
 
