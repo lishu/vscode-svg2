@@ -140,7 +140,7 @@ function show(e?: any) {
 export function registerPreviewer() {
     SvgPreviwerContentProvider.$context.subscriptions.push(
         vscode.window.onDidChangeActiveTextEditor(e=>onDidChangeActiveTextEditor(e)),
-        vscode.commands.registerTextEditorCommand('_svg.showSvg', ()=>show()),
+        vscode.commands.registerTextEditorCommand('svg.showSvg', ()=>show()),
         vscode.commands.registerCommand('_svg.showSvgByUri', uri=>show(uri)),
         new AllSvgPreviwerContentProvider()
     );

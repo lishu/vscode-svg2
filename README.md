@@ -67,6 +67,11 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.4.23 - 2022-11-18
+
+* Dependent package security updates
+* Public `svg.showSvg` command so user can add hotkey.
+
 ### 1.4.21 - 2022-10-15
 
 * Add `<style>` css color picker support.

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.23 - 2022-11-18
+
+### Changed
+
+* Dependent package security updates
+
+* Public `svg.showSvg` command so user can add hotkey.
+
 ## 1.4.22 - 2022-10-15
 
 * fix publish dev source branch.
