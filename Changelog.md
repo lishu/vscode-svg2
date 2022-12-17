@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.24 - 2022-12-17
+
+### Fixed
+
+* Format not handle `<?xml ... ?>` newline.
+
 ## 1.4.23 - 2022-11-18
 
 ### Changed
