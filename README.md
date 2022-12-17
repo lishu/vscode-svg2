@@ -1,5 +1,3 @@
-[![Version](https://vsmarketplacebadge.apphb.com/version/jock.svg.svg)](https://marketplace.visualstudio.com/items?itemName=jock.svg)
-
 # svg
 
 A Powerful SVG Language Support Extension.
