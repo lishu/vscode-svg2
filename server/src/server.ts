@@ -298,7 +298,7 @@ connection.onDocumentFormatting(e => {
 		};
 		let edits = htmlLangService.format(doc, undefined, options);
 		// 处理 <?xml ?> 后换行
-		edits[0].newText = edits[0].newText.replace(/^\s*<\?xml.*\?>/, n => `${n}\n`);
+		edits[0].newText = edits[0].newText.replace(/^\s*<\?xml.*\?>(?!\n)/, n => `${n}\n`);
 		return edits;
 	}
 });

@@ -67,7 +67,7 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
-### 1.4.24 - 2022-12-17
+### 1.4.25 - 2022-12-17
 
 * Fixed format not handle `<?xml ... ?>` newline.
 
