@@ -718,6 +718,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         let mode = cfg.get<string>('mode', 'svg');
         // let svg = doc.getText();
         let svg = mode === 'img' ? doc.getText() : this.converToInspectSvg(doc);
+        svg = await this.localImageHrefConvert(webivew, svg);
         let domains : string[] = [];
         let imageHrefs = [];
         let imageHrefReg = /\<(fe)?image([^>]*)href=\"(https?:\/\/[^\"]*)\"/gi;
@@ -726,6 +727,9 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
             const translateImageMaps : Record<string, string> = {};
             while(imageHrefMatch = imageHrefReg.exec(svg)) {
                 const imageHref = imageHrefMatch[3];
+                if (imageHref.startsWith('https://file%2B.vscode-resource.vscode-cdn.net/')) {
+                    continue;
+                }
                 const origin = new URL(imageHref).origin.toUpperCase();
                 imageHrefs.push(imageHref);
                 if(!domains.includes(origin)) {
@@ -871,6 +875,30 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         let output = html.join('');
         output = output.replace(/\$\{vscode\-resource\}/g, path);
         return output;
+    }
+
+    async localImageHrefConvert(webivew: vscode.Webview, svg: string): Promise<string> {
+        let localImageHrefReg = /\<(fe)?image([^>]*)href=\"([^\"]*)\"/gi;
+        const promises: Promise<string>[] = [];
+        const docUri = vscode.Uri.parse(this.previewUri!);
+        svg.replace(localImageHrefReg, ($, $1, $2, $3) => {
+            promises.push(
+                (async () => {                    
+                    if ($3 && !$3.includes(':')) {
+                        const targetUri = vscode.Uri.joinPath(docUri, '..', $3);
+                        try {
+                            const toUri = webivew.asWebviewUri(targetUri);
+                            return $.replace($3, toUri.toString());
+                        } catch {}
+                    }
+                    return $;
+                })()
+            );
+            return $;
+        });
+
+        const data = await Promise.all(promises);
+        return svg.replace(localImageHrefReg, () => data.shift()!);
     }
 
     dispose():any {

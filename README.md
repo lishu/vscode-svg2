@@ -65,6 +65,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.5.0 - 2023-01-28
+
+* Fixed Preview now can show `<image href` local image.
+
 ### 1.4.25 - 2022-12-17
 
 * Fixed format not handle `<?xml ... ?>` newline.
@@ -82,19 +86,6 @@ SVG Version 2.0 is not included.
 
 * Add `Preview: Scale Zoom` Configure for custom the zoom scale of change of the zoom operation.
 * Add `Preview: Zoom Options` Configure for custom preview zoom dropdown options.
-
-### 1.4.19 - 2022-07-16
-
-* Part support CDATA in script/style element.
-* Add `Preview All: Exclude` Configure for `Preview All Svg` command filter files.
-
-### 1.4.18 - 2022-05-14
-
-* Preview zoom level will not reset when document change.
-
-### 1.4.17 - 2022-02-09
-
-* Preview min Zoom will auto change for big size svg.
 
 ### [MORE](Changelog.md)
 
