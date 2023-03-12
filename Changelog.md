@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.5.1 - 2023-03-12
+
+### Fixed
+
+* Add `tspan`, `mask` lost attributes defineds.
+
 ## 1.5.0 - 2023-01-28
 
 ### Fixed

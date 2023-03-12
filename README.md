@@ -65,6 +65,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.5.1 - 2023-03-12
+
+* Fixed `tspan`, `mask` lost attributes defineds.
+
 ### 1.5.0 - 2023-01-28
 
 * Fixed Preview now can show `<image href` local image.
@@ -81,11 +85,6 @@ SVG Version 2.0 is not included.
 ### 1.4.21 - 2022-10-15
 
 * Add `<style>` css color picker support.
-
-### 1.4.20 - 2022-09-17
-
-* Add `Preview: Scale Zoom` Configure for custom the zoom scale of change of the zoom operation.
-* Add `Preview: Zoom Options` Configure for custom preview zoom dropdown options.
 
 ### [MORE](Changelog.md)
 

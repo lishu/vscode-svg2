@@ -1047,6 +1047,18 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                     "@Gradient_elements",
                     "a", "altGlyphDef", "clipPath", "color-profile", "cursor", "filter", "font", "font-face",
                     "foreignObject", "image", "marker", "mask", "pattern", "script", "style", "switch", "text", "view"
+                ],
+                attributes: [
+                    "@Core_attributes",
+                    "@Style_attributes",
+                    "@Conditional_processing_attributes",
+                    "@Presentation_attributes",
+                    "height",
+                    "maskContentUnits",
+                    "maskUnits",
+                    "x",
+                    "y",
+                    "width"
                 ]
             },
             "mesh": {
@@ -1468,6 +1480,20 @@ export function getSvgJson(language: string): ISvgJsonRoot {
                 subElements: [
                     "@Descriptive_elements",
                     "a", "altGlyph", "animate", "animateColor", "set", "tref", "tspan"
+                ],
+                attributes: [
+                    "@Core_attributes",
+                    "@Style_attributes",
+                    "@Conditional_processing_attributes",
+                    "@Graphical_event_attributes",
+                    "@Presentation_attributes",
+                    "x",
+                    "y",
+                    "dx",
+                    "dy",
+                    "rotate",
+                    "lengthAdjust",
+                    "textLength"
                 ]
             },
             "unknown": {},
