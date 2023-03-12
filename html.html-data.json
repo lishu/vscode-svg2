@@ -51311,6 +51311,2859 @@
           "description": "The tabindex SVG attribute allows you to control whether an element is focusable and to define the relative order of the element for the purposes of sequential focus navigation.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/tabindex)"
         }
       ]
+    },
+    {
+      "name": "a",
+      "description": "Creates a hyperlink to other web pages, files, locations in the same page, email addresses, or any other URL.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/a)",
+      "attributes": [
+        {
+          "name": "id",
+          "description": "The id attribute defines a identity for current element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/id)"
+        },
+        {
+          "name": "xml:lang",
+          "description": "xml:lang is a universal attribute allowed in all XML dialects to mark up the natural human language that an element contains. It's almost identical in usage to HTML's lang, but in conforming XML 1.0 documents, it does not allow the use of a null attribute value (xml:lang=\"\") to indicate an unknown language. Instead, use xml:lang=\"und\".\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/xml:lang)"
+        },
+        {
+          "name": "tabindex",
+          "description": "The tabindex SVG attribute allows you to control whether an element is focusable and to define the relative order of the element for the purposes of sequential focus navigation.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/tabindex)"
+        },
+        {
+          "name": "xlink:title",
+          "description": "The xlink:title attribute is used to describe the meaning of a link or resource in a human-readable fashion, along the same lines as the xlink:role or xlink:arcrole attribute. A value is optional; if a value is supplied, it shall contain a string that describes the resource. In general it is preferable to use a <title> child element rather than a xlink:title attribute.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/xlink:title)"
+        },
+        {
+          "name": "class",
+          "description": "Assigns a class name or set of class names to an element. You may assign the same class name or names to any number of elements. If you specify multiple class names, they must be separated by whitespace characters.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/class)"
+        },
+        {
+          "name": "style",
+          "description": "The style attribute specifies style information for its element. It functions identically to the style attribute in HTML.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/style)"
+        },
+        {
+          "name": "clip-path",
+          "description": "The clip-path attribute binds the element it is applied to with a given <clipPath> element\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/clip-path)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "clip-rule",
+          "description": "The clip-rule attribute only applies to graphics elements that are contained within a <clipPath> element. The clip-rule attribute basically works as the fill-rule attribute, except that it applies to <clipPath> definitions.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/clip-rule)",
+          "values": [
+            {
+              "name": "nonzero"
+            },
+            {
+              "name": "evenodd"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color",
+          "description": "The color attribute is used to provide a potential indirect value (currentColor) for the fill, stroke, stop-color, flood-color and lighting-color attributes.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-interpolation",
+          "description": "The color-interpolation attribute specifies the color space for gradient interpolations, color animations, and alpha compositing.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-interpolation)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "sRGB"
+            },
+            {
+              "name": "linearRGB"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-interpolation-filters",
+          "description": "The color-interpolation-filters attribute specifies the color space for imaging operations performed via filter effects.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-interpolation-filters)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "sRGB"
+            },
+            {
+              "name": "linearRGB"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-profile",
+          "description": "The color-profile attribute is used to define which color profile a raster image included through the <image> element should use.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-profile)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "sRGB"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-rendering",
+          "description": "The color-rendering attribute provides a hint to the SVG user agent about how to optimize its color interpolation and compositing operations.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "optimizeQuality"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "cursor",
+          "description": "The cursor attribute specifies the mouse cursor displayed when the mouse pointer is over an element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/cursor)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "crosshair"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "pointer"
+            },
+            {
+              "name": "move"
+            },
+            {
+              "name": "e-resize"
+            },
+            {
+              "name": "ne-resize"
+            },
+            {
+              "name": "nw-resize"
+            },
+            {
+              "name": "n-resize"
+            },
+            {
+              "name": "se-resize"
+            },
+            {
+              "name": "sw-resize"
+            },
+            {
+              "name": "s-resize"
+            },
+            {
+              "name": "w-resize| text"
+            },
+            {
+              "name": "wait"
+            },
+            {
+              "name": "help"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "direction",
+          "description": "The direction attribute specifies the base writing direction of text and the direction of embeddings and overrides (see unicode-bidi) for the Unicode bidirectional algorithm. For the direction attribute to have any effect on an element that does not by itself establish a new text chunk (such as a <tspan> element without absolute position adjustments due to x or y attributes), the unicode-bidi property's value must be embed or bidi-override.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/direction)",
+          "values": [
+            {
+              "name": "ltr"
+            },
+            {
+              "name": "rtl"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "display",
+          "description": "The display attribute lets you control the rendering of graphical or container elements.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/display)",
+          "values": [
+            {
+              "name": "inline"
+            },
+            {
+              "name": "block"
+            },
+            {
+              "name": "list-item"
+            },
+            {
+              "name": "run-in"
+            },
+            {
+              "name": "compact"
+            },
+            {
+              "name": "marker"
+            },
+            {
+              "name": "table"
+            },
+            {
+              "name": "inline-table"
+            },
+            {
+              "name": "table-row-group"
+            },
+            {
+              "name": "table-header-group"
+            },
+            {
+              "name": "table-footer-group"
+            },
+            {
+              "name": "table-row"
+            },
+            {
+              "name": "table-column-group"
+            },
+            {
+              "name": "table-column"
+            },
+            {
+              "name": "table-cell"
+            },
+            {
+              "name": "table-caption"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "dominant-baseline",
+          "description": "The dominant-baseline attribute is used to determine or re-determine a scaled-baseline-table. A scaled-baseline-table is a compound value with three components: a baseline-identifier for the dominant-baseline, a baseline-table and a baseline-table font-size. Some values of the property re-determine all three values; other only re-establish the baseline-table font-size. When the initial value, auto, would give an undesired result, this property can be used to explicitly set the desire scaled-baseline-table.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/dominant-baseline)",
+          "values": [
+            {
+              "name": "\tauto"
+            },
+            {
+              "name": "use-script"
+            },
+            {
+              "name": "no-change"
+            },
+            {
+              "name": "reset-size"
+            },
+            {
+              "name": "ideographic"
+            },
+            {
+              "name": "alphabetic"
+            },
+            {
+              "name": "hanging"
+            },
+            {
+              "name": "mathematical"
+            },
+            {
+              "name": "central"
+            },
+            {
+              "name": "middle"
+            },
+            {
+              "name": "text-after-edge"
+            },
+            {
+              "name": "text-before-edge"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "fill",
+          "description": "The fill attribute has two meanings based on the context it's used.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill)",
+          "values": [
+            {
+              "name": "remove"
+            },
+            {
+              "name": "freeze"
+            }
+          ]
+        },
+        {
+          "name": "fill-opacity",
+          "description": "This attribute specifies the opacity of the color or the content the current object is filled with.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "fill-rule",
+          "description": "The fill-rule attribute indicates how to determine what side of a path is inside a shape, to determine how the fill property paints the shape. For a simple, non-intersecting path, it is intuitively clear what region lies \"inside\"; however, for a more complex path, such as a path that intersects itself or where one subpath encloses another, the interpretation of \"inside\" is not so obvious.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-rule)",
+          "values": [
+            {
+              "name": "nonzero"
+            },
+            {
+              "name": "evenodd"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "filter",
+          "description": "The filter attribute defines the filter effects define by the <filter> element that shall be applied to its element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/filter)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "flood-color",
+          "description": "The flood-color attribute indicates what color to use to flood the current filter primitive subregion defined through the <feflood> element. The keyword currentColor and ICC colors can be specified in the same manner as within a <paint> specification for the fill and stroke attributes.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/flood-color)",
+          "values": [
+            {
+              "name": "currentColor"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "flood-opacity",
+          "description": "The flood-opacity attribute indicates the opacity value to use across the current filter primitive subregion defined through the <feflood> element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/flood-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-family",
+          "description": "The font-family attribute indicates which font family will be used to render the text, specified as a prioritized list of font family names and/or generic family names.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-family)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-size",
+          "description": "The font-size attribute refers to the size of the font from baseline to baseline when multiple lines of text are set solid in a multiline layout environment. For SVG, if a <length> is provided without a unit identifier (e.g., an unqualified number such as 128), the browser processes the <length> as a height value in the current user coordinate system.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-size)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-size-adjust",
+          "description": "The font-size-adjust attribute allows authors to specify an aspect value for an element that will preserve the x-height of the first choice font in a substitute font.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-size-adjust)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-stretch",
+          "description": "The font-stretch attribute indicates the desired amount of condensing or expansion in the glyphs used to render the text.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-stretch)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "wider"
+            },
+            {
+              "name": "narrower"
+            },
+            {
+              "name": "ultra-condensed"
+            },
+            {
+              "name": "extra-condensed"
+            },
+            {
+              "name": "condensed"
+            },
+            {
+              "name": "semi-condensed"
+            },
+            {
+              "name": "semi-expanded"
+            },
+            {
+              "name": "expanded"
+            },
+            {
+              "name": "extra-expanded"
+            },
+            {
+              "name": "ultra-expanded"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-style",
+          "description": "The font-style attribute specifies whether the text is to be rendered using a normal, italic or oblique face.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-style)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "italic"
+            },
+            {
+              "name": "oblique"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-variant",
+          "description": "The font-variant attribute indicates whether the text is to be rendered using the normal glyphs for lowercase characters or using small-caps glyphs for lowercase characters.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-variant)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "small-caps"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-weight",
+          "description": "The font-weight attribute refers to the boldness or lightness of the glyphs used to render the text, relative to other fonts in the same font family.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-weight)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "bold"
+            },
+            {
+              "name": "bolder"
+            },
+            {
+              "name": "lighter"
+            },
+            {
+              "name": "100"
+            },
+            {
+              "name": "200"
+            },
+            {
+              "name": "300"
+            },
+            {
+              "name": "400"
+            },
+            {
+              "name": "500"
+            },
+            {
+              "name": "600"
+            },
+            {
+              "name": "700"
+            },
+            {
+              "name": "800"
+            },
+            {
+              "name": "900"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "image-rendering",
+          "description": "The image-rendering attribute provides a hint to the browser about how to make speed vs. quality tradeoffs as it performs image processing.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/image-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "optimizeQuality"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "kerning",
+          "description": "The kerning attribute indicates whether the browser should adjust inter-glyph spacing based on kerning tables that are included in the relevant font (i.e., enable auto-kerning) or instead disable auto-kerning and instead set inter-character spacing to a specific length (typically, zero).\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/kerning)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "letter-spacing",
+          "description": "The letter-spacing attribute specifies spacing behavior between text characters supplemental to any spacing due to the kerning attribute.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/letter-spacing)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "lighting-color",
+          "description": "The lighting-color attribute defines the color of the light source for filter primitives elements <fediffuselighting> and <fespecularlighting>.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/lighting-color)",
+          "values": [
+            {
+              "name": "currentColor"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "marker-end",
+          "description": "The marker-end defines the arrowhead or polymarker that will be drawn at the final vertex of the given <path> element or basic shape. Note that for a <path> element which ends with a closed sub-path, the last vertex is the same as the initial vertex on the given sub-path. In this case, if marker-end does not equal none, then it is possible that two markers will be rendered on the given vertex. One way to prevent this is to set marker-end to none. (Note that the same comment applies to <polygon> elements.)\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/marker-end)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "marker-mid",
+          "description": "The marker-mid defines the arrowhead or polymarker that shall be drawn at every vertex other than the first and last vertex of the given <path> element or basic shape.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/marker-mid)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "marker-start",
+          "description": "The marker-start attribute defines the arrowhead or polymarker that will be drawn at the first vertex of the given <path> element or basic shape.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/marker-start)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "mask",
+          "description": "The mask attribute binds the element it is applied to with a given <mask> element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/mask)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "opacity",
+          "description": "The opacity attribute specifies the transparency of an object or of a group of objects, that is, the degree to which the background behind the element is overlaid.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "overflow",
+          "description": "The overflow attribute has the same parameter values as defined for the css overflow property.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/overflow)",
+          "values": [
+            {
+              "name": "visible"
+            },
+            {
+              "name": "hidden"
+            },
+            {
+              "name": "scroll"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "pointer-events",
+          "description": "The pointer-events attribute allows authors to control whether or when an element may be the target of a mouse event. This attribute is used to specify under which circumstance (if any) a mouse event should go \"through\" an element and target whatever is \"underneath\" that element instead.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/pointer-events)",
+          "values": [
+            {
+              "name": "visiblePainted"
+            },
+            {
+              "name": "visibleFill"
+            },
+            {
+              "name": "visibleStroke"
+            },
+            {
+              "name": "visible"
+            },
+            {
+              "name": "painted"
+            },
+            {
+              "name": "fill"
+            },
+            {
+              "name": "stroke"
+            },
+            {
+              "name": "all"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "shape-rendering",
+          "description": "The creator of SVG content might want to provide a hint about what tradeoffs to make as the browser renders <path> element or basic shapes. The shape-rendering attribute provides these hints.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/shape-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "crispEdges"
+            },
+            {
+              "name": "geometricPrecision"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stop-color",
+          "description": "The stop-color attribute indicates what color to use at that gradient stop. The keyword currentColor and ICC colors can be specified in the same manner as within a <paint> specification for the fill and stroke attributes.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stop-color)",
+          "values": [
+            {
+              "name": "currentColor"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stop-opacity",
+          "description": "The stop-opacity attribute defines the opacity of a given gradient stop.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stop-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke",
+          "description": "The stroke attribute defines the color of the outline on a given graphical element. The default value for the stroke attribute is none.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke)"
+        },
+        {
+          "name": "stroke-dasharray",
+          "description": "the stroke-dasharray attribute controls the pattern of dashes and gaps used to stroke paths.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-dashoffset",
+          "description": "the stroke-dashoffset attribute specifies the distance into the dash pattern to start the dash.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-linecap",
+          "description": "the stroke-linecap attribute specifies the shape to be used at the end of open subpaths when they are stroked.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap)",
+          "values": [
+            {
+              "name": "butt"
+            },
+            {
+              "name": "round"
+            },
+            {
+              "name": "square"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-linejoin",
+          "description": "the stroke-linejoin attribute specifies the shape to be used at the corners of paths or basic shapes when they are stroked.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin)",
+          "values": [
+            {
+              "name": "miter"
+            },
+            {
+              "name": "round"
+            },
+            {
+              "name": "bevel"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-miterlimit",
+          "description": "When two line segments meet at a sharp angle and miter joins have been specified for stroke-linejoin, it is possible for the miter to extend far beyond the thickness of the line stroking the path. The stroke-miterlimit imposes a limit on the ratio of the miter length to the stroke-width. When the limit is exceeded, the join is converted from a miter to a bevel.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-miterlimit)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-opacity",
+          "description": "the stroke-opacity attribute specifies the opacity of the outline on the current object. Its default value is 1.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-width",
+          "description": "the stroke-width attribute specifies the width of the outline on the current object. Its default value is 1. If a <percentage> is used, the value represents a percentage of the current viewport. If a value of 0 is used the outline will never be drawn.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "text-anchor",
+          "description": "The text-anchor attribute is used to align (start-, middle- or end-alignment) a string of text relative to a given point.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-anchor)",
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "middle"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "text-decoration",
+          "description": "The text-decoration attribute works exactly like the css text decoration property except that it's an attribute. See css text decoration for further information.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-decoration)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "underline"
+            },
+            {
+              "name": "overline"
+            },
+            {
+              "name": "line-through"
+            },
+            {
+              "name": "blink"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "text-rendering",
+          "description": "The creator of SVG content might want to provide a hint about what tradeoffs to make as the browser renders text. The text-rendering attribute provides these hints.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "optimizeLegibility"
+            },
+            {
+              "name": "geometricPrecision"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
+          "name": "visibility",
+          "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
+          "values": [
+            {
+              "name": "visible"
+            },
+            {
+              "name": "hidden"
+            },
+            {
+              "name": "collapse"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mask",
+      "description": "Defines an alpha mask for compositing the current object into the background.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/mask)",
+      "attributes": [
+        {
+          "name": "maskContentUnits",
+          "description": "defines the coordinate system for the contents of the mask.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/maskContentUnits)",
+          "values": [
+            {
+              "name": "userSpaceOnUse"
+            },
+            {
+              "name": "objectBoundingBox"
+            }
+          ]
+        },
+        {
+          "name": "maskUnits",
+          "description": "This attribute defines the coordinate system for attributes x, y, width and height on the mask.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/maskUnits)",
+          "values": [
+            {
+              "name": "userSpaceOnUse"
+            },
+            {
+              "name": "objectBoundingBox"
+            }
+          ]
+        },
+        {
+          "name": "height",
+          "description": "This attribute indicates a vertical length in the user coordinate system. The exact effect of this coordinate depends on each element. Most of the time, it represents the height of the rectangular region of the reference element (see each individual element's documentation for exceptions).\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/height)"
+        },
+        {
+          "name": "result",
+          "description": "The result attribute defines the assigned name for this filter primitive. If supplied, then graphics that result from processing this filter primitive can be referenced by an in attribute on a subsequent filter primitive within the same <filter> element. If no value is provided, the output will only be available for re-use as the implicit input into the next filter primitive if that filter primitive provides no value for its in attribute.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/result)"
+        },
+        {
+          "name": "width",
+          "description": "This attribute indicates an horizontal length in the user coordinate system. The exact effect of this coordinate depends on each element. Most of the time, it represents the width of the rectangular region of the reference element (see each individual element's documentation for exceptions).\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/width)"
+        },
+        {
+          "name": "x",
+          "description": "This attribute indicates an x-axis coordinate in the user coordinate system. The exact effect of this coordinate depend on each element. Most of the time, it represent the x-axis coordinate of the upper-left corner of the rectangular region of the reference element (see each individual element's documentation for exceptions).Its syntax is the same as that for <length>\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/x)"
+        },
+        {
+          "name": "y",
+          "description": "This attribute indicates an y-axis coordinate in the user coordinate system. The exact effect of this coordinate depend on each element. Most of the time, it represent the x-axis coordinate of the upper-left corner of the rectangular region of the reference element (see each individual element's documentation for exceptions).Its syntax is the same as that for <length>\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/y)"
+        },
+        {
+          "name": "id",
+          "description": "The id attribute defines a identity for current element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/id)"
+        },
+        {
+          "name": "class",
+          "description": "Assigns a class name or set of class names to an element. You may assign the same class name or names to any number of elements. If you specify multiple class names, they must be separated by whitespace characters.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/class)"
+        },
+        {
+          "name": "style",
+          "description": "The style attribute specifies style information for its element. It functions identically to the style attribute in HTML.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/style)"
+        },
+        {
+          "name": "clip-path",
+          "description": "The clip-path attribute binds the element it is applied to with a given <clipPath> element\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/clip-path)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "clip-rule",
+          "description": "The clip-rule attribute only applies to graphics elements that are contained within a <clipPath> element. The clip-rule attribute basically works as the fill-rule attribute, except that it applies to <clipPath> definitions.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/clip-rule)",
+          "values": [
+            {
+              "name": "nonzero"
+            },
+            {
+              "name": "evenodd"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color",
+          "description": "The color attribute is used to provide a potential indirect value (currentColor) for the fill, stroke, stop-color, flood-color and lighting-color attributes.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-interpolation",
+          "description": "The color-interpolation attribute specifies the color space for gradient interpolations, color animations, and alpha compositing.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-interpolation)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "sRGB"
+            },
+            {
+              "name": "linearRGB"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-interpolation-filters",
+          "description": "The color-interpolation-filters attribute specifies the color space for imaging operations performed via filter effects.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-interpolation-filters)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "sRGB"
+            },
+            {
+              "name": "linearRGB"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-profile",
+          "description": "The color-profile attribute is used to define which color profile a raster image included through the <image> element should use.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-profile)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "sRGB"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-rendering",
+          "description": "The color-rendering attribute provides a hint to the SVG user agent about how to optimize its color interpolation and compositing operations.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "optimizeQuality"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "cursor",
+          "description": "The cursor attribute specifies the mouse cursor displayed when the mouse pointer is over an element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/cursor)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "crosshair"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "pointer"
+            },
+            {
+              "name": "move"
+            },
+            {
+              "name": "e-resize"
+            },
+            {
+              "name": "ne-resize"
+            },
+            {
+              "name": "nw-resize"
+            },
+            {
+              "name": "n-resize"
+            },
+            {
+              "name": "se-resize"
+            },
+            {
+              "name": "sw-resize"
+            },
+            {
+              "name": "s-resize"
+            },
+            {
+              "name": "w-resize| text"
+            },
+            {
+              "name": "wait"
+            },
+            {
+              "name": "help"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "direction",
+          "description": "The direction attribute specifies the base writing direction of text and the direction of embeddings and overrides (see unicode-bidi) for the Unicode bidirectional algorithm. For the direction attribute to have any effect on an element that does not by itself establish a new text chunk (such as a <tspan> element without absolute position adjustments due to x or y attributes), the unicode-bidi property's value must be embed or bidi-override.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/direction)",
+          "values": [
+            {
+              "name": "ltr"
+            },
+            {
+              "name": "rtl"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "display",
+          "description": "The display attribute lets you control the rendering of graphical or container elements.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/display)",
+          "values": [
+            {
+              "name": "inline"
+            },
+            {
+              "name": "block"
+            },
+            {
+              "name": "list-item"
+            },
+            {
+              "name": "run-in"
+            },
+            {
+              "name": "compact"
+            },
+            {
+              "name": "marker"
+            },
+            {
+              "name": "table"
+            },
+            {
+              "name": "inline-table"
+            },
+            {
+              "name": "table-row-group"
+            },
+            {
+              "name": "table-header-group"
+            },
+            {
+              "name": "table-footer-group"
+            },
+            {
+              "name": "table-row"
+            },
+            {
+              "name": "table-column-group"
+            },
+            {
+              "name": "table-column"
+            },
+            {
+              "name": "table-cell"
+            },
+            {
+              "name": "table-caption"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "dominant-baseline",
+          "description": "The dominant-baseline attribute is used to determine or re-determine a scaled-baseline-table. A scaled-baseline-table is a compound value with three components: a baseline-identifier for the dominant-baseline, a baseline-table and a baseline-table font-size. Some values of the property re-determine all three values; other only re-establish the baseline-table font-size. When the initial value, auto, would give an undesired result, this property can be used to explicitly set the desire scaled-baseline-table.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/dominant-baseline)",
+          "values": [
+            {
+              "name": "\tauto"
+            },
+            {
+              "name": "use-script"
+            },
+            {
+              "name": "no-change"
+            },
+            {
+              "name": "reset-size"
+            },
+            {
+              "name": "ideographic"
+            },
+            {
+              "name": "alphabetic"
+            },
+            {
+              "name": "hanging"
+            },
+            {
+              "name": "mathematical"
+            },
+            {
+              "name": "central"
+            },
+            {
+              "name": "middle"
+            },
+            {
+              "name": "text-after-edge"
+            },
+            {
+              "name": "text-before-edge"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "fill",
+          "description": "The fill attribute has two meanings based on the context it's used.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill)",
+          "values": [
+            {
+              "name": "remove"
+            },
+            {
+              "name": "freeze"
+            }
+          ]
+        },
+        {
+          "name": "fill-opacity",
+          "description": "This attribute specifies the opacity of the color or the content the current object is filled with.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "fill-rule",
+          "description": "The fill-rule attribute indicates how to determine what side of a path is inside a shape, to determine how the fill property paints the shape. For a simple, non-intersecting path, it is intuitively clear what region lies \"inside\"; however, for a more complex path, such as a path that intersects itself or where one subpath encloses another, the interpretation of \"inside\" is not so obvious.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-rule)",
+          "values": [
+            {
+              "name": "nonzero"
+            },
+            {
+              "name": "evenodd"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "filter",
+          "description": "The filter attribute defines the filter effects define by the <filter> element that shall be applied to its element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/filter)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "flood-color",
+          "description": "The flood-color attribute indicates what color to use to flood the current filter primitive subregion defined through the <feflood> element. The keyword currentColor and ICC colors can be specified in the same manner as within a <paint> specification for the fill and stroke attributes.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/flood-color)",
+          "values": [
+            {
+              "name": "currentColor"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "flood-opacity",
+          "description": "The flood-opacity attribute indicates the opacity value to use across the current filter primitive subregion defined through the <feflood> element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/flood-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-family",
+          "description": "The font-family attribute indicates which font family will be used to render the text, specified as a prioritized list of font family names and/or generic family names.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-family)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-size",
+          "description": "The font-size attribute refers to the size of the font from baseline to baseline when multiple lines of text are set solid in a multiline layout environment. For SVG, if a <length> is provided without a unit identifier (e.g., an unqualified number such as 128), the browser processes the <length> as a height value in the current user coordinate system.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-size)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-size-adjust",
+          "description": "The font-size-adjust attribute allows authors to specify an aspect value for an element that will preserve the x-height of the first choice font in a substitute font.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-size-adjust)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-stretch",
+          "description": "The font-stretch attribute indicates the desired amount of condensing or expansion in the glyphs used to render the text.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-stretch)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "wider"
+            },
+            {
+              "name": "narrower"
+            },
+            {
+              "name": "ultra-condensed"
+            },
+            {
+              "name": "extra-condensed"
+            },
+            {
+              "name": "condensed"
+            },
+            {
+              "name": "semi-condensed"
+            },
+            {
+              "name": "semi-expanded"
+            },
+            {
+              "name": "expanded"
+            },
+            {
+              "name": "extra-expanded"
+            },
+            {
+              "name": "ultra-expanded"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-style",
+          "description": "The font-style attribute specifies whether the text is to be rendered using a normal, italic or oblique face.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-style)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "italic"
+            },
+            {
+              "name": "oblique"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-variant",
+          "description": "The font-variant attribute indicates whether the text is to be rendered using the normal glyphs for lowercase characters or using small-caps glyphs for lowercase characters.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-variant)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "small-caps"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-weight",
+          "description": "The font-weight attribute refers to the boldness or lightness of the glyphs used to render the text, relative to other fonts in the same font family.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-weight)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "bold"
+            },
+            {
+              "name": "bolder"
+            },
+            {
+              "name": "lighter"
+            },
+            {
+              "name": "100"
+            },
+            {
+              "name": "200"
+            },
+            {
+              "name": "300"
+            },
+            {
+              "name": "400"
+            },
+            {
+              "name": "500"
+            },
+            {
+              "name": "600"
+            },
+            {
+              "name": "700"
+            },
+            {
+              "name": "800"
+            },
+            {
+              "name": "900"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "image-rendering",
+          "description": "The image-rendering attribute provides a hint to the browser about how to make speed vs. quality tradeoffs as it performs image processing.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/image-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "optimizeQuality"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "kerning",
+          "description": "The kerning attribute indicates whether the browser should adjust inter-glyph spacing based on kerning tables that are included in the relevant font (i.e., enable auto-kerning) or instead disable auto-kerning and instead set inter-character spacing to a specific length (typically, zero).\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/kerning)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "letter-spacing",
+          "description": "The letter-spacing attribute specifies spacing behavior between text characters supplemental to any spacing due to the kerning attribute.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/letter-spacing)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "lighting-color",
+          "description": "The lighting-color attribute defines the color of the light source for filter primitives elements <fediffuselighting> and <fespecularlighting>.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/lighting-color)",
+          "values": [
+            {
+              "name": "currentColor"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "marker-end",
+          "description": "The marker-end defines the arrowhead or polymarker that will be drawn at the final vertex of the given <path> element or basic shape. Note that for a <path> element which ends with a closed sub-path, the last vertex is the same as the initial vertex on the given sub-path. In this case, if marker-end does not equal none, then it is possible that two markers will be rendered on the given vertex. One way to prevent this is to set marker-end to none. (Note that the same comment applies to <polygon> elements.)\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/marker-end)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "marker-mid",
+          "description": "The marker-mid defines the arrowhead or polymarker that shall be drawn at every vertex other than the first and last vertex of the given <path> element or basic shape.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/marker-mid)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "marker-start",
+          "description": "The marker-start attribute defines the arrowhead or polymarker that will be drawn at the first vertex of the given <path> element or basic shape.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/marker-start)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "mask",
+          "description": "The mask attribute binds the element it is applied to with a given <mask> element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/mask)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "opacity",
+          "description": "The opacity attribute specifies the transparency of an object or of a group of objects, that is, the degree to which the background behind the element is overlaid.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "overflow",
+          "description": "The overflow attribute has the same parameter values as defined for the css overflow property.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/overflow)",
+          "values": [
+            {
+              "name": "visible"
+            },
+            {
+              "name": "hidden"
+            },
+            {
+              "name": "scroll"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "pointer-events",
+          "description": "The pointer-events attribute allows authors to control whether or when an element may be the target of a mouse event. This attribute is used to specify under which circumstance (if any) a mouse event should go \"through\" an element and target whatever is \"underneath\" that element instead.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/pointer-events)",
+          "values": [
+            {
+              "name": "visiblePainted"
+            },
+            {
+              "name": "visibleFill"
+            },
+            {
+              "name": "visibleStroke"
+            },
+            {
+              "name": "visible"
+            },
+            {
+              "name": "painted"
+            },
+            {
+              "name": "fill"
+            },
+            {
+              "name": "stroke"
+            },
+            {
+              "name": "all"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "shape-rendering",
+          "description": "The creator of SVG content might want to provide a hint about what tradeoffs to make as the browser renders <path> element or basic shapes. The shape-rendering attribute provides these hints.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/shape-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "crispEdges"
+            },
+            {
+              "name": "geometricPrecision"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stop-color",
+          "description": "The stop-color attribute indicates what color to use at that gradient stop. The keyword currentColor and ICC colors can be specified in the same manner as within a <paint> specification for the fill and stroke attributes.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stop-color)",
+          "values": [
+            {
+              "name": "currentColor"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stop-opacity",
+          "description": "The stop-opacity attribute defines the opacity of a given gradient stop.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stop-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke",
+          "description": "The stroke attribute defines the color of the outline on a given graphical element. The default value for the stroke attribute is none.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke)"
+        },
+        {
+          "name": "stroke-dasharray",
+          "description": "the stroke-dasharray attribute controls the pattern of dashes and gaps used to stroke paths.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-dashoffset",
+          "description": "the stroke-dashoffset attribute specifies the distance into the dash pattern to start the dash.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-linecap",
+          "description": "the stroke-linecap attribute specifies the shape to be used at the end of open subpaths when they are stroked.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap)",
+          "values": [
+            {
+              "name": "butt"
+            },
+            {
+              "name": "round"
+            },
+            {
+              "name": "square"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-linejoin",
+          "description": "the stroke-linejoin attribute specifies the shape to be used at the corners of paths or basic shapes when they are stroked.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin)",
+          "values": [
+            {
+              "name": "miter"
+            },
+            {
+              "name": "round"
+            },
+            {
+              "name": "bevel"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-miterlimit",
+          "description": "When two line segments meet at a sharp angle and miter joins have been specified for stroke-linejoin, it is possible for the miter to extend far beyond the thickness of the line stroking the path. The stroke-miterlimit imposes a limit on the ratio of the miter length to the stroke-width. When the limit is exceeded, the join is converted from a miter to a bevel.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-miterlimit)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-opacity",
+          "description": "the stroke-opacity attribute specifies the opacity of the outline on the current object. Its default value is 1.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-width",
+          "description": "the stroke-width attribute specifies the width of the outline on the current object. Its default value is 1. If a <percentage> is used, the value represents a percentage of the current viewport. If a value of 0 is used the outline will never be drawn.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "text-anchor",
+          "description": "The text-anchor attribute is used to align (start-, middle- or end-alignment) a string of text relative to a given point.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-anchor)",
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "middle"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "text-decoration",
+          "description": "The text-decoration attribute works exactly like the css text decoration property except that it's an attribute. See css text decoration for further information.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-decoration)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "underline"
+            },
+            {
+              "name": "overline"
+            },
+            {
+              "name": "line-through"
+            },
+            {
+              "name": "blink"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "text-rendering",
+          "description": "The creator of SVG content might want to provide a hint about what tradeoffs to make as the browser renders text. The text-rendering attribute provides these hints.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "optimizeLegibility"
+            },
+            {
+              "name": "geometricPrecision"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
+          "name": "visibility",
+          "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
+          "values": [
+            {
+              "name": "visible"
+            },
+            {
+              "name": "hidden"
+            },
+            {
+              "name": "collapse"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tspan",
+      "description": "defines a subtext within a text element or another <tspan> element. It allows for adjustment of the style and/or position of that subtext as needed.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/tspan)",
+      "attributes": [
+        {
+          "name": "x",
+          "description": "This attribute indicates an x-axis coordinate in the user coordinate system. The exact effect of this coordinate depend on each element. Most of the time, it represent the x-axis coordinate of the upper-left corner of the rectangular region of the reference element (see each individual element's documentation for exceptions).Its syntax is the same as that for <length>\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/x)"
+        },
+        {
+          "name": "y",
+          "description": "This attribute indicates an y-axis coordinate in the user coordinate system. The exact effect of this coordinate depend on each element. Most of the time, it represent the x-axis coordinate of the upper-left corner of the rectangular region of the reference element (see each individual element's documentation for exceptions).Its syntax is the same as that for <length>\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/y)"
+        },
+        {
+          "name": "dx",
+          "description": "The dx attribute indicates a shift along the x-axis on the position of an element or its content. What exactly is shifted depends on the element for which this attribute is set.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/dx)"
+        },
+        {
+          "name": "dy",
+          "description": "The dy attribute indicates a shift along the y-axis on the position of an element or its content. What exactly is shifted depends on the element for which this attribute is set.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/dy)"
+        },
+        {
+          "name": "rotate",
+          "description": "Rotates orientation of each individual glyph. Can rotate glyphs individually.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/rotate)"
+        },
+        {
+          "name": "lengthAdjust",
+          "description": "How the text is stretched or compressed to fit the width defined by the textLength attribute.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/lengthAdjust)",
+          "values": [
+            {
+              "name": "spacingAndGlyphs"
+            },
+            {
+              "name": "spacing"
+            }
+          ]
+        },
+        {
+          "name": "textLength",
+          "description": "The textLength attribute is intended to preserve a span of SVG text's display width across a variety of conditions, such as webfonts not loading. It can be applied to either the <text> or <tspan> elements.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/textLength)"
+        },
+        {
+          "name": "id",
+          "description": "The id attribute defines a identity for current element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/id)"
+        },
+        {
+          "name": "tabindex",
+          "description": "The tabindex SVG attribute allows you to control whether an element is focusable and to define the relative order of the element for the purposes of sequential focus navigation.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/tabindex)"
+        },
+        {
+          "name": "class",
+          "description": "Assigns a class name or set of class names to an element. You may assign the same class name or names to any number of elements. If you specify multiple class names, they must be separated by whitespace characters.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/class)"
+        },
+        {
+          "name": "style",
+          "description": "The style attribute specifies style information for its element. It functions identically to the style attribute in HTML.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/style)"
+        },
+        {
+          "name": "clip-path",
+          "description": "The clip-path attribute binds the element it is applied to with a given <clipPath> element\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/clip-path)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "clip-rule",
+          "description": "The clip-rule attribute only applies to graphics elements that are contained within a <clipPath> element. The clip-rule attribute basically works as the fill-rule attribute, except that it applies to <clipPath> definitions.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/clip-rule)",
+          "values": [
+            {
+              "name": "nonzero"
+            },
+            {
+              "name": "evenodd"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color",
+          "description": "The color attribute is used to provide a potential indirect value (currentColor) for the fill, stroke, stop-color, flood-color and lighting-color attributes.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-interpolation",
+          "description": "The color-interpolation attribute specifies the color space for gradient interpolations, color animations, and alpha compositing.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-interpolation)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "sRGB"
+            },
+            {
+              "name": "linearRGB"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-interpolation-filters",
+          "description": "The color-interpolation-filters attribute specifies the color space for imaging operations performed via filter effects.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-interpolation-filters)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "sRGB"
+            },
+            {
+              "name": "linearRGB"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-profile",
+          "description": "The color-profile attribute is used to define which color profile a raster image included through the <image> element should use.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-profile)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "sRGB"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "color-rendering",
+          "description": "The color-rendering attribute provides a hint to the SVG user agent about how to optimize its color interpolation and compositing operations.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/color-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "optimizeQuality"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "cursor",
+          "description": "The cursor attribute specifies the mouse cursor displayed when the mouse pointer is over an element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/cursor)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "crosshair"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "pointer"
+            },
+            {
+              "name": "move"
+            },
+            {
+              "name": "e-resize"
+            },
+            {
+              "name": "ne-resize"
+            },
+            {
+              "name": "nw-resize"
+            },
+            {
+              "name": "n-resize"
+            },
+            {
+              "name": "se-resize"
+            },
+            {
+              "name": "sw-resize"
+            },
+            {
+              "name": "s-resize"
+            },
+            {
+              "name": "w-resize| text"
+            },
+            {
+              "name": "wait"
+            },
+            {
+              "name": "help"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "direction",
+          "description": "The direction attribute specifies the base writing direction of text and the direction of embeddings and overrides (see unicode-bidi) for the Unicode bidirectional algorithm. For the direction attribute to have any effect on an element that does not by itself establish a new text chunk (such as a <tspan> element without absolute position adjustments due to x or y attributes), the unicode-bidi property's value must be embed or bidi-override.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/direction)",
+          "values": [
+            {
+              "name": "ltr"
+            },
+            {
+              "name": "rtl"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "display",
+          "description": "The display attribute lets you control the rendering of graphical or container elements.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/display)",
+          "values": [
+            {
+              "name": "inline"
+            },
+            {
+              "name": "block"
+            },
+            {
+              "name": "list-item"
+            },
+            {
+              "name": "run-in"
+            },
+            {
+              "name": "compact"
+            },
+            {
+              "name": "marker"
+            },
+            {
+              "name": "table"
+            },
+            {
+              "name": "inline-table"
+            },
+            {
+              "name": "table-row-group"
+            },
+            {
+              "name": "table-header-group"
+            },
+            {
+              "name": "table-footer-group"
+            },
+            {
+              "name": "table-row"
+            },
+            {
+              "name": "table-column-group"
+            },
+            {
+              "name": "table-column"
+            },
+            {
+              "name": "table-cell"
+            },
+            {
+              "name": "table-caption"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "dominant-baseline",
+          "description": "The dominant-baseline attribute is used to determine or re-determine a scaled-baseline-table. A scaled-baseline-table is a compound value with three components: a baseline-identifier for the dominant-baseline, a baseline-table and a baseline-table font-size. Some values of the property re-determine all three values; other only re-establish the baseline-table font-size. When the initial value, auto, would give an undesired result, this property can be used to explicitly set the desire scaled-baseline-table.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/dominant-baseline)",
+          "values": [
+            {
+              "name": "\tauto"
+            },
+            {
+              "name": "use-script"
+            },
+            {
+              "name": "no-change"
+            },
+            {
+              "name": "reset-size"
+            },
+            {
+              "name": "ideographic"
+            },
+            {
+              "name": "alphabetic"
+            },
+            {
+              "name": "hanging"
+            },
+            {
+              "name": "mathematical"
+            },
+            {
+              "name": "central"
+            },
+            {
+              "name": "middle"
+            },
+            {
+              "name": "text-after-edge"
+            },
+            {
+              "name": "text-before-edge"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "fill",
+          "description": "The fill attribute has two meanings based on the context it's used.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill)",
+          "values": [
+            {
+              "name": "remove"
+            },
+            {
+              "name": "freeze"
+            }
+          ]
+        },
+        {
+          "name": "fill-opacity",
+          "description": "This attribute specifies the opacity of the color or the content the current object is filled with.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "fill-rule",
+          "description": "The fill-rule attribute indicates how to determine what side of a path is inside a shape, to determine how the fill property paints the shape. For a simple, non-intersecting path, it is intuitively clear what region lies \"inside\"; however, for a more complex path, such as a path that intersects itself or where one subpath encloses another, the interpretation of \"inside\" is not so obvious.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-rule)",
+          "values": [
+            {
+              "name": "nonzero"
+            },
+            {
+              "name": "evenodd"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "filter",
+          "description": "The filter attribute defines the filter effects define by the <filter> element that shall be applied to its element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/filter)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "flood-color",
+          "description": "The flood-color attribute indicates what color to use to flood the current filter primitive subregion defined through the <feflood> element. The keyword currentColor and ICC colors can be specified in the same manner as within a <paint> specification for the fill and stroke attributes.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/flood-color)",
+          "values": [
+            {
+              "name": "currentColor"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "flood-opacity",
+          "description": "The flood-opacity attribute indicates the opacity value to use across the current filter primitive subregion defined through the <feflood> element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/flood-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-family",
+          "description": "The font-family attribute indicates which font family will be used to render the text, specified as a prioritized list of font family names and/or generic family names.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-family)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-size",
+          "description": "The font-size attribute refers to the size of the font from baseline to baseline when multiple lines of text are set solid in a multiline layout environment. For SVG, if a <length> is provided without a unit identifier (e.g., an unqualified number such as 128), the browser processes the <length> as a height value in the current user coordinate system.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-size)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-size-adjust",
+          "description": "The font-size-adjust attribute allows authors to specify an aspect value for an element that will preserve the x-height of the first choice font in a substitute font.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-size-adjust)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-stretch",
+          "description": "The font-stretch attribute indicates the desired amount of condensing or expansion in the glyphs used to render the text.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-stretch)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "wider"
+            },
+            {
+              "name": "narrower"
+            },
+            {
+              "name": "ultra-condensed"
+            },
+            {
+              "name": "extra-condensed"
+            },
+            {
+              "name": "condensed"
+            },
+            {
+              "name": "semi-condensed"
+            },
+            {
+              "name": "semi-expanded"
+            },
+            {
+              "name": "expanded"
+            },
+            {
+              "name": "extra-expanded"
+            },
+            {
+              "name": "ultra-expanded"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-style",
+          "description": "The font-style attribute specifies whether the text is to be rendered using a normal, italic or oblique face.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-style)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "italic"
+            },
+            {
+              "name": "oblique"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-variant",
+          "description": "The font-variant attribute indicates whether the text is to be rendered using the normal glyphs for lowercase characters or using small-caps glyphs for lowercase characters.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-variant)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "small-caps"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "font-weight",
+          "description": "The font-weight attribute refers to the boldness or lightness of the glyphs used to render the text, relative to other fonts in the same font family.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/font-weight)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "bold"
+            },
+            {
+              "name": "bolder"
+            },
+            {
+              "name": "lighter"
+            },
+            {
+              "name": "100"
+            },
+            {
+              "name": "200"
+            },
+            {
+              "name": "300"
+            },
+            {
+              "name": "400"
+            },
+            {
+              "name": "500"
+            },
+            {
+              "name": "600"
+            },
+            {
+              "name": "700"
+            },
+            {
+              "name": "800"
+            },
+            {
+              "name": "900"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "image-rendering",
+          "description": "The image-rendering attribute provides a hint to the browser about how to make speed vs. quality tradeoffs as it performs image processing.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/image-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "optimizeQuality"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "kerning",
+          "description": "The kerning attribute indicates whether the browser should adjust inter-glyph spacing based on kerning tables that are included in the relevant font (i.e., enable auto-kerning) or instead disable auto-kerning and instead set inter-character spacing to a specific length (typically, zero).\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/kerning)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "letter-spacing",
+          "description": "The letter-spacing attribute specifies spacing behavior between text characters supplemental to any spacing due to the kerning attribute.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/letter-spacing)",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "lighting-color",
+          "description": "The lighting-color attribute defines the color of the light source for filter primitives elements <fediffuselighting> and <fespecularlighting>.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/lighting-color)",
+          "values": [
+            {
+              "name": "currentColor"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "marker-end",
+          "description": "The marker-end defines the arrowhead or polymarker that will be drawn at the final vertex of the given <path> element or basic shape. Note that for a <path> element which ends with a closed sub-path, the last vertex is the same as the initial vertex on the given sub-path. In this case, if marker-end does not equal none, then it is possible that two markers will be rendered on the given vertex. One way to prevent this is to set marker-end to none. (Note that the same comment applies to <polygon> elements.)\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/marker-end)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "marker-mid",
+          "description": "The marker-mid defines the arrowhead or polymarker that shall be drawn at every vertex other than the first and last vertex of the given <path> element or basic shape.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/marker-mid)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "marker-start",
+          "description": "The marker-start attribute defines the arrowhead or polymarker that will be drawn at the first vertex of the given <path> element or basic shape.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/marker-start)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "mask",
+          "description": "The mask attribute binds the element it is applied to with a given <mask> element.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/mask)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "opacity",
+          "description": "The opacity attribute specifies the transparency of an object or of a group of objects, that is, the degree to which the background behind the element is overlaid.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "overflow",
+          "description": "The overflow attribute has the same parameter values as defined for the css overflow property.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/overflow)",
+          "values": [
+            {
+              "name": "visible"
+            },
+            {
+              "name": "hidden"
+            },
+            {
+              "name": "scroll"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "pointer-events",
+          "description": "The pointer-events attribute allows authors to control whether or when an element may be the target of a mouse event. This attribute is used to specify under which circumstance (if any) a mouse event should go \"through\" an element and target whatever is \"underneath\" that element instead.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/pointer-events)",
+          "values": [
+            {
+              "name": "visiblePainted"
+            },
+            {
+              "name": "visibleFill"
+            },
+            {
+              "name": "visibleStroke"
+            },
+            {
+              "name": "visible"
+            },
+            {
+              "name": "painted"
+            },
+            {
+              "name": "fill"
+            },
+            {
+              "name": "stroke"
+            },
+            {
+              "name": "all"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "shape-rendering",
+          "description": "The creator of SVG content might want to provide a hint about what tradeoffs to make as the browser renders <path> element or basic shapes. The shape-rendering attribute provides these hints.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/shape-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "crispEdges"
+            },
+            {
+              "name": "geometricPrecision"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stop-color",
+          "description": "The stop-color attribute indicates what color to use at that gradient stop. The keyword currentColor and ICC colors can be specified in the same manner as within a <paint> specification for the fill and stroke attributes.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stop-color)",
+          "values": [
+            {
+              "name": "currentColor"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stop-opacity",
+          "description": "The stop-opacity attribute defines the opacity of a given gradient stop.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stop-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke",
+          "description": "The stroke attribute defines the color of the outline on a given graphical element. The default value for the stroke attribute is none.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke)"
+        },
+        {
+          "name": "stroke-dasharray",
+          "description": "the stroke-dasharray attribute controls the pattern of dashes and gaps used to stroke paths.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-dashoffset",
+          "description": "the stroke-dashoffset attribute specifies the distance into the dash pattern to start the dash.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-linecap",
+          "description": "the stroke-linecap attribute specifies the shape to be used at the end of open subpaths when they are stroked.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap)",
+          "values": [
+            {
+              "name": "butt"
+            },
+            {
+              "name": "round"
+            },
+            {
+              "name": "square"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-linejoin",
+          "description": "the stroke-linejoin attribute specifies the shape to be used at the corners of paths or basic shapes when they are stroked.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin)",
+          "values": [
+            {
+              "name": "miter"
+            },
+            {
+              "name": "round"
+            },
+            {
+              "name": "bevel"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-miterlimit",
+          "description": "When two line segments meet at a sharp angle and miter joins have been specified for stroke-linejoin, it is possible for the miter to extend far beyond the thickness of the line stroking the path. The stroke-miterlimit imposes a limit on the ratio of the miter length to the stroke-width. When the limit is exceeded, the join is converted from a miter to a bevel.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-miterlimit)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-opacity",
+          "description": "the stroke-opacity attribute specifies the opacity of the outline on the current object. Its default value is 1.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "stroke-width",
+          "description": "the stroke-width attribute specifies the width of the outline on the current object. Its default value is 1. If a <percentage> is used, the value represents a percentage of the current viewport. If a value of 0 is used the outline will never be drawn.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width)",
+          "values": [
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "text-anchor",
+          "description": "The text-anchor attribute is used to align (start-, middle- or end-alignment) a string of text relative to a given point.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-anchor)",
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "middle"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "text-decoration",
+          "description": "The text-decoration attribute works exactly like the css text decoration property except that it's an attribute. See css text decoration for further information.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-decoration)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "underline"
+            },
+            {
+              "name": "overline"
+            },
+            {
+              "name": "line-through"
+            },
+            {
+              "name": "blink"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "text-rendering",
+          "description": "The creator of SVG content might want to provide a hint about what tradeoffs to make as the browser renders text. The text-rendering attribute provides these hints.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-rendering)",
+          "values": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "optimizeSpeed"
+            },
+            {
+              "name": "optimizeLegibility"
+            },
+            {
+              "name": "geometricPrecision"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        },
+        {
+          "name": "vector-effect",
+          "description": "The vector-effect property specifies the vector effect to use when drawing an object. Vector effects are applied before any of the other compositing operations, i.e. filters, masks and clips.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/vector-effect)",
+          "values": [
+            {
+              "name": "none"
+            },
+            {
+              "name": "non-scaling-stroke"
+            },
+            {
+              "name": "non-scaling-size"
+            },
+            {
+              "name": "non-rotation"
+            },
+            {
+              "name": "fixed-position"
+            }
+          ]
+        },
+        {
+          "name": "visibility",
+          "description": "Depending on the value of attribute pointer-events, graphics elements which have their visibility attribute set to hidden still might receive events.\n\n🧧 *Provide by SVG extension.*\n\n[MDN References](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/visibility)",
+          "values": [
+            {
+              "name": "visible"
+            },
+            {
+              "name": "hidden"
+            },
+            {
+              "name": "collapse"
+            },
+            {
+              "name": "inherit"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
