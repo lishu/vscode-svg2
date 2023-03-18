@@ -710,6 +710,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         let path = webivew.asWebviewUri(this.resPath).toString();
         let iconPath = webivew.asWebviewUri(this.codiconUri);
         let stylePath = webivew.asWebviewUri(this.styleUri);
+        let baseUrl = webivew.asWebviewUri(vscode.Uri.joinPath(doc.uri, '../'));
         let bg = (saveTo == 'NoSave' && this.noSaveBackground) || cfg.get<string>('background') || 'transparent';
         let bgCustom = cfg.get<string>('backgroundCustom') || '#eee';
         let viewMode = cfg.get<ViewMode>('viewMode', 'onlyOne');
@@ -789,6 +790,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
         html.push(`<head>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' vscode-resource: https: data: ${domains.join(' ')};">
 </head>`);
+        html.push(`<base href="${baseUrl}" />`);
         html.push(`<link href="${iconPath}" rel="stylesheet" />`);
         html.push(`<link id="__link_stylePath" href="${stylePath}" rel="stylesheet" />`);
         html.push(`<style type="text/css">

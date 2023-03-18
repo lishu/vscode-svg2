@@ -65,6 +65,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.5.2 - 2023-03-18
+
+* Fixed Preview external file reference support
+
 ### 1.5.1 - 2023-03-12
 
 * Fixed `tspan`, `mask` lost attributes defineds.
