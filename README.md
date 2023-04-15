@@ -108,7 +108,7 @@ SVG Version 2.0 is not included.
 
 ## Donations
 
-[Support me in paypal](https://www.paypal.me/jockli).
+[支持我](Donations.md).
 
 -----------------------------------------------------------------------------------------------------------
 
