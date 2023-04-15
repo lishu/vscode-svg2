@@ -7,6 +7,20 @@ Almost all the features you need to handle SVG.
 
 **There have been multiple reports that the minimization feature may break your SVG, and we are still looking for a better library replacement for SVGO, so back up your SVG documentation when using the minimize feature.**
 
+## Pause update announcements
+
+SVG extensions have been available for 6 years.
+
+Based on this version developed with the base code 4 years ago is already older and cannot use newer technologies.
+
+I'm pausing the update for now, will wait until I have time for a third rewrite.
+
+You can keep Issus, but there won't be a quick response.
+
+We look forward to your continued support.
+
+2023.4.15
+
 ## Features
 
 ### SVG Full Auto Completion

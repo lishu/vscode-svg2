@@ -1,7 +1,7 @@
 # Donations
 Buy me a cup of coffee.
 
-[Paypal](https://www.paypal.me/jockli)
+感谢捐赠🎉🎉✨
 
 ![Alipay](images/alipay.jpg)
 
