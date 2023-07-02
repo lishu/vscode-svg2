@@ -17,8 +17,8 @@ const config = {
             {
                 patterns: [
                     {
-                        from: 'node_modules/@vscode/codicons',
-                        to: './codicons'
+                        from: 'node_modules/@vscode/codicons/dist',
+                        to: './codicons/dist'
                     }
                 ]
             })

@@ -781,7 +781,7 @@ export class SvgPreviwerContentProvider implements vscode.Disposable
 
         if(mode == 'img') {
             // 尝试使用 img + data 提供 svg 非嵌入格式支持
-            svg = '<img src="data:image/svg+xml,' + escape(svg) + '" />';
+            svg = '<img src="data:image/svg+xml,' + encodeURIComponent(svg) + '" />';
         }
 
         const html = [];

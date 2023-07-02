@@ -79,6 +79,10 @@ SVG Version 2.0 is not included.
 
 ## Changelog
 
+### 1.5.3 - 2023-07-02
+
+* Fixed No Ascii text context in `<img>` mode show error.
+
 ### 1.5.2 - 2023-03-18
 
 * Fixed Preview external file reference support
