@@ -2,7 +2,7 @@
     "name": "svg",
     "displayName": "SVG",
     "description": "%description%",
-    "version": "1.5.3",
+    "version": "1.5.4",
     "publisher": "jock",
     "engines": {
         "vscode": "^1.50.0"
@@ -190,131 +190,131 @@
                 },
                 "svg.minify.cleanupAttrs": {
                     "description": "cleanup attributes from newlines, trailing, and repeating spaces",
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true
                 },
                 "svg.minify.inlineStyles": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "move and merge styles from <style> elements to element style attributes"
                 },
                 "svg.minify.removeDoctype": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove doctype declaration"
                 },
                 "svg.minify.removeXMLProcInst": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove XML processing instructions"
                 },
                 "svg.minify.removeComments": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove comments"
                 },
                 "svg.minify.removeMetadata": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove <metadata>"
                 },
                 "svg.minify.removeTitle": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove <title>"
                 },
                 "svg.minify.removeDesc": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove <desc>"
                 },
                 "svg.minify.removeUselessDefs": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove elements of <defs> without id"
                 },
                 "svg.minify.removeXMLNS": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "removes xmlns attribute (for inline svg, disabled by default)"
                 },
                 "svg.minify.removeEditorsNSData": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove editors namespaces, elements, and attributes"
                 },
                 "svg.minify.removeEmptyAttrs": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove empty attributes"
                 },
                 "svg.minify.removeHiddenElems": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove hidden elements"
                 },
                 "svg.minify.removeEmptyText": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove empty Text elements"
                 },
                 "svg.minify.removeEmptyContainers": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove empty Container elements"
                 },
                 "svg.minify.removeViewBox": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove viewBox attribute when possible"
                 },
                 "svg.minify.cleanupEnableBackground": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove or cleanup enable-background attribute when possible"
                 },
                 "svg.minify.minifyStyles": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "minify <style> elements content with CSSO"
                 },
                 "svg.minify.convertStyleToAttrs": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "convert styles into attributes"
                 },
                 "svg.minify.convertColors": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "convert colors (from rgb() to #rrggbb, from #rrggbb to #rgb)"
                 },
                 "svg.minify.convertPathData": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "convert Path data to relative or absolute (whichever is shorter), convert one segment to another, trim useless delimiters, smart rounding, and much more"
                 },
                 "svg.minify.convertTransform": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "collapse multiple transforms into one, convert matrices to the short aliases, and much more"
                 },
                 "svg.minify.removeUnknownsAndDefaults": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove unknown elements content and attributes, remove attrs with default values"
                 },
                 "svg.minify.removeNonInheritableGroupAttrs": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove non-inheritable group's \"presentation\" attributes"
                 },
                 "svg.minify.removeUselessStrokeAndFill": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove useless stroke and fill attrs"
                 },
                 "svg.minify.removeUnusedNS": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove unused namespaces declaration"
                 },
@@ -327,112 +327,112 @@
                     "description": "prefix IDs and classes with the SVG filename or an arbitrary string"
                 },
                 "svg.minify.cleanupIDs": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "remove unused and minify used IDs"
                 },
                 "svg.minify.cleanupNumericValues": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "round numeric values to the fixed precision, remove default px units"
                 },
                 "svg.minify.cleanupListOfValues": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "round numeric values in attributes that take a list of numbers (like viewBox or enable-background)"
                 },
                 "svg.minify.moveElemsAttrsToGroup": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "move elements' attributes to their enclosing group"
                 },
                 "svg.minify.moveGroupAttrsToElems": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "move some group attributes to the contained elements"
                 },
                 "svg.minify.collapseGroups": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "collapse useless groups"
                 },
                 "svg.minify.removeRasterImages": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "remove raster images (disabled by default)"
                 },
                 "svg.minify.mergePaths": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "merge multiple Paths into one"
                 },
                 "svg.minify.convertShapeToPath": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "convert some basic shapes to <path>"
                 },
                 "svg.minify.convertEllipseToCircle": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "convert non-eccentric <ellipse> to <circle>"
                 },
                 "svg.minify.sortAttrs": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "sort element attributes for epic readability (disabled by default)"
                 },
                 "svg.minify.sortDefsChildren": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": true,
                     "description": "sort children of <defs> in order to improve compression"
                 },
                 "svg.minify.removeDimensions": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "remove width/height and add viewBox if it's missing (opposite to removeViewBox, disable it first) (disabled by default)"
                 },
                 "svg.minify.removeAttrs": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "remove attributes by pattern (disabled by default)"
                 },
                 "svg.minify.removeAttributesBySelector": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "removes attributes of elements that match a css selector (disabled by default)"
                 },
                 "svg.minify.removeElementsByAttr": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "remove arbitrary elements by ID or className (disabled by default)"
                 },
                 "svg.minify.addClassesToSVGElement": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "add classnames to an outer <svg> element (disabled by default)"
                 },
                 "svg.minify.addAttributesToSVGElement": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "adds attributes to an outer <svg> element (disabled by default)"
                 },
                 "svg.minify.removeOffCanvasPaths": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "removes elements that are drawn outside of the viewbox (disabled by default)"
                 },
                 "svg.minify.removeStyleElement": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "remove <style> elements (disabled by default)"
                 },
                 "svg.minify.removeScriptElement": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "remove <script> elements (disabled by default)"
                 },
                 "svg.minify.reusePaths": {
-                    "type": "boolean",
+                    "type": ["boolean", "object"],
                     "default": false,
                     "description": "Find duplicated elements and replace them with links (disabled by default)"
                 },
