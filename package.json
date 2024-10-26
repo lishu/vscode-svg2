@@ -181,7 +181,7 @@
                     "title": "Preview Exclude",
                     "description": "Exclude Glob pattern for `Preview All Svg`",
                     "type": "string",
-                    "default": "**​/node_modules/**"
+                    "default": "**/node_modules/**"
                 },
                 "svg.pathDataHighlight": {
                     "description": "Show Grammar Highlight in path data",
